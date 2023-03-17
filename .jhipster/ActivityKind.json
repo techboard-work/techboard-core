@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20230320120600",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "activity_kind",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "color",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "icon",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ActivityKind",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "activity",
+      "otherEntityRelationshipName": "kind",
+      "relationshipName": "activity",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}
