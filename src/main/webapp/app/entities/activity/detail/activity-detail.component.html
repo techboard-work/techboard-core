@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="activity">
+      <h2 data-cy="activityDetailsHeading"><span jhiTranslate="techboardApp.activity.detail.title">Activity</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ activity.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.name">Name</span></dt>
+        <dd>
+          <span>{{ activity.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.startedOn">Started On</span></dt>
+        <dd>
+          <span>{{ activity.startedOn | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.finishedOn">Finished On</span></dt>
+        <dd>
+          <span>{{ activity.finishedOn | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.link">Link</span></dt>
+        <dd>
+          <span>{{ activity.link }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.impediment">Impediment</span></dt>
+        <dd>
+          <span>{{ activity.impediment }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.employee">Employee</span></dt>
+        <dd>
+          <div *ngIf="activity.employee">
+            <a [routerLink]="['/employee', activity.employee.id, 'view']">{{ activity.employee.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.environment">Environment</span></dt>
+        <dd>
+          <div *ngIf="activity.environment">
+            <a [routerLink]="['/environment', activity.environment.id, 'view']">{{ activity.environment.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.kind">Kind</span></dt>
+        <dd>
+          <div *ngIf="activity.kind">
+            <a [routerLink]="['/activity-kind', activity.kind.id, 'view']">{{ activity.kind.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/activity', activity.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

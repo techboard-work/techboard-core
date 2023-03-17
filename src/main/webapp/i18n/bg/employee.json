@@ -1,0 +1,25 @@
+{
+  "techboardApp": {
+    "employee": {
+      "home": {
+        "title": "Employees",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Създайте нов Employee",
+        "createOrEditLabel": "Създайте или редактирайте Employee",
+        "notFound": "Employees не са намерени"
+      },
+      "created": "Създаден е нов Employee с идентификатор {{ param }}",
+      "updated": "Employee с идентификатор {{ param }} e oбновен",
+      "deleted": "Employee с идентификатор {{ param }} е изтрит",
+      "delete": {
+        "question": "Наистина ли искате да изтриете Employee {{ id }}?"
+      },
+      "detail": {
+        "title": "Employee"
+      },
+      "id": "ID",
+      "name": "Name",
+      "activity": "Activity"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "applications": "*",
+  "changelogDate": "20230317122157",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "activity",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "startedOn",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "finishedOn",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "link",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "impediment",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Activity",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "activity",
+      "relationshipName": "employee",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "environment",
+      "otherEntityRelationshipName": "activity",
+      "relationshipName": "environment",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "activityKind",
+      "otherEntityRelationshipName": "activity",
+      "relationshipName": "kind",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}
