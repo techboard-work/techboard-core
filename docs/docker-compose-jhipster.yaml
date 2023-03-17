@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+
+  jhipster:
+    image: jhipster/jhipster:latest
+    container_name: jhipster
+    ports:
+      - "8080:8080"
+      - "9000:9000"
+      - "3001:3001"
+    volumes:
+      - "..:/home/jhipster/app"
+      - "~/.m2:/home/jhipster/.m2"
