@@ -1,0 +1,1 @@
+org.springframework.test.context.ContextCustomizerFactory = work.techboard.core.config.TestContainersSpringContextCustomizerFactory

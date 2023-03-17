@@ -1,0 +1,100 @@
+package work.techboard.core.security.oauth2
+
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.node.ObjectNode
+import com.github.benmanes.caffeine.cache.Cache
+import com.github.benmanes.caffeine.cache.Caffeine
+import org.springframework.core.convert.converter.Converter
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.ResponseEntity
+import org.springframework.security.oauth2.client.registration.ClientRegistration
+import org.springframework.security.oauth2.jwt.MappedJwtClaimSetConverter
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver
+import org.springframework.web.client.RestTemplate
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
+import work.techboard.core.security.CLAIMS_NAMESPACE
+import java.time.Duration
+
+class CustomClaimConverter(
+    private val registration: ClientRegistration,
+    private val restTemplate: RestTemplate
+) : Converter<Map<String, Any>, Map<String, Any>> {
+
+    private val bearerTokenResolver: BearerTokenResolver = DefaultBearerTokenResolver()
+    private val delegate: MappedJwtClaimSetConverter = MappedJwtClaimSetConverter.withDefaults(emptyMap())
+
+    // See https://github.com/jhipster/generator-jhipster/issues/18868
+    // We don't use a distributed cache or the user selected cache implementation here on purpose
+    private val users: Cache<String, ObjectNode> = Caffeine.newBuilder()
+        .maximumSize(10_000)
+        .expireAfterWrite(Duration.ofHours(1))
+        .recordStats()
+        .build()
+
+    override fun convert(claims: Map<String, Any>): Map<String, Any>? {
+        val convertedClaims = delegate.convert(claims)
+        // Only look up user information if identity claims are missing
+        if (claims.containsKey("given_name") && claims.containsKey("family_name")) {
+            return convertedClaims
+        }
+        val attributes = RequestContextHolder.getRequestAttributes()
+        if (attributes is ServletRequestAttributes) {
+            // Retrieve and set the token
+            val token = bearerTokenResolver.resolve(attributes.request)
+            val headers = HttpHeaders()
+            headers.set("Authorization", buildBearer(token))
+
+            // Retrieve user info from OAuth provider if not already loaded
+            val user = users.get(claims["sub"].toString()) {
+                val userInfo: ResponseEntity<ObjectNode> = restTemplate.exchange(
+                    registration.providerDetails.userInfoEndpoint.uri,
+                    HttpMethod.GET,
+                    HttpEntity<String>(headers),
+                    ObjectNode::class.java
+                )
+                userInfo.body
+            }
+
+            // Add custom claims
+            if (user != null) {
+                convertedClaims["preferred_username"] = user.get("preferred_username").asText()
+                if (user.has("given_name")) {
+                    convertedClaims["given_name"] = user.get("given_name").asText()
+                }
+                if (user.has("family_name")) {
+                    convertedClaims["family_name"] = user.get("family_name").asText()
+                }
+                if (user.has("email")) {
+                    convertedClaims["email"] = user.get("email").asText()
+                }
+                // Allow full name in a name claim - happens with Auth0
+                if (user.has("name")) {
+                    val name = user.get("name").asText().split("\\s+".toRegex()).toTypedArray()
+                    if (name.size > 0) {
+                        convertedClaims["given_name"] = name[0]
+                        convertedClaims["family_name"] = "${name.copyOfRange(1, name.size).joinToString(" ")}"
+                    }
+                }
+
+                if (user.has("groups")) {
+                    val groups = user.get("groups").map(JsonNode::asText)
+                    convertedClaims["groups"] = groups
+                }
+
+                if (user.has(CLAIMS_NAMESPACE + "roles")) {
+                    val roles = user.get(CLAIMS_NAMESPACE + "roles").map(JsonNode::asText)
+                    convertedClaims["roles"] = roles
+                } }
+        }
+
+        return convertedClaims
+    }
+
+    private fun buildBearer(token: String?): String {
+        return "Bearer $token"
+    }
+}

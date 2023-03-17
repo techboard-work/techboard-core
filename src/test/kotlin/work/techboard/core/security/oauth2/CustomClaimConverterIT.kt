@@ -1,0 +1,199 @@
+package work.techboard.core.security.oauth2
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ObjectNode
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatCode
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.eq
+import org.mockito.Mockito.`when`
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpMethod
+import org.springframework.http.ResponseEntity
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
+import org.springframework.web.client.RestTemplate
+import work.techboard.core.IntegrationTest
+import work.techboard.core.security.ADMIN
+import work.techboard.core.security.CLAIMS_NAMESPACE
+import work.techboard.core.security.USER
+
+private const val USERNAME = "admin"
+private const val NAME = "John"
+private const val FAMILY_NAME = "Doe"
+private const val FULL_NAME = NAME + " " + FAMILY_NAME
+private const val NAME_SUFFIX = "Sr."
+private const val EMAIL = "john.doe@gmail.com"
+
+@IntegrationTest
+class CustomClaimConverterIT {
+
+    @MockBean
+    private lateinit var restTemplate: RestTemplate
+
+    @Autowired
+    private lateinit var clientRegistrationRepository: ClientRegistrationRepository
+
+    private lateinit var customClaimConverter: CustomClaimConverter
+
+    private val mapper = ObjectMapper()
+
+    @BeforeEach
+    fun initTest() {
+        customClaimConverter = CustomClaimConverter(clientRegistrationRepository.findByRegistrationId("oidc"), restTemplate)
+    }
+
+    private fun mockHttpGetUserInfo(userInfo: ObjectNode) {
+        `when`(
+            restTemplate.exchange(
+                eq("https://api.jhipster.org/user"),
+                eq(HttpMethod.GET),
+                any(HttpEntity::class.java),
+                any<Class<ObjectNode>>()
+            )
+        )
+            .thenReturn(ResponseEntity.ok(userInfo))
+    }
+
+    @Test
+    fun testConvert() {
+        // GIVEN
+        val claims = hashMapOf<String, Any>()
+        claims["sub"] = "123"
+        // AND
+        val user: ObjectNode = mapper.createObjectNode()
+        user.put("preferred_username", USERNAME)
+        user.put("given_name", NAME)
+        user.put("family_name", FAMILY_NAME)
+        user.putArray("groups").add(ADMIN).add(USER)
+
+        mockHttpGetUserInfo(user)
+
+        val convertedClaims = customClaimConverter.convert(claims)
+
+        // THEN
+        assertThat(convertedClaims)
+            .containsEntry("sub", "123")
+            .containsEntry("preferred_username", USERNAME)
+            .containsEntry("given_name", NAME)
+            .containsEntry("family_name", FAMILY_NAME)
+            .containsEntry("groups", listOf(ADMIN, USER))
+    }
+
+    @Test
+    fun testConvert_withoutGroups() {
+        // GIVEN
+        val claims: MutableMap<String, Any> = HashMap()
+        claims["sub"] = "123"
+        // AND
+        val user = mapper.createObjectNode()
+        user.put("preferred_username", USERNAME)
+        user.put("given_name", NAME)
+        user.put("family_name", FAMILY_NAME)
+        mockHttpGetUserInfo(user)
+
+        // THEN
+        assertThatCode { customClaimConverter.convert(claims) }.doesNotThrowAnyException()
+    }
+
+    @Test
+    fun testConvert_withNamespacedRoles() {
+        // GIVEN
+        val claims: MutableMap<String, Any> = HashMap()
+        claims["sub"] = "123"
+        // AND
+        val user = mapper.createObjectNode()
+        user.put("preferred_username", USERNAME)
+        user.put("given_name", NAME)
+        user.put("family_name", FAMILY_NAME)
+        user.putArray(CLAIMS_NAMESPACE + "roles").add(ADMIN).add(USER)
+        mockHttpGetUserInfo(user)
+
+        // WHEN
+        val convertedClaims = customClaimConverter.convert(claims)
+
+        // THEN
+        assertThat(convertedClaims)
+            .containsEntry("sub", "123")
+            .containsEntry("preferred_username", USERNAME)
+            .containsEntry("given_name", NAME)
+            .containsEntry("family_name", FAMILY_NAME)
+            .containsEntry("roles", listOf(ADMIN, USER))
+    }
+
+    @Test
+    fun testConvert_withoutFirstAndLastName() {
+        // GIVEN
+        val claims: MutableMap<String, Any> = HashMap()
+        claims["sub"] = "123"
+        // AND
+        val user = mapper.createObjectNode()
+        user.put("preferred_username", USERNAME)
+        mockHttpGetUserInfo(user)
+
+        assertThatCode {
+            assertThat(customClaimConverter.convert(claims))
+                .containsEntry("preferred_username", USERNAME)
+                .doesNotContainKeys("given_name", "family_name")
+        }.doesNotThrowAnyException()
+    }
+
+    @Test
+    fun testConvert_withName() {
+        // GIVEN
+        val claims: MutableMap<String, Any> = HashMap()
+        claims["sub"] = "123"
+        // AND
+        val user = mapper.createObjectNode()
+        user.put("preferred_username", USERNAME)
+        user.put("name", FULL_NAME)
+        mockHttpGetUserInfo(user)
+
+        assertThatCode {
+            assertThat(customClaimConverter.convert(claims))
+                .containsEntry("preferred_username", USERNAME)
+                .containsEntry("given_name", NAME)
+                .containsEntry("family_name", FAMILY_NAME)
+        }.doesNotThrowAnyException()
+    }
+
+    @Test
+    fun testConvert_withLastNameMultipleWords() {
+        // GIVEN
+        val claims: MutableMap<String, Any> = HashMap()
+        claims["sub"] = "123"
+        // AND
+        val user = mapper.createObjectNode()
+        user.put("preferred_username", USERNAME)
+        user.put("name", FULL_NAME + " " + NAME_SUFFIX)
+        mockHttpGetUserInfo(user)
+
+        assertThatCode {
+            assertThat(customClaimConverter.convert(claims))
+                .containsEntry("preferred_username", USERNAME)
+                .containsEntry("given_name", NAME)
+                .containsEntry("family_name", FAMILY_NAME + " " + NAME_SUFFIX)
+        }.doesNotThrowAnyException()
+    }
+
+    @Test
+    fun testConvert_withEmail() {
+        // GIVEN
+        val claims: MutableMap<String, Any> = HashMap()
+        claims["sub"] = "123"
+        // AND
+        val user = mapper.createObjectNode()
+        user.put("preferred_username", USERNAME)
+        user.put("email", EMAIL)
+        mockHttpGetUserInfo(user)
+
+        assertThatCode {
+            assertThat(customClaimConverter.convert(claims))
+                .containsEntry("preferred_username", USERNAME)
+                .containsEntry("email", EMAIL)
+        }.doesNotThrowAnyException()
+    }
+}
