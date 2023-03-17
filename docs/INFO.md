@@ -5,6 +5,8 @@
 
 ### Run JHipster
 
+The process is described [here.](https://www.jhipster.tech/installation/#docker-installation-for-advanced-users-only)
+
 Start JHipster
 
     docker-compose -f docs/docker-compose-jhipster.yaml up
