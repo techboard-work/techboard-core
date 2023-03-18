@@ -444,7 +444,6 @@
                                     <artifactId>jaxb-runtime</artifactId>
                                     <version>${jaxb-runtime.version}</version>
                                 </annotationProcessorPath>
-                                
                             </annotationProcessorPaths>
                         </configuration>
                     </execution>
