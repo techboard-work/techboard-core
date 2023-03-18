@@ -1,6 +1,6 @@
 {
   "home": {
-    "title": "Добре дошли, Java Hipster!",
+    "title": "Добре дошли TechBoard!",
     "subtitle": "Това е вашата начална страница",
     "logged": {
       "message": "Влезли сте като потребител \"{{username}}\"."
@@ -13,7 +13,7 @@
       "chat": "JHipster общодостъпна чат стая",
       "follow": "последвайте @jhipster в Twitter"
     },
-    "like": "Ако харесвате JHipster, не забравяйте да ни дадете звезда в",
+    "like": "Ако харесвате TechBoard, не забравяйте да ни дадете звезда в",
     "github": "GitHub"
   }
 }
