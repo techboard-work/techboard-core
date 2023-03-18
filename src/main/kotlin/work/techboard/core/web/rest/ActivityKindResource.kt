@@ -126,7 +126,7 @@ class ActivityKindResource(
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
 
-        val result = activityKindRepository.findById(activityKind.id)
+        val result = activityKindRepository.findById(activityKind.id!!)
             .map {
 
                 if (activityKind.name != null) {

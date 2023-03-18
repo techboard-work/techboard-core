@@ -32,7 +32,7 @@ class ActivityServiceImpl(
     override fun partialUpdate(activity: Activity): Optional<Activity> {
         log.debug("Request to partially update Activity : {}", activity)
 
-        return activityRepository.findById(activity.id)
+        return activityRepository.findById(activity.id!!)
             .map {
 
                 if (activity.name != null) {

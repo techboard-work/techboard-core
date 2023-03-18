@@ -49,7 +49,7 @@ class UserService(
 
                 it.firstName = firstName
                 it.lastName = lastName
-                it.email = email?.toLowerCase()
+                it.email = email?.lowercase()
                 it.langKey = langKey
                 it.imageUrl = imageUrl
                 clearUserCaches(it)
@@ -152,7 +152,7 @@ class UserService(
         private fun getUser(details: Map<String, Any>): User {
             var activated = true
             val sub = details["sub"] as String
-            val username = details["preferred_username"]?.let { it as String } ?: null
+            val username = details["preferred_username"]?.let { it as String }
             val user = User()
             // handle resource server JWT, where sub claim is email and uid is ID
             if (details["uid"] != null) {
@@ -162,7 +162,7 @@ class UserService(
                 user.id = sub
             }
             if (username != null) {
-                user.login = username.toLowerCase()
+                user.login = username.lowercase()
             } else if (user.login == null) {
                 user.login = user.id
             }
@@ -178,7 +178,7 @@ class UserService(
                 activated = details["email_verified"] as Boolean
             }
             if (details["email"] != null) {
-                user.email = (details["email"] as String).toLowerCase()
+                user.email = (details["email"] as String).lowercase()
             } else if (sub.contains("|") && (username != null && username.contains("@"))) {
                 // special handling for Auth0
                 user.email = username
@@ -195,7 +195,7 @@ class UserService(
                 } else if (locale.contains("-")) {
                     locale = locale.substring(0, locale.indexOf("-"))
                 }
-                user.langKey = locale.toLowerCase()
+                user.langKey = locale.lowercase()
             } else {
                 // set langKey to default if not specified by IdP
                 user.langKey = DEFAULT_LANGUAGE

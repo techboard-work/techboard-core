@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse
  */
 @Component
 class OAuth2RefreshTokensWebFilter(
-    private val clientManager: OAuth2AuthorizedClientManager,
+    private val clientManager: OAuth2AuthorizedClientManager?,
     private val authorizedClientRepository: OAuth2AuthorizedClientRepository,
     private val clientRegistrationRepository: ClientRegistrationRepository
 ) : OncePerRequestFilter() {
@@ -64,7 +64,7 @@ class OAuth2RefreshTokensWebFilter(
     }
 
     private fun authorizedClient(oauth2Authentication: OAuth2AuthenticationToken): OAuth2AuthorizedClient {
-        val clientRegistrationId = oauth2Authentication.getAuthorizedClientRegistrationId()
+        val clientRegistrationId = oauth2Authentication.authorizedClientRegistrationId
         val request = OAuth2AuthorizeRequest
             .withClientRegistrationId(clientRegistrationId)
             .principal(oauth2Authentication)
@@ -75,6 +75,6 @@ class OAuth2RefreshTokensWebFilter(
                     "org.springframework.boot:spring-boot-starter-oauth2-client dependency?"
             )
         }
-        return clientManager.authorize(request)
+        return clientManager.authorize(request)!!
     }
 }

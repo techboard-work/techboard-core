@@ -29,7 +29,7 @@ fun extractPrincipal(authentication: Authentication?): String? {
 
     return when (val principal = authentication.principal) {
         is UserDetails -> principal.username
-        is JwtAuthenticationToken -> (authentication as JwtAuthenticationToken).token.claims as String
+        is JwtAuthenticationToken -> (authentication as JwtAuthenticationToken).token.claims as String // TODO
         is DefaultOidcUser -> {
             if (principal.attributes.containsKey("preferred_username")) {
                 principal.attributes["preferred_username"].toString()

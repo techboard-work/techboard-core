@@ -60,7 +60,7 @@ class CustomClaimConverter(
             }
 
             // Add custom claims
-            if (user != null) {
+            if (user != null && convertedClaims != null) {
                 convertedClaims["preferred_username"] = user.get("preferred_username").asText()
                 if (user.has("given_name")) {
                     convertedClaims["given_name"] = user.get("given_name").asText()

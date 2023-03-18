@@ -13,7 +13,7 @@ class LocaleConfiguration : WebMvcConfigurer {
     @Bean
     fun localeResolver() = AngularCookieLocaleResolver().apply { cookieName = "NG_TRANSLATE_LANG_KEY" }
 
-    override fun addInterceptors(registry: InterceptorRegistry?) {
-        registry!!.addInterceptor(LocaleChangeInterceptor().apply { paramName = "language" })
+    override fun addInterceptors(registry: InterceptorRegistry) {
+        registry.addInterceptor(LocaleChangeInterceptor().apply { paramName = "language" })
     }
 }

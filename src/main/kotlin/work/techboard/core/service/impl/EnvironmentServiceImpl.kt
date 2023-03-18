@@ -32,7 +32,7 @@ class EnvironmentServiceImpl(
     override fun partialUpdate(environment: Environment): Optional<Environment> {
         log.debug("Request to partially update Environment : {}", environment)
 
-        return environmentRepository.findById(environment.id)
+        return environmentRepository.findById(environment.id!!)
             .map {
 
                 if (environment.name != null) {
