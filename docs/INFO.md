@@ -62,3 +62,8 @@ To create the dump:
 To apply the init data (from test/db-init/101.txt):
 
     psql --username=techboard --dbname=techboard --file=/docker-entrypoint-initdb.d/101.txt 
+
+
+### Angular
+
+[Using Angular](https://www.jhipster.tech/using-angular/)
