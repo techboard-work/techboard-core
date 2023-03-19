@@ -47,3 +47,18 @@ Launch App (make sure you use Java 11):
 
     ./mvnw --version
     ./mvnw
+
+
+### Postgres init data
+
+Connect to DB:
+
+    docker exec -it docker_techboard-postgresql_1 bash
+
+To create the dump:
+
+    pg_dump techboard --username=techboard --data-only --column-inserts > db.sql
+
+To apply the init data (from test/db-init/101.txt):
+
+    psql --username=techboard --dbname=techboard --file=/docker-entrypoint-initdb.d/101.txt 
