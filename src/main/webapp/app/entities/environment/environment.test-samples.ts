@@ -2,30 +2,30 @@ import { IEnvironment, NewEnvironment } from './environment.model';
 
 export const sampleWithRequiredData: IEnvironment = {
   id: 87640,
-  name: 'Chair withdrawal',
-  label: 'Soft proactive Nebraska',
-  description: 'TCP New Centers',
+  name: 'AWS prod',
+  label: 'Production in Amazon',
+  description: 'The big and long description',
   color: 'cyan',
-  level: 84724,
+  level: 0,
 };
 
 export const sampleWithPartialData: IEnvironment = {
   id: 44805,
-  name: 'back-end',
-  label: 'program payment Practical',
-  description: 'white',
+  name: 'OCI prod',
+  label: 'Production in Oracle',
+  description: 'The regional deployment',
   color: 'ivory',
-  level: 47949,
+  level: 0,
   link: 'Identity',
 };
 
 export const sampleWithFullData: IEnvironment = {
   id: 97229,
-  name: 'Dollar Ergonomic',
-  label: 'invoice Personal',
-  description: 'cross-platform',
+  name: 'UAT',
+  label: 'Pre-prod in AWS',
+  description: 'Collaboration',
   color: 'yellow',
-  level: 72372,
+  level: 1,
   link: 'BCEAO JBOD array',
 };
 
@@ -34,7 +34,7 @@ export const sampleWithNewData: NewEnvironment = {
   label: 'Technician',
   description: 'National Ball',
   color: 'tan',
-  level: 76912,
+  level: 2,
   id: null,
 };
 
