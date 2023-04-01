@@ -2,7 +2,7 @@
 version: '3.8'
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:19.0.1
+    image: quay.io/keycloak/keycloak:19.0.3
     command: ['start-dev --import-realm']
     volumes:
       - ./realm-config:/opt/keycloak/data/import
@@ -20,7 +20,7 @@ services:
       - 127.0.0.1:9443:9443
 
   techboard-postgresql:
-    image: postgres:14.5
+    image: postgres:14.7-alpine
     # volumes:
     #   - ~/volumes/jhipster/techboard/postgresql/:/var/lib/postgresql/data/
     environment:
