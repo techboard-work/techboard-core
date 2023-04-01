@@ -1,0 +1,40 @@
+
+entity Environment {
+    name String required unique,
+    label String required unique,
+    description String required,
+    color String required,
+    level Integer required,
+    link String
+}
+
+entity ActivityKind {
+    name String required unique,
+    description String required,
+    color String required,
+    icon String
+}
+
+entity Activity {
+    name String required,
+    startedOn Instant required,
+    finishedOn Instant,
+    link String,
+    doNotDisturb Boolean required
+}
+
+entity Event {
+    message String required,
+    receivedOn Instant required,
+    link String
+}
+
+relationship OneToMany {
+    Environment to Activity{environment},
+    Environment to Event{environment},
+    ActivityKind to Activity{kind}
+    User to Activity{owner}
+    User to Event{reporter}
+}
+
+service all with serviceImpl except ActivityKind
