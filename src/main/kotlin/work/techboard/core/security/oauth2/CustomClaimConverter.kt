@@ -88,7 +88,8 @@ class CustomClaimConverter(
                 if (user.has(CLAIMS_NAMESPACE + "roles")) {
                     val roles = user.get(CLAIMS_NAMESPACE + "roles").map(JsonNode::asText)
                     convertedClaims["roles"] = roles
-                } }
+                }
+            }
         }
 
         return convertedClaims

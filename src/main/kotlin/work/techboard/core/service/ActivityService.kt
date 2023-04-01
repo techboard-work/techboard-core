@@ -1,6 +1,5 @@
 package work.techboard.core.service
 import work.techboard.core.domain.Activity
-
 import java.util.Optional
 
 /**
@@ -22,7 +21,7 @@ interface ActivityService {
      * @param activity the entity to update.
      * @return the persisted entity.
      */
-     fun update(activity: Activity): Activity
+    fun update(activity: Activity): Activity
 
     /**
      * Partially updates a activity.

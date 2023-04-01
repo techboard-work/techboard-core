@@ -1,22 +1,20 @@
 package work.techboard.core.web.rest
 
-import work.techboard.core.domain.Activity
-import work.techboard.core.repository.ActivityRepository
-import work.techboard.core.service.ActivityService
-import work.techboard.core.web.rest.errors.BadRequestAlertException
-
-import tech.jhipster.web.util.HeaderUtil
-import tech.jhipster.web.util.ResponseUtil
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
+import tech.jhipster.web.util.HeaderUtil
+import tech.jhipster.web.util.ResponseUtil
+import work.techboard.core.domain.Activity
+import work.techboard.core.repository.ActivityRepository
+import work.techboard.core.service.ActivityService
+import work.techboard.core.web.rest.errors.BadRequestAlertException
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.Objects
+import javax.validation.Valid
+import javax.validation.constraints.NotNull
 
 private const val ENTITY_NAME = "activity"
 /**
@@ -25,8 +23,8 @@ private const val ENTITY_NAME = "activity"
 @RestController
 @RequestMapping("/api")
 class ActivityResource(
-        private val activityService: ActivityService,
-        private val activityRepository: ActivityRepository,
+    private val activityService: ActivityService,
+    private val activityRepository: ActivityRepository,
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -55,7 +53,7 @@ class ActivityResource(
             )
         }
         val result = activityService.save(activity)
-            return ResponseEntity.created(URI("/api/activities/${result.id}"))
+        return ResponseEntity.created(URI("/api/activities/${result.id}"))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
             .body(result)
     }
@@ -84,7 +82,6 @@ class ActivityResource(
             throw BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid")
         }
 
-
         if (!activityRepository.existsById(id)) {
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
@@ -94,28 +91,28 @@ class ActivityResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     activity.id.toString()
+                    activity.id.toString()
                 )
             )
             .body(result)
     }
 
     /**
-    * {@code PATCH  /activities/:id} : Partial updates given fields of an existing activity, field will ignore if it is null
-    *
-    * @param id the id of the activity to save.
-    * @param activity the activity to update.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated activity,
-    * or with status {@code 400 (Bad Request)} if the activity is not valid,
-    * or with status {@code 404 (Not Found)} if the activity is not found,
-    * or with status {@code 500 (Internal Server Error)} if the activity couldn't be updated.
-    * @throws URISyntaxException if the Location URI syntax is incorrect.
-    */
+     * {@code PATCH  /activities/:id} : Partial updates given fields of an existing activity, field will ignore if it is null
+     *
+     * @param id the id of the activity to save.
+     * @param activity the activity to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated activity,
+     * or with status {@code 400 (Bad Request)} if the activity is not valid,
+     * or with status {@code 404 (Not Found)} if the activity is not found,
+     * or with status {@code 500 (Internal Server Error)} if the activity couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
     @PatchMapping(value = ["/activities/{id}"], consumes = ["application/json", "application/merge-patch+json"])
     @Throws(URISyntaxException::class)
     fun partialUpdateActivity(
         @PathVariable(value = "id", required = false) id: Long,
-        @NotNull @RequestBody activity:Activity
+        @NotNull @RequestBody activity: Activity
     ): ResponseEntity<Activity> {
         log.debug("REST request to partial update Activity partially : {}, {}", id, activity)
         if (activity.id == null) {
@@ -129,9 +126,7 @@ class ActivityResource(
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
 
-
-
-            val result = activityService.partialUpdate(activity)
+        val result = activityService.partialUpdate(activity)
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -145,15 +140,12 @@ class ActivityResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of activities in body.
      */
-    @GetMapping("/activities")    
-    fun getAllActivities(): MutableList<Activity> {
-        
-        
+    @GetMapping("/activities") fun getAllActivities(): MutableList<Activity> {
 
-            log.debug("REST request to get all Activities")
-            
-            return activityService.findAll()
-                }
+        log.debug("REST request to get all Activities")
+
+        return activityService.findAll()
+    }
 
     /**
      * `GET  /activities/:id` : get the "id" activity.

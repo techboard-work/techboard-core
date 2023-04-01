@@ -1,36 +1,28 @@
 package work.techboard.core.web.rest
 
-
-import work.techboard.core.IntegrationTest
-import work.techboard.core.domain.Environment
-import work.techboard.core.repository.EnvironmentRepository
-import kotlin.test.assertNotNull
+import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.transaction.annotation.Transactional
-import org.springframework.validation.Validator
-import javax.persistence.EntityManager
-import java.util.Random
-import java.util.concurrent.atomic.AtomicLong
-import java.util.stream.Stream
-
-import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matchers.hasItem
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-
-
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.validation.Validator
+import work.techboard.core.IntegrationTest
+import work.techboard.core.domain.Environment
+import work.techboard.core.repository.EnvironmentRepository
+import java.util.Random
+import java.util.concurrent.atomic.AtomicLong
+import javax.persistence.EntityManager
+import kotlin.test.assertNotNull
 
 /**
  * Integration tests for the [EnvironmentResource] REST controller.
@@ -51,17 +43,13 @@ class EnvironmentResourceIT {
     @Autowired
     private lateinit var validator: Validator
 
-
     @Autowired
     private lateinit var em: EntityManager
-
 
     @Autowired
     private lateinit var restEnvironmentMockMvc: MockMvc
 
     private lateinit var environment: Environment
-
-
 
     @BeforeEach
     fun initTest() {
@@ -217,7 +205,7 @@ class EnvironmentResourceIT {
         environmentRepository.saveAndFlush(environment)
 
         // Get all the environmentList
-        restEnvironmentMockMvc.perform(get(ENTITY_API_URL+ "?sort=id,desc"))
+        restEnvironmentMockMvc.perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(environment.id?.toInt())))
@@ -226,8 +214,9 @@ class EnvironmentResourceIT {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].color").value(hasItem(DEFAULT_COLOR)))
             .andExpect(jsonPath("$.[*].level").value(hasItem(DEFAULT_LEVEL)))
-            .andExpect(jsonPath("$.[*].link").value(hasItem(DEFAULT_LINK)))    }
-    
+            .andExpect(jsonPath("$.[*].link").value(hasItem(DEFAULT_LINK)))
+    }
+
     @Test
     @Transactional
     @Throws(Exception::class)
@@ -248,7 +237,8 @@ class EnvironmentResourceIT {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.color").value(DEFAULT_COLOR))
             .andExpect(jsonPath("$.level").value(DEFAULT_LEVEL))
-            .andExpect(jsonPath("$.link").value(DEFAULT_LINK))    }
+            .andExpect(jsonPath("$.link").value(DEFAULT_LINK))
+    }
     @Test
     @Transactional
     @Throws(Exception::class)
@@ -300,11 +290,12 @@ class EnvironmentResourceIT {
         val databaseSizeBeforeUpdate = environmentRepository.findAll().size
         environment.id = count.incrementAndGet()
 
-
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restEnvironmentMockMvc.perform(put(ENTITY_API_URL_ID, environment.id).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertObjectToJsonBytes(environment)))
+        restEnvironmentMockMvc.perform(
+            put(ENTITY_API_URL_ID, environment.id).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(environment))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Environment in the database
@@ -339,9 +330,11 @@ class EnvironmentResourceIT {
         environment.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restEnvironmentMockMvc.perform(put(ENTITY_API_URL).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertObjectToJsonBytes(environment)))
+        restEnvironmentMockMvc.perform(
+            put(ENTITY_API_URL).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(environment))
+        )
             .andExpect(status().isMethodNotAllowed)
 
         // Validate the Environment in the database
@@ -354,38 +347,37 @@ class EnvironmentResourceIT {
     @Throws(Exception::class)
     fun partialUpdateEnvironmentWithPatch() {
         environmentRepository.saveAndFlush(environment)
-        
-        
-val databaseSizeBeforeUpdate = environmentRepository.findAll().size
+
+        val databaseSizeBeforeUpdate = environmentRepository.findAll().size
 
 // Update the environment using partial update
-val partialUpdatedEnvironment = Environment().apply {
-    id = environment.id
+        val partialUpdatedEnvironment = Environment().apply {
+            id = environment.id
 
-    
-        name = UPDATED_NAME
-        label = UPDATED_LABEL
-        description = UPDATED_DESCRIPTION
-        color = UPDATED_COLOR
-        level = UPDATED_LEVEL
-}
+            name = UPDATED_NAME
+            label = UPDATED_LABEL
+            description = UPDATED_DESCRIPTION
+            color = UPDATED_COLOR
+            level = UPDATED_LEVEL
+        }
 
-
-restEnvironmentMockMvc.perform(patch(ENTITY_API_URL_ID, partialUpdatedEnvironment.id).with(csrf())
-.contentType("application/merge-patch+json")
-.content(convertObjectToJsonBytes(partialUpdatedEnvironment)))
-.andExpect(status().isOk)
+        restEnvironmentMockMvc.perform(
+            patch(ENTITY_API_URL_ID, partialUpdatedEnvironment.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(partialUpdatedEnvironment))
+        )
+            .andExpect(status().isOk)
 
 // Validate the Environment in the database
-val environmentList = environmentRepository.findAll()
-assertThat(environmentList).hasSize(databaseSizeBeforeUpdate)
-val testEnvironment = environmentList.last()
-    assertThat(testEnvironment.name).isEqualTo(UPDATED_NAME)
-    assertThat(testEnvironment.label).isEqualTo(UPDATED_LABEL)
-    assertThat(testEnvironment.description).isEqualTo(UPDATED_DESCRIPTION)
-    assertThat(testEnvironment.color).isEqualTo(UPDATED_COLOR)
-    assertThat(testEnvironment.level).isEqualTo(UPDATED_LEVEL)
-    assertThat(testEnvironment.link).isEqualTo(DEFAULT_LINK)
+        val environmentList = environmentRepository.findAll()
+        assertThat(environmentList).hasSize(databaseSizeBeforeUpdate)
+        val testEnvironment = environmentList.last()
+        assertThat(testEnvironment.name).isEqualTo(UPDATED_NAME)
+        assertThat(testEnvironment.label).isEqualTo(UPDATED_LABEL)
+        assertThat(testEnvironment.description).isEqualTo(UPDATED_DESCRIPTION)
+        assertThat(testEnvironment.color).isEqualTo(UPDATED_COLOR)
+        assertThat(testEnvironment.level).isEqualTo(UPDATED_LEVEL)
+        assertThat(testEnvironment.link).isEqualTo(DEFAULT_LINK)
     }
 
     @Test
@@ -393,39 +385,38 @@ val testEnvironment = environmentList.last()
     @Throws(Exception::class)
     fun fullUpdateEnvironmentWithPatch() {
         environmentRepository.saveAndFlush(environment)
-        
-        
-val databaseSizeBeforeUpdate = environmentRepository.findAll().size
+
+        val databaseSizeBeforeUpdate = environmentRepository.findAll().size
 
 // Update the environment using partial update
-val partialUpdatedEnvironment = Environment().apply {
-    id = environment.id
+        val partialUpdatedEnvironment = Environment().apply {
+            id = environment.id
 
-    
-        name = UPDATED_NAME
-        label = UPDATED_LABEL
-        description = UPDATED_DESCRIPTION
-        color = UPDATED_COLOR
-        level = UPDATED_LEVEL
-        link = UPDATED_LINK
-}
+            name = UPDATED_NAME
+            label = UPDATED_LABEL
+            description = UPDATED_DESCRIPTION
+            color = UPDATED_COLOR
+            level = UPDATED_LEVEL
+            link = UPDATED_LINK
+        }
 
-
-restEnvironmentMockMvc.perform(patch(ENTITY_API_URL_ID, partialUpdatedEnvironment.id).with(csrf())
-.contentType("application/merge-patch+json")
-.content(convertObjectToJsonBytes(partialUpdatedEnvironment)))
-.andExpect(status().isOk)
+        restEnvironmentMockMvc.perform(
+            patch(ENTITY_API_URL_ID, partialUpdatedEnvironment.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(partialUpdatedEnvironment))
+        )
+            .andExpect(status().isOk)
 
 // Validate the Environment in the database
-val environmentList = environmentRepository.findAll()
-assertThat(environmentList).hasSize(databaseSizeBeforeUpdate)
-val testEnvironment = environmentList.last()
-    assertThat(testEnvironment.name).isEqualTo(UPDATED_NAME)
-    assertThat(testEnvironment.label).isEqualTo(UPDATED_LABEL)
-    assertThat(testEnvironment.description).isEqualTo(UPDATED_DESCRIPTION)
-    assertThat(testEnvironment.color).isEqualTo(UPDATED_COLOR)
-    assertThat(testEnvironment.level).isEqualTo(UPDATED_LEVEL)
-    assertThat(testEnvironment.link).isEqualTo(UPDATED_LINK)
+        val environmentList = environmentRepository.findAll()
+        assertThat(environmentList).hasSize(databaseSizeBeforeUpdate)
+        val testEnvironment = environmentList.last()
+        assertThat(testEnvironment.name).isEqualTo(UPDATED_NAME)
+        assertThat(testEnvironment.label).isEqualTo(UPDATED_LABEL)
+        assertThat(testEnvironment.description).isEqualTo(UPDATED_DESCRIPTION)
+        assertThat(testEnvironment.color).isEqualTo(UPDATED_COLOR)
+        assertThat(testEnvironment.level).isEqualTo(UPDATED_LEVEL)
+        assertThat(testEnvironment.link).isEqualTo(UPDATED_LINK)
     }
 
     @Throws(Exception::class)
@@ -434,9 +425,11 @@ val testEnvironment = environmentList.last()
         environment.id = count.incrementAndGet()
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restEnvironmentMockMvc.perform(patch(ENTITY_API_URL_ID, environment.id).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(environment)))
+        restEnvironmentMockMvc.perform(
+            patch(ENTITY_API_URL_ID, environment.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(environment))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Environment in the database
@@ -452,9 +445,11 @@ val testEnvironment = environmentList.last()
         environment.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restEnvironmentMockMvc.perform(patch(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(environment)))
+        restEnvironmentMockMvc.perform(
+            patch(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(environment))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Environment in the database
@@ -470,9 +465,11 @@ val testEnvironment = environmentList.last()
         environment.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restEnvironmentMockMvc.perform(patch(ENTITY_API_URL).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(environment)))
+        restEnvironmentMockMvc.perform(
+            patch(ENTITY_API_URL).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(environment))
+        )
             .andExpect(status().isMethodNotAllowed)
 
         // Validate the Environment in the database
@@ -498,7 +495,6 @@ val testEnvironment = environmentList.last()
         assertThat(environmentList).hasSize(databaseSizeBeforeDelete - 1)
     }
 
-
     companion object {
 
         private const val DEFAULT_NAME = "AAAAAAAAAA"
@@ -519,15 +515,11 @@ val testEnvironment = environmentList.last()
         private const val DEFAULT_LINK = "AAAAAAAAAA"
         private const val UPDATED_LINK = "BBBBBBBBBB"
 
-
         private val ENTITY_API_URL: String = "/api/environments"
         private val ENTITY_API_URL_ID: String = ENTITY_API_URL + "/{id}"
 
         private val random: Random = Random()
-        private val count: AtomicLong = AtomicLong(random.nextInt().toLong() + ( 2 * Integer.MAX_VALUE ))
-
-
-
+        private val count: AtomicLong = AtomicLong(random.nextInt().toLong() + (2 * Integer.MAX_VALUE))
 
         /**
          * Create an entity for this test.
@@ -551,7 +543,6 @@ val testEnvironment = environmentList.last()
                 link = DEFAULT_LINK
 
             )
-
 
             return environment
         }
@@ -579,9 +570,7 @@ val testEnvironment = environmentList.last()
 
             )
 
-
             return environment
         }
-
     }
 }

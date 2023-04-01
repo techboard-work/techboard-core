@@ -1,22 +1,20 @@
 package work.techboard.core.web.rest
 
-import work.techboard.core.domain.Event
-import work.techboard.core.repository.EventRepository
-import work.techboard.core.service.EventService
-import work.techboard.core.web.rest.errors.BadRequestAlertException
-
-import tech.jhipster.web.util.HeaderUtil
-import tech.jhipster.web.util.ResponseUtil
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
+import tech.jhipster.web.util.HeaderUtil
+import tech.jhipster.web.util.ResponseUtil
+import work.techboard.core.domain.Event
+import work.techboard.core.repository.EventRepository
+import work.techboard.core.service.EventService
+import work.techboard.core.web.rest.errors.BadRequestAlertException
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.Objects
+import javax.validation.Valid
+import javax.validation.constraints.NotNull
 
 private const val ENTITY_NAME = "event"
 /**
@@ -25,8 +23,8 @@ private const val ENTITY_NAME = "event"
 @RestController
 @RequestMapping("/api")
 class EventResource(
-        private val eventService: EventService,
-        private val eventRepository: EventRepository,
+    private val eventService: EventService,
+    private val eventRepository: EventRepository,
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -55,7 +53,7 @@ class EventResource(
             )
         }
         val result = eventService.save(event)
-            return ResponseEntity.created(URI("/api/events/${result.id}"))
+        return ResponseEntity.created(URI("/api/events/${result.id}"))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
             .body(result)
     }
@@ -84,7 +82,6 @@ class EventResource(
             throw BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid")
         }
 
-
         if (!eventRepository.existsById(id)) {
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
@@ -94,28 +91,28 @@ class EventResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     event.id.toString()
+                    event.id.toString()
                 )
             )
             .body(result)
     }
 
     /**
-    * {@code PATCH  /events/:id} : Partial updates given fields of an existing event, field will ignore if it is null
-    *
-    * @param id the id of the event to save.
-    * @param event the event to update.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated event,
-    * or with status {@code 400 (Bad Request)} if the event is not valid,
-    * or with status {@code 404 (Not Found)} if the event is not found,
-    * or with status {@code 500 (Internal Server Error)} if the event couldn't be updated.
-    * @throws URISyntaxException if the Location URI syntax is incorrect.
-    */
+     * {@code PATCH  /events/:id} : Partial updates given fields of an existing event, field will ignore if it is null
+     *
+     * @param id the id of the event to save.
+     * @param event the event to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated event,
+     * or with status {@code 400 (Bad Request)} if the event is not valid,
+     * or with status {@code 404 (Not Found)} if the event is not found,
+     * or with status {@code 500 (Internal Server Error)} if the event couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
     @PatchMapping(value = ["/events/{id}"], consumes = ["application/json", "application/merge-patch+json"])
     @Throws(URISyntaxException::class)
     fun partialUpdateEvent(
         @PathVariable(value = "id", required = false) id: Long,
-        @NotNull @RequestBody event:Event
+        @NotNull @RequestBody event: Event
     ): ResponseEntity<Event> {
         log.debug("REST request to partial update Event partially : {}, {}", id, event)
         if (event.id == null) {
@@ -129,9 +126,7 @@ class EventResource(
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
 
-
-
-            val result = eventService.partialUpdate(event)
+        val result = eventService.partialUpdate(event)
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -145,15 +140,12 @@ class EventResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of events in body.
      */
-    @GetMapping("/events")    
-    fun getAllEvents(): MutableList<Event> {
-        
-        
+    @GetMapping("/events") fun getAllEvents(): MutableList<Event> {
 
-            log.debug("REST request to get all Events")
-            
-            return eventService.findAll()
-                }
+        log.debug("REST request to get all Events")
+
+        return eventService.findAll()
+    }
 
     /**
      * `GET  /events/:id` : get the "id" event.

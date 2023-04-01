@@ -1,10 +1,8 @@
 package work.techboard.core.domain
 
-import org.junit.jupiter.api.Test
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import work.techboard.core.web.rest.equalsVerifier
-
-import java.util.UUID
 
 class EventTest {
 

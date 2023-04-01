@@ -1,22 +1,20 @@
 package work.techboard.core.web.rest
 
-import work.techboard.core.domain.ActivityKind
-import work.techboard.core.repository.ActivityKindRepository
-import work.techboard.core.web.rest.errors.BadRequestAlertException
-
-import tech.jhipster.web.util.HeaderUtil
-import tech.jhipster.web.util.ResponseUtil
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
-
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
+import tech.jhipster.web.util.HeaderUtil
+import tech.jhipster.web.util.ResponseUtil
+import work.techboard.core.domain.ActivityKind
+import work.techboard.core.repository.ActivityKindRepository
+import work.techboard.core.web.rest.errors.BadRequestAlertException
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.Objects
+import javax.validation.Valid
+import javax.validation.constraints.NotNull
 
 private const val ENTITY_NAME = "activityKind"
 /**
@@ -26,7 +24,7 @@ private const val ENTITY_NAME = "activityKind"
 @RequestMapping("/api")
 @Transactional
 class ActivityKindResource(
-        private val activityKindRepository: ActivityKindRepository,
+    private val activityKindRepository: ActivityKindRepository,
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -55,7 +53,7 @@ class ActivityKindResource(
             )
         }
         val result = activityKindRepository.save(activityKind)
-            return ResponseEntity.created(URI("/api/activity-kinds/${result.id}"))
+        return ResponseEntity.created(URI("/api/activity-kinds/${result.id}"))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
             .body(result)
     }
@@ -84,7 +82,6 @@ class ActivityKindResource(
             throw BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid")
         }
 
-
         if (!activityKindRepository.existsById(id)) {
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
@@ -94,28 +91,28 @@ class ActivityKindResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     activityKind.id.toString()
+                    activityKind.id.toString()
                 )
             )
             .body(result)
     }
 
     /**
-    * {@code PATCH  /activity-kinds/:id} : Partial updates given fields of an existing activityKind, field will ignore if it is null
-    *
-    * @param id the id of the activityKind to save.
-    * @param activityKind the activityKind to update.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated activityKind,
-    * or with status {@code 400 (Bad Request)} if the activityKind is not valid,
-    * or with status {@code 404 (Not Found)} if the activityKind is not found,
-    * or with status {@code 500 (Internal Server Error)} if the activityKind couldn't be updated.
-    * @throws URISyntaxException if the Location URI syntax is incorrect.
-    */
+     * {@code PATCH  /activity-kinds/:id} : Partial updates given fields of an existing activityKind, field will ignore if it is null
+     *
+     * @param id the id of the activityKind to save.
+     * @param activityKind the activityKind to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated activityKind,
+     * or with status {@code 400 (Bad Request)} if the activityKind is not valid,
+     * or with status {@code 404 (Not Found)} if the activityKind is not found,
+     * or with status {@code 500 (Internal Server Error)} if the activityKind couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
     @PatchMapping(value = ["/activity-kinds/{id}"], consumes = ["application/json", "application/merge-patch+json"])
     @Throws(URISyntaxException::class)
     fun partialUpdateActivityKind(
         @PathVariable(value = "id", required = false) id: Long,
-        @NotNull @RequestBody activityKind:ActivityKind
+        @NotNull @RequestBody activityKind: ActivityKind
     ): ResponseEntity<ActivityKind> {
         log.debug("REST request to partial update ActivityKind partially : {}, {}", id, activityKind)
         if (activityKind.id == null) {
@@ -129,28 +126,25 @@ class ActivityKindResource(
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
 
-
-
-         val result = activityKindRepository.findById(activityKind.id)
+        val result = activityKindRepository.findById(activityKind.id)
             .map {
 
-                  if (activityKind.name!= null) {
-                     it.name = activityKind.name
-                  }
-                  if (activityKind.description!= null) {
-                     it.description = activityKind.description
-                  }
-                  if (activityKind.color!= null) {
-                     it.color = activityKind.color
-                  }
-                  if (activityKind.icon!= null) {
-                     it.icon = activityKind.icon
-                  }
+                if (activityKind.name != null) {
+                    it.name = activityKind.name
+                }
+                if (activityKind.description != null) {
+                    it.description = activityKind.description
+                }
+                if (activityKind.color != null) {
+                    it.color = activityKind.color
+                }
+                if (activityKind.icon != null) {
+                    it.icon = activityKind.icon
+                }
 
-               it
+                it
             }
             .map { activityKindRepository.save(it) }
-
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -164,13 +158,10 @@ class ActivityKindResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of activityKinds in body.
      */
-    @GetMapping("/activity-kinds")    
-    fun getAllActivityKinds(): MutableList<ActivityKind> {
-        
-        
+    @GetMapping("/activity-kinds") fun getAllActivityKinds(): MutableList<ActivityKind> {
 
-            log.debug("REST request to get all ActivityKinds")
-                        return activityKindRepository.findAll()
+        log.debug("REST request to get all ActivityKinds")
+        return activityKindRepository.findAll()
     }
 
     /**

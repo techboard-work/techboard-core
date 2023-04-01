@@ -8,7 +8,7 @@
 - manage activities
 - see events
 - manage events
-- indicate impediment
+- indicate doNotDisturb
 
 ### Activity
 

@@ -1,6 +1,5 @@
 package work.techboard.core.service
 import work.techboard.core.domain.Environment
-
 import java.util.Optional
 
 /**
@@ -22,7 +21,7 @@ interface EnvironmentService {
      * @param environment the entity to update.
      * @return the persisted entity.
      */
-     fun update(environment: Environment): Environment
+    fun update(environment: Environment): Environment
 
     /**
      * Partially updates a environment.

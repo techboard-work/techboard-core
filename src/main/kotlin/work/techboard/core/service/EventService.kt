@@ -1,6 +1,5 @@
 package work.techboard.core.service
 import work.techboard.core.domain.Event
-
 import java.util.Optional
 
 /**
@@ -22,7 +21,7 @@ interface EventService {
      * @param event the entity to update.
      * @return the persisted entity.
      */
-     fun update(event: Event): Event
+    fun update(event: Event): Event
 
     /**
      * Partially updates a event.

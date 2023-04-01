@@ -1,38 +1,30 @@
 package work.techboard.core.web.rest
 
-
-import work.techboard.core.IntegrationTest
-import work.techboard.core.domain.Activity
-import work.techboard.core.repository.ActivityRepository
-import kotlin.test.assertNotNull
+import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.security.test.context.support.WithMockUser
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.Validator
-import javax.persistence.EntityManager
+import work.techboard.core.IntegrationTest
+import work.techboard.core.domain.Activity
+import work.techboard.core.repository.ActivityRepository
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.Random
 import java.util.concurrent.atomic.AtomicLong
-import java.util.stream.Stream
-
-import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matchers.hasItem
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-
-
+import javax.persistence.EntityManager
+import kotlin.test.assertNotNull
 
 /**
  * Integration tests for the [ActivityResource] REST controller.
@@ -53,17 +45,13 @@ class ActivityResourceIT {
     @Autowired
     private lateinit var validator: Validator
 
-
     @Autowired
     private lateinit var em: EntityManager
-
 
     @Autowired
     private lateinit var restActivityMockMvc: MockMvc
 
     private lateinit var activity: Activity
-
-
 
     @BeforeEach
     fun initTest() {
@@ -180,7 +168,7 @@ class ActivityResourceIT {
         activityRepository.saveAndFlush(activity)
 
         // Get all the activityList
-        restActivityMockMvc.perform(get(ENTITY_API_URL+ "?sort=id,desc"))
+        restActivityMockMvc.perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(activity.id?.toInt())))
@@ -188,8 +176,9 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.[*].startedOn").value(hasItem(DEFAULT_STARTED_ON.toString())))
             .andExpect(jsonPath("$.[*].finishedOn").value(hasItem(DEFAULT_FINISHED_ON.toString())))
             .andExpect(jsonPath("$.[*].link").value(hasItem(DEFAULT_LINK)))
-            .andExpect(jsonPath("$.[*].doNotDisturb").value(hasItem(DEFAULT_DO_NOT_DISTURB)))    }
-    
+            .andExpect(jsonPath("$.[*].doNotDisturb").value(hasItem(DEFAULT_DO_NOT_DISTURB)))
+    }
+
     @Test
     @Transactional
     @Throws(Exception::class)
@@ -209,7 +198,8 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.startedOn").value(DEFAULT_STARTED_ON.toString()))
             .andExpect(jsonPath("$.finishedOn").value(DEFAULT_FINISHED_ON.toString()))
             .andExpect(jsonPath("$.link").value(DEFAULT_LINK))
-            .andExpect(jsonPath("$.doNotDisturb").value(DEFAULT_DO_NOT_DISTURB))    }
+            .andExpect(jsonPath("$.doNotDisturb").value(DEFAULT_DO_NOT_DISTURB))
+    }
     @Test
     @Transactional
     @Throws(Exception::class)
@@ -259,11 +249,12 @@ class ActivityResourceIT {
         val databaseSizeBeforeUpdate = activityRepository.findAll().size
         activity.id = count.incrementAndGet()
 
-
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restActivityMockMvc.perform(put(ENTITY_API_URL_ID, activity.id).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertObjectToJsonBytes(activity)))
+        restActivityMockMvc.perform(
+            put(ENTITY_API_URL_ID, activity.id).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(activity))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Activity in the database
@@ -298,9 +289,11 @@ class ActivityResourceIT {
         activity.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restActivityMockMvc.perform(put(ENTITY_API_URL).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertObjectToJsonBytes(activity)))
+        restActivityMockMvc.perform(
+            put(ENTITY_API_URL).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(activity))
+        )
             .andExpect(status().isMethodNotAllowed)
 
         // Validate the Activity in the database
@@ -313,34 +306,33 @@ class ActivityResourceIT {
     @Throws(Exception::class)
     fun partialUpdateActivityWithPatch() {
         activityRepository.saveAndFlush(activity)
-        
-        
-val databaseSizeBeforeUpdate = activityRepository.findAll().size
+
+        val databaseSizeBeforeUpdate = activityRepository.findAll().size
 
 // Update the activity using partial update
-val partialUpdatedActivity = Activity().apply {
-    id = activity.id
+        val partialUpdatedActivity = Activity().apply {
+            id = activity.id
 
-    
-        startedOn = UPDATED_STARTED_ON
-        link = UPDATED_LINK
-}
+            startedOn = UPDATED_STARTED_ON
+            link = UPDATED_LINK
+        }
 
-
-restActivityMockMvc.perform(patch(ENTITY_API_URL_ID, partialUpdatedActivity.id).with(csrf())
-.contentType("application/merge-patch+json")
-.content(convertObjectToJsonBytes(partialUpdatedActivity)))
-.andExpect(status().isOk)
+        restActivityMockMvc.perform(
+            patch(ENTITY_API_URL_ID, partialUpdatedActivity.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(partialUpdatedActivity))
+        )
+            .andExpect(status().isOk)
 
 // Validate the Activity in the database
-val activityList = activityRepository.findAll()
-assertThat(activityList).hasSize(databaseSizeBeforeUpdate)
-val testActivity = activityList.last()
-    assertThat(testActivity.name).isEqualTo(DEFAULT_NAME)
-    assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
-    assertThat(testActivity.finishedOn).isEqualTo(DEFAULT_FINISHED_ON)
-    assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
-    assertThat(testActivity.doNotDisturb).isEqualTo(DEFAULT_DO_NOT_DISTURB)
+        val activityList = activityRepository.findAll()
+        assertThat(activityList).hasSize(databaseSizeBeforeUpdate)
+        val testActivity = activityList.last()
+        assertThat(testActivity.name).isEqualTo(DEFAULT_NAME)
+        assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
+        assertThat(testActivity.finishedOn).isEqualTo(DEFAULT_FINISHED_ON)
+        assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
+        assertThat(testActivity.doNotDisturb).isEqualTo(DEFAULT_DO_NOT_DISTURB)
     }
 
     @Test
@@ -348,37 +340,36 @@ val testActivity = activityList.last()
     @Throws(Exception::class)
     fun fullUpdateActivityWithPatch() {
         activityRepository.saveAndFlush(activity)
-        
-        
-val databaseSizeBeforeUpdate = activityRepository.findAll().size
+
+        val databaseSizeBeforeUpdate = activityRepository.findAll().size
 
 // Update the activity using partial update
-val partialUpdatedActivity = Activity().apply {
-    id = activity.id
+        val partialUpdatedActivity = Activity().apply {
+            id = activity.id
 
-    
-        name = UPDATED_NAME
-        startedOn = UPDATED_STARTED_ON
-        finishedOn = UPDATED_FINISHED_ON
-        link = UPDATED_LINK
-        doNotDisturb = UPDATED_DO_NOT_DISTURB
-}
+            name = UPDATED_NAME
+            startedOn = UPDATED_STARTED_ON
+            finishedOn = UPDATED_FINISHED_ON
+            link = UPDATED_LINK
+            doNotDisturb = UPDATED_DO_NOT_DISTURB
+        }
 
-
-restActivityMockMvc.perform(patch(ENTITY_API_URL_ID, partialUpdatedActivity.id).with(csrf())
-.contentType("application/merge-patch+json")
-.content(convertObjectToJsonBytes(partialUpdatedActivity)))
-.andExpect(status().isOk)
+        restActivityMockMvc.perform(
+            patch(ENTITY_API_URL_ID, partialUpdatedActivity.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(partialUpdatedActivity))
+        )
+            .andExpect(status().isOk)
 
 // Validate the Activity in the database
-val activityList = activityRepository.findAll()
-assertThat(activityList).hasSize(databaseSizeBeforeUpdate)
-val testActivity = activityList.last()
-    assertThat(testActivity.name).isEqualTo(UPDATED_NAME)
-    assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
-    assertThat(testActivity.finishedOn).isEqualTo(UPDATED_FINISHED_ON)
-    assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
-    assertThat(testActivity.doNotDisturb).isEqualTo(UPDATED_DO_NOT_DISTURB)
+        val activityList = activityRepository.findAll()
+        assertThat(activityList).hasSize(databaseSizeBeforeUpdate)
+        val testActivity = activityList.last()
+        assertThat(testActivity.name).isEqualTo(UPDATED_NAME)
+        assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
+        assertThat(testActivity.finishedOn).isEqualTo(UPDATED_FINISHED_ON)
+        assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
+        assertThat(testActivity.doNotDisturb).isEqualTo(UPDATED_DO_NOT_DISTURB)
     }
 
     @Throws(Exception::class)
@@ -387,9 +378,11 @@ val testActivity = activityList.last()
         activity.id = count.incrementAndGet()
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restActivityMockMvc.perform(patch(ENTITY_API_URL_ID, activity.id).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(activity)))
+        restActivityMockMvc.perform(
+            patch(ENTITY_API_URL_ID, activity.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(activity))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Activity in the database
@@ -405,9 +398,11 @@ val testActivity = activityList.last()
         activity.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restActivityMockMvc.perform(patch(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(activity)))
+        restActivityMockMvc.perform(
+            patch(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(activity))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Activity in the database
@@ -423,9 +418,11 @@ val testActivity = activityList.last()
         activity.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restActivityMockMvc.perform(patch(ENTITY_API_URL).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(activity)))
+        restActivityMockMvc.perform(
+            patch(ENTITY_API_URL).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(activity))
+        )
             .andExpect(status().isMethodNotAllowed)
 
         // Validate the Activity in the database
@@ -451,7 +448,6 @@ val testActivity = activityList.last()
         assertThat(activityList).hasSize(databaseSizeBeforeDelete - 1)
     }
 
-
     companion object {
 
         private const val DEFAULT_NAME = "AAAAAAAAAA"
@@ -469,15 +465,11 @@ val testActivity = activityList.last()
         private const val DEFAULT_DO_NOT_DISTURB: Boolean = false
         private const val UPDATED_DO_NOT_DISTURB: Boolean = true
 
-
         private val ENTITY_API_URL: String = "/api/activities"
         private val ENTITY_API_URL_ID: String = ENTITY_API_URL + "/{id}"
 
         private val random: Random = Random()
-        private val count: AtomicLong = AtomicLong(random.nextInt().toLong() + ( 2 * Integer.MAX_VALUE ))
-
-
-
+        private val count: AtomicLong = AtomicLong(random.nextInt().toLong() + (2 * Integer.MAX_VALUE))
 
         /**
          * Create an entity for this test.
@@ -499,7 +491,6 @@ val testActivity = activityList.last()
                 doNotDisturb = DEFAULT_DO_NOT_DISTURB
 
             )
-
 
             return activity
         }
@@ -525,9 +516,7 @@ val testActivity = activityList.last()
 
             )
 
-
             return activity
         }
-
     }
 }

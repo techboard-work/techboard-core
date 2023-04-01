@@ -1,36 +1,28 @@
 package work.techboard.core.web.rest
 
-
-import work.techboard.core.IntegrationTest
-import work.techboard.core.domain.ActivityKind
-import work.techboard.core.repository.ActivityKindRepository
-import kotlin.test.assertNotNull
+import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.transaction.annotation.Transactional
-import org.springframework.validation.Validator
-import javax.persistence.EntityManager
-import java.util.Random
-import java.util.concurrent.atomic.AtomicLong
-import java.util.stream.Stream
-
-import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matchers.hasItem
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-
-
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.validation.Validator
+import work.techboard.core.IntegrationTest
+import work.techboard.core.domain.ActivityKind
+import work.techboard.core.repository.ActivityKindRepository
+import java.util.Random
+import java.util.concurrent.atomic.AtomicLong
+import javax.persistence.EntityManager
+import kotlin.test.assertNotNull
 
 /**
  * Integration tests for the [ActivityKindResource] REST controller.
@@ -51,17 +43,13 @@ class ActivityKindResourceIT {
     @Autowired
     private lateinit var validator: Validator
 
-
     @Autowired
     private lateinit var em: EntityManager
-
 
     @Autowired
     private lateinit var restActivityKindMockMvc: MockMvc
 
     private lateinit var activityKind: ActivityKind
-
-
 
     @BeforeEach
     fun initTest() {
@@ -177,15 +165,16 @@ class ActivityKindResourceIT {
         activityKindRepository.saveAndFlush(activityKind)
 
         // Get all the activityKindList
-        restActivityKindMockMvc.perform(get(ENTITY_API_URL+ "?sort=id,desc"))
+        restActivityKindMockMvc.perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(activityKind.id?.toInt())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].color").value(hasItem(DEFAULT_COLOR)))
-            .andExpect(jsonPath("$.[*].icon").value(hasItem(DEFAULT_ICON)))    }
-    
+            .andExpect(jsonPath("$.[*].icon").value(hasItem(DEFAULT_ICON)))
+    }
+
     @Test
     @Transactional
     @Throws(Exception::class)
@@ -204,7 +193,8 @@ class ActivityKindResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.color").value(DEFAULT_COLOR))
-            .andExpect(jsonPath("$.icon").value(DEFAULT_ICON))    }
+            .andExpect(jsonPath("$.icon").value(DEFAULT_ICON))
+    }
     @Test
     @Transactional
     @Throws(Exception::class)
@@ -252,11 +242,12 @@ class ActivityKindResourceIT {
         val databaseSizeBeforeUpdate = activityKindRepository.findAll().size
         activityKind.id = count.incrementAndGet()
 
-
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restActivityKindMockMvc.perform(put(ENTITY_API_URL_ID, activityKind.id).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertObjectToJsonBytes(activityKind)))
+        restActivityKindMockMvc.perform(
+            put(ENTITY_API_URL_ID, activityKind.id).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(activityKind))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the ActivityKind in the database
@@ -291,9 +282,11 @@ class ActivityKindResourceIT {
         activityKind.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restActivityKindMockMvc.perform(put(ENTITY_API_URL).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertObjectToJsonBytes(activityKind)))
+        restActivityKindMockMvc.perform(
+            put(ENTITY_API_URL).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(activityKind))
+        )
             .andExpect(status().isMethodNotAllowed)
 
         // Validate the ActivityKind in the database
@@ -306,33 +299,32 @@ class ActivityKindResourceIT {
     @Throws(Exception::class)
     fun partialUpdateActivityKindWithPatch() {
         activityKindRepository.saveAndFlush(activityKind)
-        
-        
-val databaseSizeBeforeUpdate = activityKindRepository.findAll().size
+
+        val databaseSizeBeforeUpdate = activityKindRepository.findAll().size
 
 // Update the activityKind using partial update
-val partialUpdatedActivityKind = ActivityKind().apply {
-    id = activityKind.id
+        val partialUpdatedActivityKind = ActivityKind().apply {
+            id = activityKind.id
 
-    
-        name = UPDATED_NAME
-        color = UPDATED_COLOR
-}
+            name = UPDATED_NAME
+            color = UPDATED_COLOR
+        }
 
-
-restActivityKindMockMvc.perform(patch(ENTITY_API_URL_ID, partialUpdatedActivityKind.id).with(csrf())
-.contentType("application/merge-patch+json")
-.content(convertObjectToJsonBytes(partialUpdatedActivityKind)))
-.andExpect(status().isOk)
+        restActivityKindMockMvc.perform(
+            patch(ENTITY_API_URL_ID, partialUpdatedActivityKind.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(partialUpdatedActivityKind))
+        )
+            .andExpect(status().isOk)
 
 // Validate the ActivityKind in the database
-val activityKindList = activityKindRepository.findAll()
-assertThat(activityKindList).hasSize(databaseSizeBeforeUpdate)
-val testActivityKind = activityKindList.last()
-    assertThat(testActivityKind.name).isEqualTo(UPDATED_NAME)
-    assertThat(testActivityKind.description).isEqualTo(DEFAULT_DESCRIPTION)
-    assertThat(testActivityKind.color).isEqualTo(UPDATED_COLOR)
-    assertThat(testActivityKind.icon).isEqualTo(DEFAULT_ICON)
+        val activityKindList = activityKindRepository.findAll()
+        assertThat(activityKindList).hasSize(databaseSizeBeforeUpdate)
+        val testActivityKind = activityKindList.last()
+        assertThat(testActivityKind.name).isEqualTo(UPDATED_NAME)
+        assertThat(testActivityKind.description).isEqualTo(DEFAULT_DESCRIPTION)
+        assertThat(testActivityKind.color).isEqualTo(UPDATED_COLOR)
+        assertThat(testActivityKind.icon).isEqualTo(DEFAULT_ICON)
     }
 
     @Test
@@ -340,35 +332,34 @@ val testActivityKind = activityKindList.last()
     @Throws(Exception::class)
     fun fullUpdateActivityKindWithPatch() {
         activityKindRepository.saveAndFlush(activityKind)
-        
-        
-val databaseSizeBeforeUpdate = activityKindRepository.findAll().size
+
+        val databaseSizeBeforeUpdate = activityKindRepository.findAll().size
 
 // Update the activityKind using partial update
-val partialUpdatedActivityKind = ActivityKind().apply {
-    id = activityKind.id
+        val partialUpdatedActivityKind = ActivityKind().apply {
+            id = activityKind.id
 
-    
-        name = UPDATED_NAME
-        description = UPDATED_DESCRIPTION
-        color = UPDATED_COLOR
-        icon = UPDATED_ICON
-}
+            name = UPDATED_NAME
+            description = UPDATED_DESCRIPTION
+            color = UPDATED_COLOR
+            icon = UPDATED_ICON
+        }
 
-
-restActivityKindMockMvc.perform(patch(ENTITY_API_URL_ID, partialUpdatedActivityKind.id).with(csrf())
-.contentType("application/merge-patch+json")
-.content(convertObjectToJsonBytes(partialUpdatedActivityKind)))
-.andExpect(status().isOk)
+        restActivityKindMockMvc.perform(
+            patch(ENTITY_API_URL_ID, partialUpdatedActivityKind.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(partialUpdatedActivityKind))
+        )
+            .andExpect(status().isOk)
 
 // Validate the ActivityKind in the database
-val activityKindList = activityKindRepository.findAll()
-assertThat(activityKindList).hasSize(databaseSizeBeforeUpdate)
-val testActivityKind = activityKindList.last()
-    assertThat(testActivityKind.name).isEqualTo(UPDATED_NAME)
-    assertThat(testActivityKind.description).isEqualTo(UPDATED_DESCRIPTION)
-    assertThat(testActivityKind.color).isEqualTo(UPDATED_COLOR)
-    assertThat(testActivityKind.icon).isEqualTo(UPDATED_ICON)
+        val activityKindList = activityKindRepository.findAll()
+        assertThat(activityKindList).hasSize(databaseSizeBeforeUpdate)
+        val testActivityKind = activityKindList.last()
+        assertThat(testActivityKind.name).isEqualTo(UPDATED_NAME)
+        assertThat(testActivityKind.description).isEqualTo(UPDATED_DESCRIPTION)
+        assertThat(testActivityKind.color).isEqualTo(UPDATED_COLOR)
+        assertThat(testActivityKind.icon).isEqualTo(UPDATED_ICON)
     }
 
     @Throws(Exception::class)
@@ -377,9 +368,11 @@ val testActivityKind = activityKindList.last()
         activityKind.id = count.incrementAndGet()
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restActivityKindMockMvc.perform(patch(ENTITY_API_URL_ID, activityKind.id).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(activityKind)))
+        restActivityKindMockMvc.perform(
+            patch(ENTITY_API_URL_ID, activityKind.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(activityKind))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the ActivityKind in the database
@@ -395,9 +388,11 @@ val testActivityKind = activityKindList.last()
         activityKind.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restActivityKindMockMvc.perform(patch(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(activityKind)))
+        restActivityKindMockMvc.perform(
+            patch(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(activityKind))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the ActivityKind in the database
@@ -413,9 +408,11 @@ val testActivityKind = activityKindList.last()
         activityKind.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restActivityKindMockMvc.perform(patch(ENTITY_API_URL).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(activityKind)))
+        restActivityKindMockMvc.perform(
+            patch(ENTITY_API_URL).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(activityKind))
+        )
             .andExpect(status().isMethodNotAllowed)
 
         // Validate the ActivityKind in the database
@@ -441,7 +438,6 @@ val testActivityKind = activityKindList.last()
         assertThat(activityKindList).hasSize(databaseSizeBeforeDelete - 1)
     }
 
-
     companion object {
 
         private const val DEFAULT_NAME = "AAAAAAAAAA"
@@ -456,15 +452,11 @@ val testActivityKind = activityKindList.last()
         private const val DEFAULT_ICON = "AAAAAAAAAA"
         private const val UPDATED_ICON = "BBBBBBBBBB"
 
-
         private val ENTITY_API_URL: String = "/api/activity-kinds"
         private val ENTITY_API_URL_ID: String = ENTITY_API_URL + "/{id}"
 
         private val random: Random = Random()
-        private val count: AtomicLong = AtomicLong(random.nextInt().toLong() + ( 2 * Integer.MAX_VALUE ))
-
-
-
+        private val count: AtomicLong = AtomicLong(random.nextInt().toLong() + (2 * Integer.MAX_VALUE))
 
         /**
          * Create an entity for this test.
@@ -484,7 +476,6 @@ val testActivityKind = activityKindList.last()
                 icon = DEFAULT_ICON
 
             )
-
 
             return activityKind
         }
@@ -508,9 +499,7 @@ val testActivityKind = activityKindList.last()
 
             )
 
-
             return activityKind
         }
-
     }
 }

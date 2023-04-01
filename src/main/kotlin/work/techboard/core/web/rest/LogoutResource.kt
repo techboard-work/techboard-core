@@ -34,8 +34,10 @@ class LogoutResource(
 
         val issuerUri = registration.providerDetails.issuerUri
         if (issuerUri.contains("auth0.com")) {
-            val iUrl = if (issuerUri.endsWith("/")) { issuerUri + "v2/logout"
-            } else { issuerUri + "/v2/logout"
+            val iUrl = if (issuerUri.endsWith("/")) {
+                issuerUri + "v2/logout"
+            } else {
+                issuerUri + "/v2/logout"
             }
             logoutUrl.append(iUrl)
         } else {
