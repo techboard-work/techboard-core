@@ -1,0 +1,28 @@
+{
+  "techboardApp": {
+    "activityKind": {
+      "home": {
+        "title": "Activity Kinds",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Създайте нов Activity Kind",
+        "createOrEditLabel": "Създайте или редактирайте Activity Kind",
+        "notFound": "Activity Kinds не са намерени"
+      },
+      "created": "Създаден е нов Activity Kind с идентификатор {{ param }}",
+      "updated": "Activity Kind с идентификатор {{ param }} e oбновен",
+      "deleted": "Activity Kind с идентификатор {{ param }} е изтрит",
+      "delete": {
+        "question": "Наистина ли искате да изтриете Activity Kind {{ id }}?"
+      },
+      "detail": {
+        "title": "Activity Kind"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "color": "Color",
+      "icon": "Icon",
+      "activity": "Activity"
+    }
+  }
+}

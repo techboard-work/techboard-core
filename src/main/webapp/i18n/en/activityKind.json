@@ -1,0 +1,28 @@
+{
+  "techboardApp": {
+    "activityKind": {
+      "home": {
+        "title": "Activity Kinds",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Activity Kind",
+        "createOrEditLabel": "Create or edit a Activity Kind",
+        "notFound": "No Activity Kinds found"
+      },
+      "created": "A new Activity Kind is created with identifier {{ param }}",
+      "updated": "A Activity Kind is updated with identifier {{ param }}",
+      "deleted": "A Activity Kind is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Activity Kind {{ id }}?"
+      },
+      "detail": {
+        "title": "Activity Kind"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "color": "Color",
+      "icon": "Icon",
+      "activity": "Activity"
+    }
+  }
+}

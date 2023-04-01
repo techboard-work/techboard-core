@@ -1,0 +1,160 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-activity-heading" data-cy="ActivityCreateUpdateHeading" jhiTranslate="techboardApp.activity.home.createOrEditLabel">
+        Create or edit a Activity
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="techboardApp.activity.name" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="techboardApp.activity.startedOn" for="field_startedOn">Started On</label>
+          <div class="d-flex">
+            <input
+              id="field_startedOn"
+              data-cy="startedOn"
+              type="datetime-local"
+              class="form-control"
+              name="startedOn"
+              formControlName="startedOn"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('startedOn')!.invalid && (editForm.get('startedOn')!.dirty || editForm.get('startedOn')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('startedOn')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('startedOn')?.errors?.datetimelocal"
+              jhiTranslate="entity.validation.datetimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="techboardApp.activity.finishedOn" for="field_finishedOn">Finished On</label>
+          <div class="d-flex">
+            <input
+              id="field_finishedOn"
+              data-cy="finishedOn"
+              type="datetime-local"
+              class="form-control"
+              name="finishedOn"
+              formControlName="finishedOn"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="techboardApp.activity.link" for="field_link">Link</label>
+          <input type="text" class="form-control" name="link" id="field_link" data-cy="link" formControlName="link" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="techboardApp.activity.doNotDisturb" for="field_doNotDisturb">Do Not Disturb</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="doNotDisturb"
+            id="field_doNotDisturb"
+            data-cy="doNotDisturb"
+            formControlName="doNotDisturb"
+          />
+          <div
+            *ngIf="editForm.get('doNotDisturb')!.invalid && (editForm.get('doNotDisturb')!.dirty || editForm.get('doNotDisturb')!.touched)"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('doNotDisturb')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="techboardApp.activity.environment" for="field_environment">Environment</label>
+          <select
+            class="form-control"
+            id="field_environment"
+            data-cy="environment"
+            name="environment"
+            formControlName="environment"
+            [compareWith]="compareEnvironment"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="environmentOption" *ngFor="let environmentOption of environmentsSharedCollection">
+              {{ environmentOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="techboardApp.activity.kind" for="field_kind">Kind</label>
+          <select
+            class="form-control"
+            id="field_kind"
+            data-cy="kind"
+            name="kind"
+            formControlName="kind"
+            [compareWith]="compareActivityKind"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="activityKindOption" *ngFor="let activityKindOption of activityKindsSharedCollection">
+              {{ activityKindOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="techboardApp.activity.owner" for="field_owner">Owner</label>
+          <select class="form-control" id="field_owner" data-cy="owner" name="owner" formControlName="owner" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

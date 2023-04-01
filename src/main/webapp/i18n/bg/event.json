@@ -1,0 +1,28 @@
+{
+  "techboardApp": {
+    "event": {
+      "home": {
+        "title": "Events",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Създайте нов Event",
+        "createOrEditLabel": "Създайте или редактирайте Event",
+        "notFound": "Events не са намерени"
+      },
+      "created": "Създаден е нов Event с идентификатор {{ param }}",
+      "updated": "Event с идентификатор {{ param }} e oбновен",
+      "deleted": "Event с идентификатор {{ param }} е изтрит",
+      "delete": {
+        "question": "Наистина ли искате да изтриете Event {{ id }}?"
+      },
+      "detail": {
+        "title": "Event"
+      },
+      "id": "ID",
+      "message": "Message",
+      "receivedOn": "Received On",
+      "link": "Link",
+      "environment": "Environment",
+      "reporter": "Reporter"
+    }
+  }
+}

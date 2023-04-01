@@ -1,0 +1,31 @@
+{
+  "techboardApp": {
+    "activity": {
+      "home": {
+        "title": "Activities",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Създайте нов Activity",
+        "createOrEditLabel": "Създайте или редактирайте Activity",
+        "notFound": "Activities не са намерени"
+      },
+      "created": "Създаден е нов Activity с идентификатор {{ param }}",
+      "updated": "Activity с идентификатор {{ param }} e oбновен",
+      "deleted": "Activity с идентификатор {{ param }} е изтрит",
+      "delete": {
+        "question": "Наистина ли искате да изтриете Activity {{ id }}?"
+      },
+      "detail": {
+        "title": "Activity"
+      },
+      "id": "ID",
+      "name": "Name",
+      "startedOn": "Started On",
+      "finishedOn": "Finished On",
+      "link": "Link",
+      "doNotDisturb": "Do Not Disturb",
+      "environment": "Environment",
+      "kind": "Kind",
+      "owner": "Owner"
+    }
+  }
+}
