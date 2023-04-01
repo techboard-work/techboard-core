@@ -52,4 +52,10 @@ interface ActivityService {
      * @param id the id of the entity.
      */
     fun delete(id: Long)
+
+    /**
+     * Get al the activities which are open (started and not finished)
+     * for the provided Environment ID
+     */
+    fun getStartedIn(envId: Long): List<Activity>
 }

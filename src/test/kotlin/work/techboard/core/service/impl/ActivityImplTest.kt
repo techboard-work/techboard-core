@@ -10,7 +10,6 @@ import kotlin.test.assertEquals
 class ActivityImplTest {
     @BeforeEach
     fun init() {
-
     }
     @Test
     fun usersToUserDTOsShouldMapOnlyNonNullUsers() {

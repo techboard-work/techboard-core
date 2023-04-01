@@ -73,4 +73,12 @@ class ActivityServiceImpl(
 
         activityRepository.deleteById(id)
     }
+
+    override fun getStartedIn(envId: Long): List<Activity> {
+        log.debug("Request to get Activities for: $envId")
+        val sorted = activityRepository.findStartedIn(envId)
+        val (flagged, usual) = sorted.partition { activity: Activity -> activity.doNotDisturb!! }
+        log.debug("${sorted.size} Activities found.")
+        return flagged + usual
+    }
 }
