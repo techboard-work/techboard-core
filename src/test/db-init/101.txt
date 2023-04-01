@@ -20,27 +20,11 @@ SET row_security = off;
 -- Data for Name: activity_kind; Type: TABLE DATA; Schema: public; Owner: techboard
 --
 
-INSERT INTO public.activity_kind (id, name, description, color, icon) VALUES (1001, 'Deploy', 'Application Deployment', '#FFA62F', NULL);
-INSERT INTO public.activity_kind (id, name, description, color, icon) VALUES (1002, 'Support', 'Infrastructure change', '#FFA62F', NULL);
-INSERT INTO public.activity_kind (id, name, description, color, icon) VALUES (1003, 'LoadTest', 'Load testing', '#FFA62F', NULL);
-INSERT INTO public.activity_kind (id, name, description, color, icon) VALUES (1004, 'Repair', 'Blocking fix', '#FFA62F', NULL);
-
-
---
--- Data for Name: environment; Type: TABLE DATA; Schema: public; Owner: techboard
---
-
-INSERT INTO public.environment (id, name, label, description, color, level, link) VALUES (1051, 'AWS production', 'aws-prod', 'Production deployment in AWS Bahrain', '#01F9C6', 0, NULL);
-INSERT INTO public.environment (id, name, label, description, color, level, link) VALUES (1052, 'OCI Production', 'oci-prod', 'Production deployment in OCI in KSA', '#43C6DB', 0, NULL);
-INSERT INTO public.environment (id, name, label, description, color, level, link) VALUES (1053, 'UAT', 'uat', 'User Acceptance', '#E2F516', 1, NULL);
-INSERT INTO public.environment (id, name, label, description, color, level, link) VALUES (1054, 'Integration', 'int', 'Integration', '#FFA62F', 2, NULL);
-
-
 --
 -- Data for Name: activity; Type: TABLE DATA; Schema: public; Owner: techboard
 --
 
-INSERT INTO public.activity (id, name, started_on, finished_on, link, do_not_disturb, environment_id, kind_id, owner_id) VALUES (1101, 'E2E test', '2023-04-05 11:45:00', '2024-01-06 13:48:00', NULL, true, 1053, 1001, '4c973896-5761-41fc-8217-07c5d13a004b');
+INSERT INTO public.activity (id, name, started_on, finished_on, link, do_not_disturb, environment_id, kind_id, owner_id) VALUES (1101, 'E2E test', '2023-04-05 11:45:00', '2024-01-06 13:48:00', NULL, true, 1053, 1001, 'c4af4e2f-b432-4c3b-8405-cca86cd5b97b');
 
 
 
@@ -48,7 +32,7 @@ INSERT INTO public.activity (id, name, started_on, finished_on, link, do_not_dis
 -- Data for Name: event; Type: TABLE DATA; Schema: public; Owner: techboard
 --
 
-INSERT INTO public.event (id, message, received_on, link, environment_id, reporter_id) VALUES (1151, 'Restarted', '2023-04-05 11:47:00', NULL, 1052, '4c973896-5761-41fc-8217-07c5d13a004b');
+INSERT INTO public.event (id, message, received_on, link, environment_id, reporter_id) VALUES (1151, 'Restarted', '2023-04-05 11:47:00', NULL, 1052, 'c4af4e2f-b432-4c3b-8405-cca86cd5b97b');
 
 
 --
