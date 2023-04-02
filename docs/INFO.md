@@ -43,11 +43,14 @@ Launch the infra:
     cd src/main/docker
     docker-compose -f infra.yml up
 
-Launch App (make sure you use Java 11):
+Launch App with initial data (make sure you use Java 11):
 
     ./mvnw --version
     ./mvnw
 
+Stop infra:
+
+    docker-compose -f infra.yml down --volumes
 
 ### Angular
 
