@@ -9,8 +9,8 @@
               <span class="badge rounded-pill text-bg-secondary">{{ env.label }}</span>
             </div>
           </div>
-          <div class="card-body card-content-min-height">
-            <p class="card-text">{{ env.description }}</p>
+          <div class="alert alert-warning" id="no-result" *ngIf="0 === 0">
+            <span jhiTranslate="techboardApp.dashboard.noActivityFound">No Activity found</span>
           </div>
           <div class="card-body">
             <a href="{{ env.link }}" class="card-link">Go to {{ env.name }}</a>
