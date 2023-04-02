@@ -49,24 +49,6 @@ Launch App (make sure you use Java 11):
     ./mvnw
 
 
-### Postgres init data
-
-Open the app and login as `user` - the user will be created (copied from Keycloak)
-Connect to DB:
-
-    docker exec -it docker_techboard-postgresql_1 bash
-
-To create the dump:
-
-    pg_dump techboard --username=techboard --data-only --column-inserts > db.sql
-
-Unfortunately, the user ID is UUID, and it is different for every init. 
-Please copy the UUID of the user from DB and apply the ID in the `test/db-init/101.txt` file.
-To apply the init data (from test/db-init/101.txt):
-
-    psql --username=techboard --dbname=techboard --file=/docker-entrypoint-initdb.d/101.txt 
-
-
 ### Angular
 
 [Using Angular](https://www.jhipster.tech/using-angular/)
