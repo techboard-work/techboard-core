@@ -16,6 +16,6 @@ interface ActivityRepository : JpaRepository<Activity, Long> {
     @Query("select activity from Activity activity where activity.owner.login = ?#{principal.preferredUsername}")
     fun findByOwnerIsCurrentUser(): MutableList<Activity>
 
-    @Query("select activity from Activity activity where activity.finishedOn is not null and activity.environment.id = :envId order by startedOn")
-    fun findStartedIn(@Param("envId") envId: Long): MutableList<Activity>
+    @Query("select activity from Activity activity where activity.finishedOn is null and activity.environment.id = :envId order by startedOn")
+    fun findStartedIn(@Param("envId") envId: Long): List<Activity>
 }

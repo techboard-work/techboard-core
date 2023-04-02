@@ -1,10 +1,10 @@
 package work.techboard.core.config
 
-import com.nhaarman.mockitokotlin2.anyOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
+import org.mockito.kotlin.anyOrNull
 import org.springframework.http.CacheControl
 import org.springframework.mock.web.MockServletContext
 import org.springframework.web.context.WebApplicationContext
