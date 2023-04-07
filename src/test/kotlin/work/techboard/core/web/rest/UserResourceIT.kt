@@ -197,7 +197,7 @@ class UserResourceIT {
          */
         @JvmStatic
         fun initTestUser(userRepository: UserRepository, em: EntityManager): User {
-            userRepository.deleteAll()
+            // cannot delete because it is referenced in test data - userRepository.deleteAll()
             val user = createEntity(em)
             user.login = DEFAULT_LOGIN
             user.email = DEFAULT_EMAIL

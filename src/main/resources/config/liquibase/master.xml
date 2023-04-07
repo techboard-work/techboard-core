@@ -21,4 +21,5 @@
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
     <include file="config/liquibase/changelog/dev-data.xml" relativeToChangelogFile="false" context="dev"/>
+    <include file="config/liquibase/changelog/integration-test-data.xml" relativeToChangelogFile="false" context="test"/>
 </databaseChangeLog>
