@@ -1,0 +1,138 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="asomov" id="1680858080694-1">
+        <insert tableName="activity_kind">
+            <column name="id" valueNumeric="1001"/>
+            <column name="name" value="Deploy"/>
+            <column name="description" value="Application Deployment"/>
+            <column name="color" value="#FFA62F"/>
+            <column name="icon"/>
+        </insert>
+        <insert tableName="activity_kind">
+            <column name="id" valueNumeric="1002"/>
+            <column name="name" value="Support"/>
+            <column name="description" value="Infrastructure change"/>
+            <column name="color" value="#FFA62F"/>
+            <column name="icon"/>
+        </insert>
+        <insert tableName="activity_kind">
+            <column name="id" valueNumeric="1003"/>
+            <column name="name" value="LoadTest"/>
+            <column name="description" value="Load testing"/>
+            <column name="color" value="#FFA62F"/>
+            <column name="icon"/>
+        </insert>
+        <insert tableName="activity_kind">
+            <column name="id" valueNumeric="1004"/>
+            <column name="name" value="Repair"/>
+            <column name="description" value="Blocking fix"/>
+            <column name="color" value="#FFA62F"/>
+            <column name="icon"/>
+        </insert>
+    </changeSet>
+    <changeSet author="asomov" id="1680858080694-2">
+        <insert tableName="environment">
+            <column name="id" valueNumeric="1051"/>
+            <column name="name" value="AWS production"/>
+            <column name="label" value="aws-prod"/>
+            <column name="description" value="Production deployment in AWS Bahrain"/>
+            <column name="color" value="#01F9C6"/>
+            <column name="level" valueNumeric="0"/>
+            <column name="link"/>
+        </insert>
+        <insert tableName="environment">
+            <column name="id" valueNumeric="1052"/>
+            <column name="name" value="OCI Production"/>
+            <column name="label" value="oci-prod"/>
+            <column name="description" value="Production deployment in OCI in KSA"/>
+            <column name="color" value="#43C6DB"/>
+            <column name="level" valueNumeric="0"/>
+            <column name="link"/>
+        </insert>
+        <insert tableName="environment">
+            <column name="id" valueNumeric="1053"/>
+            <column name="name" value="UAT"/>
+            <column name="label" value="uat"/>
+            <column name="description" value="User Acceptance"/>
+            <column name="color" value="#E2F516"/>
+            <column name="level" valueNumeric="1"/>
+            <column name="link"/>
+        </insert>
+        <insert tableName="environment">
+            <column name="id" valueNumeric="1054"/>
+            <column name="name" value="Integration"/>
+            <column name="label" value="int"/>
+            <column name="description" value="Integration"/>
+            <column name="color" value="#FFA62F"/>
+            <column name="level" valueNumeric="2"/>
+            <column name="link"/>
+        </insert>
+    </changeSet>
+    <changeSet author="asomov" id="1680858080694-3">
+        <insert tableName="jhi_user">
+            <column name="id" value="4c973896-5761-41fc-8217-07c5d13a004b"/>
+            <column name="login" value="admin"/>
+            <column name="first_name" value="Admin"/>
+            <column name="last_name" value="Administrator"/>
+            <column name="email" value="admin@localhost"/>
+            <column name="image_url"/>
+            <column name="activated" valueBoolean="true"/>
+            <column name="lang_key" value="en"/>
+            <column name="created_by" value="admin"/>
+            <column name="created_date" valueDate="2023-04-06T06:38:51.224455"/>
+            <column name="last_modified_by" value="admin"/>
+            <column name="last_modified_date" valueDate="2023-04-06T06:38:51.224455"/>
+        </insert>
+        <insert tableName="jhi_user">
+            <column name="id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="login" value="user"/>
+            <column name="first_name" value=""/>
+            <column name="last_name" value="User"/>
+            <column name="email" value="user@localhost"/>
+            <column name="image_url"/>
+            <column name="activated" valueBoolean="true"/>
+            <column name="lang_key" value="en"/>
+            <column name="created_by" value="user"/>
+            <column name="created_date" valueDate="2023-04-06T06:39:08.964035"/>
+            <column name="last_modified_by" value="user"/>
+            <column name="last_modified_date" valueDate="2023-04-06T06:39:08.964035"/>
+        </insert>
+    </changeSet>
+    <changeSet author="asomov" id="1680858080694-4">
+        <insert tableName="activity">
+            <column name="id" valueNumeric="1101"/>
+            <column name="name" value="E2E test"/>
+            <column name="started_on" valueDate="2023-04-05T11:45:00"/>
+            <column name="finished_on" valueDate="2024-01-06T13:48:00"/>
+            <column name="link"/>
+            <column name="do_not_disturb" valueBoolean="true"/>
+            <column name="environment_id" valueNumeric="1053"/>
+            <column name="kind_id" valueNumeric="1001"/>
+            <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+        </insert>
+    </changeSet>
+    <changeSet author="asomov" id="1680858080694-5">
+        <insert tableName="event">
+            <column name="id" valueNumeric="1151"/>
+            <column name="message" value="Restarted"/>
+            <column name="received_on" valueDate="2023-04-05T11:47:00"/>
+            <column name="link"/>
+            <column name="environment_id" valueNumeric="1052"/>
+            <column name="reporter_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+        </insert>
+    </changeSet>
+    <changeSet author="asomov" id="1680858080694-7">
+        <insert tableName="jhi_user_authority">
+            <column name="user_id" value="4c973896-5761-41fc-8217-07c5d13a004b"/>
+            <column name="authority_name" value="ROLE_USER"/>
+        </insert>
+        <insert tableName="jhi_user_authority">
+            <column name="user_id" value="4c973896-5761-41fc-8217-07c5d13a004b"/>
+            <column name="authority_name" value="ROLE_ADMIN"/>
+        </insert>
+        <insert tableName="jhi_user_authority">
+            <column name="user_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="authority_name" value="ROLE_USER"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

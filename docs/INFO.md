@@ -43,26 +43,14 @@ Launch the infra:
     cd src/main/docker
     docker-compose -f infra.yml up
 
-Launch App (make sure you use Java 11):
+Launch App with initial data (make sure you use Java 11):
 
     ./mvnw --version
     ./mvnw
 
+Stop infra:
 
-### Postgres init data
-
-Connect to DB:
-
-    docker exec -it docker_techboard-postgresql_1 bash
-
-To create the dump:
-
-    pg_dump techboard --username=techboard --data-only --column-inserts > db.sql
-
-To apply the init data (from test/db-init/101.txt):
-
-    psql --username=techboard --dbname=techboard --file=/docker-entrypoint-initdb.d/101.txt 
-
+    docker-compose -f infra.yml down --volumes
 
 ### Angular
 

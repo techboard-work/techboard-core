@@ -28,9 +28,9 @@ class LiquibaseConfiguration(private val env: Environment) {
         dataSource: ObjectProvider<DataSource>,
         dataSourceProperties: DataSourceProperties
     ) =
-        // If you don't want Liquibase to start asynchronously, substitute by this:
-        // val liquibase = SpringLiquibaseUtil.createSpringLiquibase(liquibaseDataSource.getIfAvailable(), liquibaseProperties, dataSource.getIfUnique(), dataSourceProperties)
-        SpringLiquibaseUtil.createAsyncSpringLiquibase(this.env, executor, liquibaseDataSource.getIfAvailable(), liquibaseProperties, dataSource.getIfUnique(), dataSourceProperties)
+        // If you don't want Liquibase to start asynchronously, substitute by this
+        // SpringLiquibaseUtil.createAsyncSpringLiquibase(this.env, executor, liquibaseDataSource.getIfAvailable(), liquibaseProperties, dataSource.getIfUnique(), dataSourceProperties)
+        SpringLiquibaseUtil.createSpringLiquibase(liquibaseDataSource.getIfAvailable(), liquibaseProperties, dataSource.getIfUnique(), dataSourceProperties)
             .apply {
                 changeLog = "classpath:config/liquibase/master.xml"
                 contexts = liquibaseProperties.contexts

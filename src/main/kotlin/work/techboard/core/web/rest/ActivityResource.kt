@@ -173,4 +173,15 @@ class ActivityResource(
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build()
     }
+
+    /**
+     * `GET  /env-activities/:envId/started` : get all started and not stopped activities
+     * sorted by start date
+     *
+     * @return the [ResponseEntity] with status `200 (OK)` and the list of activities in body.
+     */
+    @GetMapping("/env-activities/{envId}/started") fun getStartedActivities(@PathVariable envId: Long): List<Activity> {
+        log.debug("REST request to get open Activities")
+        return activityService.getStartedIn(envId)
+    }
 }
