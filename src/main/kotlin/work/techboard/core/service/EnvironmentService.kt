@@ -36,7 +36,7 @@ interface EnvironmentService {
      *
      * @return the list of entities.
      */
-    fun findAll(): MutableList<Environment>
+    fun findAll(): List<Environment>
 
     /**
      * Get the "id" environment.

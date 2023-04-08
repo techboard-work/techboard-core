@@ -140,7 +140,7 @@ class EnvironmentResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of environments in body.
      */
-    @GetMapping("/environments") fun getAllEnvironments(): MutableList<Environment> {
+    @GetMapping("/environments") fun getAllEnvironments(): List<Environment> {
 
         log.debug("REST request to get all Environments")
 

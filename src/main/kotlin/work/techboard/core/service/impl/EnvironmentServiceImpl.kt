@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import work.techboard.core.domain.Environment
 import work.techboard.core.repository.EnvironmentRepository
+import work.techboard.core.service.ActivityService
 import work.techboard.core.service.EnvironmentService
-import java.util.Optional
+import java.time.Instant
+import java.util.*
 
 /**
  * Service Implementation for managing [Environment].
@@ -15,6 +17,7 @@ import java.util.Optional
 @Transactional
 class EnvironmentServiceImpl(
     private val environmentRepository: EnvironmentRepository,
+    private val activityService: ActivityService,
 ) : EnvironmentService {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -60,9 +63,19 @@ class EnvironmentServiceImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun findAll(): MutableList<Environment> {
+    override fun findAll(): List<Environment> {
         log.debug("Request to get all Environments")
-        return environmentRepository.findAll()
+        val envs = environmentRepository.findAll()
+        val currentActivities =
+            activityService.getCurrentActivities(Instant.now(), envs.map { e -> e.id!! })
+        // set activities for every environment or empty set
+        return envs.map { env ->
+            env.apply {
+                activities = currentActivities.filter {
+                        activity -> env.id == activity.environment!!.id
+                }.toMutableSet()
+            }
+        }
     }
 
     @Transactional(readOnly = true)
@@ -73,7 +86,6 @@ class EnvironmentServiceImpl(
 
     override fun delete(id: Long) {
         log.debug("Request to delete Environment : $id")
-
         environmentRepository.deleteById(id)
     }
 }
