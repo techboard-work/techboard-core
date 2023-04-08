@@ -2,6 +2,7 @@ package work.techboard.core.web.rest
 
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.hasItem
+import org.hamcrest.Matchers.hasSize
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,6 +25,7 @@ import java.time.temporal.ChronoUnit
 import java.util.Random
 import java.util.concurrent.atomic.AtomicLong
 import javax.persistence.EntityManager
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 /**
@@ -446,6 +448,20 @@ class ActivityResourceIT {
         // Validate the database contains one less item
         val activityList = activityRepository.findAll()
         assertThat(activityList).hasSize(databaseSizeBeforeDelete - 1)
+    }
+
+    @Test
+    @Transactional
+    fun `get current activities for env`() {
+        // Initialize the database
+        val list = activityRepository.findCurrentIn(2001053, Instant.now())
+        assertEquals(3, list.size)
+
+        // Get all the activityList
+        restActivityMockMvc.perform(get("/api/env-activities/2001053/current"))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$", hasSize<String>(3)))
     }
 
     companion object {

@@ -12,6 +12,7 @@ import work.techboard.core.service.ActivityService
 import work.techboard.core.web.rest.errors.BadRequestAlertException
 import java.net.URI
 import java.net.URISyntaxException
+import java.time.Instant
 import java.util.Objects
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
@@ -175,13 +176,13 @@ class ActivityResource(
     }
 
     /**
-     * `GET  /env-activities/:envId/started` : get all started and not stopped activities
+     * `GET  /env-activities/:envId/started` : get all started and not finished activities
      * sorted by start date
-     *
+     * @param envId - Environment ID
      * @return the [ResponseEntity] with status `200 (OK)` and the list of activities in body.
      */
-    @GetMapping("/env-activities/{envId}/started") fun getStartedActivities(@PathVariable envId: Long): List<Activity> {
-        log.debug("REST request to get open Activities")
-        return activityService.getStartedIn(envId)
+    @GetMapping("/env-activities/{envId}/current") fun getCurrentActivities(@PathVariable envId: Long): List<Activity> {
+        log.debug("REST request to get current Activities")
+        return activityService.getCurrentActivities(envId, Instant.now())
     }
 }

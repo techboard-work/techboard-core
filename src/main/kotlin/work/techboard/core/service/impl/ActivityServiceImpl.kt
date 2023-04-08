@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 import work.techboard.core.domain.Activity
 import work.techboard.core.repository.ActivityRepository
 import work.techboard.core.service.ActivityService
+import java.time.Instant
 import java.util.Optional
 
 /**
@@ -74,9 +75,9 @@ class ActivityServiceImpl(
         activityRepository.deleteById(id)
     }
 
-    override fun getStartedIn(envId: Long): List<Activity> {
+    override fun getCurrentActivities(envId: Long, timestamp: Instant): List<Activity> {
         log.debug("Request to get Activities for: $envId")
-        val sorted = activityRepository.findStartedIn(envId)
+        val sorted = activityRepository.findCurrentIn(envId, timestamp)
         val (flagged, usual) = sorted.partition { activity: Activity -> activity.doNotDisturb!! }
         log.debug("${sorted.size} Activities found.")
         return flagged + usual

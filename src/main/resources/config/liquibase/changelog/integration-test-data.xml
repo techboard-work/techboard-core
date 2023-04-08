@@ -100,12 +100,78 @@
     </changeSet>
     <changeSet author="asomov" id="1680858080694-4">
         <insert tableName="activity">
-            <column name="id" valueNumeric="2001101"/>
-            <column name="name" value="E2E test"/>
+            <column name="id" valueNumeric="2001100"/>
+            <column name="name" value="E2E test active"/>
             <column name="started_on" valueDate="2023-04-05T11:45:00"/>
             <column name="finished_on" valueDate="2024-01-06T13:48:00"/>
             <column name="link"/>
             <column name="do_not_disturb" valueBoolean="true"/>
+            <column name="environment_id" valueNumeric="2001053"/>
+            <column name="kind_id" valueNumeric="2001003"/>
+            <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+        </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="2001101"/>
+            <column name="name" value="E2E test finished"/>
+            <column name="started_on" valueDate="2022-04-05T11:45:01"/>
+            <column name="finished_on" valueDate="2023-01-06T13:48:01"/>
+            <column name="link"/>
+            <column name="do_not_disturb" valueBoolean="true"/>
+            <column name="environment_id" valueNumeric="2001053"/>
+            <column name="kind_id" valueNumeric="2001003"/>
+            <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+        </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="2001102"/>
+            <column name="name" value="Deploy 5"/>
+            <column name="started_on" valueDate="2023-04-05T11:45:00"/>
+            <column name="finished_on" valueDate="2024-01-06T13:48:00"/>
+            <column name="link"/>
+            <column name="do_not_disturb" valueBoolean="false"/>
+            <column name="environment_id" valueNumeric="2001053"/>
+            <column name="kind_id" valueNumeric="2001001"/>
+            <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+        </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="2001103"/>
+            <column name="name" value="Deploy 3"/>
+            <column name="started_on" valueDate="2023-04-05T11:45:00"/>
+            <column name="finished_on" />
+            <column name="link"/>
+            <column name="do_not_disturb" valueBoolean="false"/>
+            <column name="environment_id" valueNumeric="2001053"/>
+            <column name="kind_id" valueNumeric="2001001"/>
+            <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+        </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="2001104"/>
+            <column name="name" value="E2E test in progress"/>
+            <column name="started_on" valueDate="2023-04-05T11:45:00"/>
+            <column name="finished_on" />
+            <column name="link"/>
+            <column name="do_not_disturb" valueBoolean="true"/>
+            <column name="environment_id" valueNumeric="2001052"/>
+            <column name="kind_id" valueNumeric="2001003"/>
+            <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+        </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="2001105"/>
+            <column name="name" value="E2E test done"/>
+            <column name="started_on" valueDate="2023-04-05T11:45:00"/>
+            <column name="finished_on" valueDate="2023-04-06T13:48:00"/>
+            <column name="link"/>
+            <column name="do_not_disturb" valueBoolean="false"/>
+            <column name="environment_id" valueNumeric="2001052"/>
+            <column name="kind_id" valueNumeric="2001001"/>
+            <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+        </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="2001106"/>
+            <column name="name" value="E2E future test"/>
+            <column name="started_on" valueDate="2024-04-05T11:45:00"/>
+            <column name="finished_on" valueDate="2025-05-06T13:48:00"/>
+            <column name="link"/>
+            <column name="do_not_disturb" valueBoolean="false"/>
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>

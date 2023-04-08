@@ -1,5 +1,6 @@
 package work.techboard.core.service
 import work.techboard.core.domain.Activity
+import java.time.Instant
 import java.util.Optional
 
 /**
@@ -54,8 +55,11 @@ interface ActivityService {
     fun delete(id: Long)
 
     /**
-     * Get al the activities which are open (started and not finished)
+     * Get al the activities which are open/active
+     * (started and not finished for the given timestamp)
      * for the provided Environment
+     * @param envId - Environment ID
+     * @param timestamp - the moment of time (should be current time normally)
      */
-    fun getStartedIn(envId: Long): List<Activity>
+    fun getCurrentActivities(envId: Long, timestamp: Instant): List<Activity>
 }
