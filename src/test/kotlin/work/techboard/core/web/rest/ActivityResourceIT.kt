@@ -81,7 +81,6 @@ class ActivityResourceIT {
         assertThat(testActivity.startedOn).isEqualTo(DEFAULT_STARTED_ON)
         assertThat(testActivity.finishedOn).isEqualTo(DEFAULT_FINISHED_ON)
         assertThat(testActivity.link).isEqualTo(DEFAULT_LINK)
-        assertThat(testActivity.doNotDisturb).isEqualTo(DEFAULT_DO_NOT_DISTURB)
         assertThat(testActivity.severity).isEqualTo(DEFAULT_SEVERITY)
     }
 
@@ -146,25 +145,6 @@ class ActivityResourceIT {
     @Test
     @Transactional
     @Throws(Exception::class)
-    fun checkDoNotDisturbIsRequired() {
-        val databaseSizeBeforeTest = activityRepository.findAll().size
-        // set the field null
-        activity.doNotDisturb = null
-
-        // Create the Activity, which fails.
-
-        restActivityMockMvc.perform(
-            post(ENTITY_API_URL).with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(convertObjectToJsonBytes(activity))
-        ).andExpect(status().isBadRequest)
-
-        val activityList = activityRepository.findAll()
-        assertThat(activityList).hasSize(databaseSizeBeforeTest)
-    }
-    @Test
-    @Transactional
-    @Throws(Exception::class)
     fun checkSeverityIsRequired() {
         val databaseSizeBeforeTest = activityRepository.findAll().size
         // set the field null
@@ -198,7 +178,6 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.[*].startedOn").value(hasItem(DEFAULT_STARTED_ON.toString())))
             .andExpect(jsonPath("$.[*].finishedOn").value(hasItem(DEFAULT_FINISHED_ON.toString())))
             .andExpect(jsonPath("$.[*].link").value(hasItem(DEFAULT_LINK)))
-            .andExpect(jsonPath("$.[*].doNotDisturb").value(hasItem(DEFAULT_DO_NOT_DISTURB)))
             .andExpect(jsonPath("$.[*].severity").value(hasItem(DEFAULT_SEVERITY)))
     }
 
@@ -221,7 +200,6 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.startedOn").value(DEFAULT_STARTED_ON.toString()))
             .andExpect(jsonPath("$.finishedOn").value(DEFAULT_FINISHED_ON.toString()))
             .andExpect(jsonPath("$.link").value(DEFAULT_LINK))
-            .andExpect(jsonPath("$.doNotDisturb").value(DEFAULT_DO_NOT_DISTURB))
             .andExpect(jsonPath("$.severity").value(DEFAULT_SEVERITY))
     }
     @Test
@@ -248,7 +226,6 @@ class ActivityResourceIT {
         updatedActivity.startedOn = UPDATED_STARTED_ON
         updatedActivity.finishedOn = UPDATED_FINISHED_ON
         updatedActivity.link = UPDATED_LINK
-        updatedActivity.doNotDisturb = UPDATED_DO_NOT_DISTURB
         updatedActivity.severity = UPDATED_SEVERITY
 
         restActivityMockMvc.perform(
@@ -265,7 +242,6 @@ class ActivityResourceIT {
         assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
         assertThat(testActivity.finishedOn).isEqualTo(UPDATED_FINISHED_ON)
         assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
-        assertThat(testActivity.doNotDisturb).isEqualTo(UPDATED_DO_NOT_DISTURB)
         assertThat(testActivity.severity).isEqualTo(UPDATED_SEVERITY)
     }
 
@@ -341,7 +317,6 @@ class ActivityResourceIT {
 
             startedOn = UPDATED_STARTED_ON
             link = UPDATED_LINK
-            severity = UPDATED_SEVERITY
         }
 
         restActivityMockMvc.perform(
@@ -359,8 +334,7 @@ class ActivityResourceIT {
         assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
         assertThat(testActivity.finishedOn).isEqualTo(DEFAULT_FINISHED_ON)
         assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
-        assertThat(testActivity.doNotDisturb).isEqualTo(DEFAULT_DO_NOT_DISTURB)
-        assertThat(testActivity.severity).isEqualTo(UPDATED_SEVERITY)
+        assertThat(testActivity.severity).isEqualTo(DEFAULT_SEVERITY)
     }
 
     @Test
@@ -379,7 +353,6 @@ class ActivityResourceIT {
             startedOn = UPDATED_STARTED_ON
             finishedOn = UPDATED_FINISHED_ON
             link = UPDATED_LINK
-            doNotDisturb = UPDATED_DO_NOT_DISTURB
             severity = UPDATED_SEVERITY
         }
 
@@ -398,7 +371,6 @@ class ActivityResourceIT {
         assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
         assertThat(testActivity.finishedOn).isEqualTo(UPDATED_FINISHED_ON)
         assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
-        assertThat(testActivity.doNotDisturb).isEqualTo(UPDATED_DO_NOT_DISTURB)
         assertThat(testActivity.severity).isEqualTo(UPDATED_SEVERITY)
     }
 
@@ -506,9 +478,6 @@ class ActivityResourceIT {
         private const val DEFAULT_LINK = "AAAAAAAAAA"
         private const val UPDATED_LINK = "BBBBBBBBBB"
 
-        private const val DEFAULT_DO_NOT_DISTURB: Boolean = false
-        private const val UPDATED_DO_NOT_DISTURB: Boolean = true
-
         private const val DEFAULT_SEVERITY: Int = 0
         private const val UPDATED_SEVERITY: Int = 1
 
@@ -535,8 +504,6 @@ class ActivityResourceIT {
 
                 link = DEFAULT_LINK,
 
-                doNotDisturb = DEFAULT_DO_NOT_DISTURB,
-
                 severity = DEFAULT_SEVERITY
 
             )
@@ -560,8 +527,6 @@ class ActivityResourceIT {
                 finishedOn = UPDATED_FINISHED_ON,
 
                 link = UPDATED_LINK,
-
-                doNotDisturb = UPDATED_DO_NOT_DISTURB,
 
                 severity = UPDATED_SEVERITY
 

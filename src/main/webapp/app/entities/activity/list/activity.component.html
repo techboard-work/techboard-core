@@ -62,12 +62,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="doNotDisturb">
-            <div class="d-flex">
-              <span jhiTranslate="techboardApp.activity.doNotDisturb">Do Not Disturb</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="severity">
             <div class="d-flex">
               <span jhiTranslate="techboardApp.activity.severity">Severity</span>
@@ -104,7 +98,6 @@
           <td>{{ activity.startedOn | formatMediumDatetime }}</td>
           <td>{{ activity.finishedOn | formatMediumDatetime }}</td>
           <td>{{ activity.link }}</td>
-          <td>{{ activity.doNotDisturb }}</td>
           <td>{{ activity.severity }}</td>
           <td>
             <div *ngIf="activity.environment">

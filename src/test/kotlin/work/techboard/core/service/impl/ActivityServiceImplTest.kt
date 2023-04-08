@@ -38,7 +38,6 @@ class ActivityServiceImplTest {
             Instant.ofEpochMilli(base.toEpochMilli() + id),
             finished,
             "http://link/$id",
-            false,
             if (severe) 1 else 5
         )
 

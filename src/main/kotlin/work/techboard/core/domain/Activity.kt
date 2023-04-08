@@ -38,11 +38,6 @@ data class Activity(
     var link: String? = null,
 
     @get: NotNull
-
-    @Column(name = "do_not_disturb", nullable = false)
-    var doNotDisturb: Boolean? = null,
-
-    @get: NotNull
     @get: Min(value = 0)
     @get: Max(value = 100)
 
@@ -106,7 +101,6 @@ data class Activity(
             ", startedOn='" + startedOn + "'" +
             ", finishedOn='" + finishedOn + "'" +
             ", link='" + link + "'" +
-            ", doNotDisturb='" + doNotDisturb + "'" +
             ", severity=" + severity +
             "}"
     }

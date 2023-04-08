@@ -75,29 +75,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="techboardApp.activity.doNotDisturb" for="field_doNotDisturb">Do Not Disturb</label>
-          <input
-            type="checkbox"
-            class="form-check"
-            name="doNotDisturb"
-            id="field_doNotDisturb"
-            data-cy="doNotDisturb"
-            formControlName="doNotDisturb"
-          />
-          <div
-            *ngIf="editForm.get('doNotDisturb')!.invalid && (editForm.get('doNotDisturb')!.dirty || editForm.get('doNotDisturb')!.touched)"
-          >
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('doNotDisturb')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" jhiTranslate="techboardApp.activity.severity" for="field_severity">Severity</label>
           <input type="number" class="form-control" name="severity" id="field_severity" data-cy="severity" formControlName="severity" />
           <div *ngIf="editForm.get('severity')!.invalid && (editForm.get('severity')!.dirty || editForm.get('severity')!.touched)">

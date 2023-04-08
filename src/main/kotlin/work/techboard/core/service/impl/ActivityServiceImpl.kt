@@ -48,9 +48,6 @@ class ActivityServiceImpl(
                 if (activity.link != null) {
                     it.link = activity.link
                 }
-                if (activity.doNotDisturb != null) {
-                    it.doNotDisturb = activity.doNotDisturb
-                }
                 if (activity.severity != null) {
                     it.severity = activity.severity
                 }

@@ -9,7 +9,6 @@ export interface IActivity {
   startedOn?: dayjs.Dayjs | null;
   finishedOn?: dayjs.Dayjs | null;
   link?: string | null;
-  doNotDisturb?: boolean | null;
   severity?: number | null;
   environment?: Pick<IEnvironment, 'id'> | null;
   kind?: Pick<IActivityKind, 'id'> | null;

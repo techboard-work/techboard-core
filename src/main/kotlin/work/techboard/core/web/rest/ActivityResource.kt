@@ -141,7 +141,8 @@ class ActivityResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of activities in body.
      */
-    @GetMapping("/activities") fun getAllActivities(): MutableList<Activity> {
+    @GetMapping("/activities")
+    fun getAllActivities(): MutableList<Activity> {
 
         log.debug("REST request to get all Activities")
 

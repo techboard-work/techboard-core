@@ -18,7 +18,7 @@ data class Environment(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "id")
-    var id: Long? = null, // TODO should it be Int ?
+    var id: Long? = null,
 
     @get: NotNull
 

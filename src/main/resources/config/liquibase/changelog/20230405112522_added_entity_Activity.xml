@@ -26,9 +26,6 @@
             <column name="link" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="do_not_disturb" type="boolean">
-                <constraints nullable="false" />
-            </column>
             <column name="severity" type="integer">
                 <constraints nullable="false" />
             </column>

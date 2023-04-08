@@ -24,11 +24,6 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "doNotDisturb",
-      "fieldType": "Boolean",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "severity",
       "fieldType": "Integer",
       "fieldValidateRules": ["required", "min", "max"],

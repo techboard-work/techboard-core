@@ -105,7 +105,6 @@
             <column name="started_on" valueDate="2023-04-05T11:45:00"/>
             <column name="finished_on" valueDate="2024-01-06T13:48:00"/>
             <column name="link"/>
-            <column name="do_not_disturb" valueBoolean="true"/>
             <column name="environment_id" valueNumeric="1053"/>
             <column name="kind_id" valueNumeric="1001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>

@@ -105,7 +105,6 @@
             <column name="started_on" valueDate="2023-04-05T11:45:00"/>
             <column name="finished_on" valueDate="2024-01-06T13:48:00"/>
             <column name="link"/>
-            <column name="do_not_disturb" valueBoolean="true"/>
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001003"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
@@ -117,7 +116,6 @@
             <column name="started_on" valueDate="2022-04-05T11:45:01"/>
             <column name="finished_on" valueDate="2023-01-06T13:48:01"/>
             <column name="link"/>
-            <column name="do_not_disturb" valueBoolean="true"/>
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001003"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
@@ -129,7 +127,6 @@
             <column name="started_on" valueDate="2023-04-05T11:45:00"/>
             <column name="finished_on" valueDate="2024-01-06T13:48:00"/>
             <column name="link"/>
-            <column name="do_not_disturb" valueBoolean="false"/>
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
@@ -141,7 +138,6 @@
             <column name="started_on" valueDate="2023-04-05T11:45:00"/>
             <column name="finished_on" />
             <column name="link"/>
-            <column name="do_not_disturb" valueBoolean="false"/>
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
@@ -153,7 +149,6 @@
             <column name="started_on" valueDate="2023-04-05T11:45:00"/>
             <column name="finished_on" />
             <column name="link"/>
-            <column name="do_not_disturb" valueBoolean="true"/>
             <column name="environment_id" valueNumeric="2001052"/>
             <column name="kind_id" valueNumeric="2001003"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
@@ -165,7 +160,6 @@
             <column name="started_on" valueDate="2023-04-05T11:45:00"/>
             <column name="finished_on" valueDate="2023-04-06T13:48:00"/>
             <column name="link"/>
-            <column name="do_not_disturb" valueBoolean="false"/>
             <column name="environment_id" valueNumeric="2001052"/>
             <column name="kind_id" valueNumeric="2001001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
@@ -177,7 +171,6 @@
             <column name="started_on" valueDate="2024-04-05T11:45:00"/>
             <column name="finished_on" valueDate="2025-05-06T13:48:00"/>
             <column name="link"/>
-            <column name="do_not_disturb" valueBoolean="false"/>
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>

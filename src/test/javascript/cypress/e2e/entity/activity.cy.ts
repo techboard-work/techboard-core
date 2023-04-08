@@ -15,7 +15,7 @@ describe('Activity e2e test', () => {
   const activityPageUrlPattern = new RegExp('/activity(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const activitySample = { name: 'hack', startedOn: '2023-04-05T00:13:58.751Z', doNotDisturb: false, severity: 50 };
+  const activitySample = { name: 'pricing sensor Bedfordshire', startedOn: '2023-04-04T19:32:26.065Z', severity: 96 };
 
   let activity;
 
@@ -165,10 +165,7 @@ describe('Activity e2e test', () => {
 
       cy.get(`[data-cy="link"]`).type('killer Factors Heights').should('have.value', 'killer Factors Heights');
 
-      cy.get(`[data-cy="doNotDisturb"]`).should('not.be.checked');
-      cy.get(`[data-cy="doNotDisturb"]`).click().should('be.checked');
-
-      cy.get(`[data-cy="severity"]`).type('72').should('have.value', '72');
+      cy.get(`[data-cy="severity"]`).type('51').should('have.value', '51');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

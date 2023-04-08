@@ -28,7 +28,7 @@ type ActivityFormRawValue = FormValueOf<IActivity>;
 
 type NewActivityFormRawValue = FormValueOf<NewActivity>;
 
-type ActivityFormDefaults = Pick<NewActivity, 'id' | 'startedOn' | 'finishedOn' | 'doNotDisturb'>;
+type ActivityFormDefaults = Pick<NewActivity, 'id' | 'startedOn' | 'finishedOn'>;
 
 type ActivityFormGroupContent = {
   id: FormControl<ActivityFormRawValue['id'] | NewActivity['id']>;
@@ -36,7 +36,6 @@ type ActivityFormGroupContent = {
   startedOn: FormControl<ActivityFormRawValue['startedOn']>;
   finishedOn: FormControl<ActivityFormRawValue['finishedOn']>;
   link: FormControl<ActivityFormRawValue['link']>;
-  doNotDisturb: FormControl<ActivityFormRawValue['doNotDisturb']>;
   severity: FormControl<ActivityFormRawValue['severity']>;
   environment: FormControl<ActivityFormRawValue['environment']>;
   kind: FormControl<ActivityFormRawValue['kind']>;
@@ -68,9 +67,6 @@ export class ActivityFormService {
       }),
       finishedOn: new FormControl(activityRawValue.finishedOn),
       link: new FormControl(activityRawValue.link),
-      doNotDisturb: new FormControl(activityRawValue.doNotDisturb, {
-        validators: [Validators.required],
-      }),
       severity: new FormControl(activityRawValue.severity, {
         validators: [Validators.required, Validators.min(0), Validators.max(100)],
       }),
@@ -101,7 +97,6 @@ export class ActivityFormService {
       id: null,
       startedOn: currentTime,
       finishedOn: currentTime,
-      doNotDisturb: false,
     };
   }
 
