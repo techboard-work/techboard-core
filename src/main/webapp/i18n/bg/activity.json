@@ -23,6 +23,7 @@
       "finishedOn": "Finished On",
       "link": "Link",
       "doNotDisturb": "Do Not Disturb",
+      "severity": "Severity",
       "environment": "Environment",
       "kind": "Kind",
       "owner": "Owner"

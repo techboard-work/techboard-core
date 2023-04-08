@@ -51,6 +51,9 @@ class ActivityServiceImpl(
                 if (activity.doNotDisturb != null) {
                     it.doNotDisturb = activity.doNotDisturb
                 }
+                if (activity.severity != null) {
+                    it.severity = activity.severity
+                }
 
                 it
             }

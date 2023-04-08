@@ -1,5 +1,6 @@
 package work.techboard.core.web.rest
 
+import junit.framework.TestCase.assertEquals
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.hasItem
 import org.hamcrest.Matchers.hasSize
@@ -25,7 +26,6 @@ import java.time.temporal.ChronoUnit
 import java.util.Random
 import java.util.concurrent.atomic.AtomicLong
 import javax.persistence.EntityManager
-import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 /**
@@ -82,6 +82,7 @@ class ActivityResourceIT {
         assertThat(testActivity.finishedOn).isEqualTo(DEFAULT_FINISHED_ON)
         assertThat(testActivity.link).isEqualTo(DEFAULT_LINK)
         assertThat(testActivity.doNotDisturb).isEqualTo(DEFAULT_DO_NOT_DISTURB)
+        assertThat(testActivity.severity).isEqualTo(DEFAULT_SEVERITY)
     }
 
     @Test
@@ -161,6 +162,25 @@ class ActivityResourceIT {
         val activityList = activityRepository.findAll()
         assertThat(activityList).hasSize(databaseSizeBeforeTest)
     }
+    @Test
+    @Transactional
+    @Throws(Exception::class)
+    fun checkSeverityIsRequired() {
+        val databaseSizeBeforeTest = activityRepository.findAll().size
+        // set the field null
+        activity.severity = null
+
+        // Create the Activity, which fails.
+
+        restActivityMockMvc.perform(
+            post(ENTITY_API_URL).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(activity))
+        ).andExpect(status().isBadRequest)
+
+        val activityList = activityRepository.findAll()
+        assertThat(activityList).hasSize(databaseSizeBeforeTest)
+    }
 
     @Test
     @Transactional
@@ -179,6 +199,7 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.[*].finishedOn").value(hasItem(DEFAULT_FINISHED_ON.toString())))
             .andExpect(jsonPath("$.[*].link").value(hasItem(DEFAULT_LINK)))
             .andExpect(jsonPath("$.[*].doNotDisturb").value(hasItem(DEFAULT_DO_NOT_DISTURB)))
+            .andExpect(jsonPath("$.[*].severity").value(hasItem(DEFAULT_SEVERITY)))
     }
 
     @Test
@@ -201,6 +222,7 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.finishedOn").value(DEFAULT_FINISHED_ON.toString()))
             .andExpect(jsonPath("$.link").value(DEFAULT_LINK))
             .andExpect(jsonPath("$.doNotDisturb").value(DEFAULT_DO_NOT_DISTURB))
+            .andExpect(jsonPath("$.severity").value(DEFAULT_SEVERITY))
     }
     @Test
     @Transactional
@@ -227,6 +249,7 @@ class ActivityResourceIT {
         updatedActivity.finishedOn = UPDATED_FINISHED_ON
         updatedActivity.link = UPDATED_LINK
         updatedActivity.doNotDisturb = UPDATED_DO_NOT_DISTURB
+        updatedActivity.severity = UPDATED_SEVERITY
 
         restActivityMockMvc.perform(
             put(ENTITY_API_URL_ID, updatedActivity.id).with(csrf())
@@ -243,6 +266,7 @@ class ActivityResourceIT {
         assertThat(testActivity.finishedOn).isEqualTo(UPDATED_FINISHED_ON)
         assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
         assertThat(testActivity.doNotDisturb).isEqualTo(UPDATED_DO_NOT_DISTURB)
+        assertThat(testActivity.severity).isEqualTo(UPDATED_SEVERITY)
     }
 
     @Test
@@ -317,6 +341,7 @@ class ActivityResourceIT {
 
             startedOn = UPDATED_STARTED_ON
             link = UPDATED_LINK
+            severity = UPDATED_SEVERITY
         }
 
         restActivityMockMvc.perform(
@@ -335,6 +360,7 @@ class ActivityResourceIT {
         assertThat(testActivity.finishedOn).isEqualTo(DEFAULT_FINISHED_ON)
         assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
         assertThat(testActivity.doNotDisturb).isEqualTo(DEFAULT_DO_NOT_DISTURB)
+        assertThat(testActivity.severity).isEqualTo(UPDATED_SEVERITY)
     }
 
     @Test
@@ -354,6 +380,7 @@ class ActivityResourceIT {
             finishedOn = UPDATED_FINISHED_ON
             link = UPDATED_LINK
             doNotDisturb = UPDATED_DO_NOT_DISTURB
+            severity = UPDATED_SEVERITY
         }
 
         restActivityMockMvc.perform(
@@ -372,6 +399,7 @@ class ActivityResourceIT {
         assertThat(testActivity.finishedOn).isEqualTo(UPDATED_FINISHED_ON)
         assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
         assertThat(testActivity.doNotDisturb).isEqualTo(UPDATED_DO_NOT_DISTURB)
+        assertThat(testActivity.severity).isEqualTo(UPDATED_SEVERITY)
     }
 
     @Throws(Exception::class)
@@ -481,6 +509,9 @@ class ActivityResourceIT {
         private const val DEFAULT_DO_NOT_DISTURB: Boolean = false
         private const val UPDATED_DO_NOT_DISTURB: Boolean = true
 
+        private const val DEFAULT_SEVERITY: Int = 0
+        private const val UPDATED_SEVERITY: Int = 1
+
         private val ENTITY_API_URL: String = "/api/activities"
         private val ENTITY_API_URL_ID: String = ENTITY_API_URL + "/{id}"
 
@@ -504,7 +535,9 @@ class ActivityResourceIT {
 
                 link = DEFAULT_LINK,
 
-                doNotDisturb = DEFAULT_DO_NOT_DISTURB
+                doNotDisturb = DEFAULT_DO_NOT_DISTURB,
+
+                severity = DEFAULT_SEVERITY
 
             )
 
@@ -528,7 +561,9 @@ class ActivityResourceIT {
 
                 link = UPDATED_LINK,
 
-                doNotDisturb = UPDATED_DO_NOT_DISTURB
+                doNotDisturb = UPDATED_DO_NOT_DISTURB,
+
+                severity = UPDATED_SEVERITY
 
             )
 

@@ -98,6 +98,43 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" jhiTranslate="techboardApp.activity.severity" for="field_severity">Severity</label>
+          <input type="number" class="form-control" name="severity" id="field_severity" data-cy="severity" formControlName="severity" />
+          <div *ngIf="editForm.get('severity')!.invalid && (editForm.get('severity')!.dirty || editForm.get('severity')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('severity')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('severity')?.errors?.min"
+              jhiTranslate="entity.validation.min"
+              [translateValues]="{ min: 0 }"
+            >
+              This field should be at least 0.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('severity')?.errors?.max"
+              jhiTranslate="entity.validation.max"
+              [translateValues]="{ max: 100 }"
+            >
+              This field cannot be more than 100.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('severity')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="techboardApp.activity.environment" for="field_environment">Environment</label>
           <select
             class="form-control"

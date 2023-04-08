@@ -109,6 +109,7 @@
             <column name="environment_id" valueNumeric="1053"/>
             <column name="kind_id" valueNumeric="1001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="severity" value="1"/>
         </insert>
     </changeSet>
     <changeSet author="asomov" id="1680858080694-5">

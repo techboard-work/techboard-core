@@ -37,6 +37,7 @@ type ActivityFormGroupContent = {
   finishedOn: FormControl<ActivityFormRawValue['finishedOn']>;
   link: FormControl<ActivityFormRawValue['link']>;
   doNotDisturb: FormControl<ActivityFormRawValue['doNotDisturb']>;
+  severity: FormControl<ActivityFormRawValue['severity']>;
   environment: FormControl<ActivityFormRawValue['environment']>;
   kind: FormControl<ActivityFormRawValue['kind']>;
   owner: FormControl<ActivityFormRawValue['owner']>;
@@ -69,6 +70,9 @@ export class ActivityFormService {
       link: new FormControl(activityRawValue.link),
       doNotDisturb: new FormControl(activityRawValue.doNotDisturb, {
         validators: [Validators.required],
+      }),
+      severity: new FormControl(activityRawValue.severity, {
+        validators: [Validators.required, Validators.min(0), Validators.max(100)],
       }),
       environment: new FormControl(activityRawValue.environment),
       kind: new FormControl(activityRawValue.kind),

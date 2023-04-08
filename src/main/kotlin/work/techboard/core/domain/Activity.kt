@@ -42,6 +42,13 @@ data class Activity(
     @Column(name = "do_not_disturb", nullable = false)
     var doNotDisturb: Boolean? = null,
 
+    @get: NotNull
+    @get: Min(value = 0)
+    @get: Max(value = 100)
+
+    @Column(name = "severity", nullable = false)
+    var severity: Int? = null,
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 ) : Serializable {
 
@@ -100,6 +107,7 @@ data class Activity(
             ", finishedOn='" + finishedOn + "'" +
             ", link='" + link + "'" +
             ", doNotDisturb='" + doNotDisturb + "'" +
+            ", severity=" + severity +
             "}"
     }
 

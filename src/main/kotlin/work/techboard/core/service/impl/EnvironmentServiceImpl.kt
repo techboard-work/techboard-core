@@ -72,7 +72,8 @@ class EnvironmentServiceImpl(
         return envs.map { env ->
             env.apply {
                 activities = currentActivities.filter {
-                        activity -> env.id == activity.environment!!.id
+                        activity ->
+                    env.id == activity.environment!!.id
                 }.toMutableSet()
             }
         }
@@ -86,6 +87,7 @@ class EnvironmentServiceImpl(
 
     override fun delete(id: Long) {
         log.debug("Request to delete Environment : $id")
+
         environmentRepository.deleteById(id)
     }
 }

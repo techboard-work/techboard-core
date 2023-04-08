@@ -109,6 +109,7 @@
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001003"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="severity" value="1"/>
         </insert>
         <insert tableName="activity">
             <column name="id" valueNumeric="2001101"/>
@@ -120,6 +121,7 @@
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001003"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="severity" value="1"/>
         </insert>
         <insert tableName="activity">
             <column name="id" valueNumeric="2001102"/>
@@ -131,6 +133,7 @@
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="severity" value="1"/>
         </insert>
         <insert tableName="activity">
             <column name="id" valueNumeric="2001103"/>
@@ -142,6 +145,7 @@
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="severity" value="1"/>
         </insert>
         <insert tableName="activity">
             <column name="id" valueNumeric="2001104"/>
@@ -153,6 +157,7 @@
             <column name="environment_id" valueNumeric="2001052"/>
             <column name="kind_id" valueNumeric="2001003"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="severity" value="1"/>
         </insert>
         <insert tableName="activity">
             <column name="id" valueNumeric="2001105"/>
@@ -164,6 +169,7 @@
             <column name="environment_id" valueNumeric="2001052"/>
             <column name="kind_id" valueNumeric="2001001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="severity" value="1"/>
         </insert>
         <insert tableName="activity">
             <column name="id" valueNumeric="2001106"/>
@@ -175,6 +181,7 @@
             <column name="environment_id" valueNumeric="2001053"/>
             <column name="kind_id" valueNumeric="2001001"/>
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="severity" value="1"/>
         </insert>
     </changeSet>
     <changeSet author="asomov" id="1680858080694-5">

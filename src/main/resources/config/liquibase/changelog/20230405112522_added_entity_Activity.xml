@@ -29,6 +29,9 @@
             <column name="do_not_disturb" type="boolean">
                 <constraints nullable="false" />
             </column>
+            <column name="severity" type="integer">
+                <constraints nullable="false" />
+            </column>
             <column name="environment_id" type="bigint">
                 <constraints nullable="true" />
             </column>

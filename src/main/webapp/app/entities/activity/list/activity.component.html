@@ -68,6 +68,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="severity">
+            <div class="d-flex">
+              <span jhiTranslate="techboardApp.activity.severity">Severity</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="environment.id">
             <div class="d-flex">
               <span jhiTranslate="techboardApp.activity.environment">Environment</span>
@@ -99,6 +105,7 @@
           <td>{{ activity.finishedOn | formatMediumDatetime }}</td>
           <td>{{ activity.link }}</td>
           <td>{{ activity.doNotDisturb }}</td>
+          <td>{{ activity.severity }}</td>
           <td>
             <div *ngIf="activity.environment">
               <a [routerLink]="['/environment', activity.environment.id, 'view']">{{ activity.environment.id }}</a>
