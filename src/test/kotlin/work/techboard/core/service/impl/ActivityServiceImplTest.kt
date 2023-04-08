@@ -44,8 +44,8 @@ class ActivityServiceImplTest {
     @Test
     fun `test that DnD goes first`() {
         val timestamp = Instant.ofEpochMilli(0)
-        Mockito.`when`(activityRepository.findCurrentIn(100, timestamp)).thenReturn(createList())
-        val result: List<Activity> = service.getCurrentActivities(100, timestamp)
+        Mockito.`when`(activityRepository.findCurrentIn(timestamp, listOf(100))).thenReturn(createList())
+        val result: List<Activity> = service.getCurrentActivities(timestamp, listOf(100))
         val ids = result.map { a -> a.id!!.toInt() }
         assertEquals(8, result.size)
         val expected = listOf(1003, 1005, 1011, 1013, 1001, 1007, 1009, 1015)

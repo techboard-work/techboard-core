@@ -21,8 +21,8 @@ interface ActivityRepository : JpaRepository<Activity, Long> {
         """select activity from Activity activity
         where activity.startedOn < :timestamp
         and (activity.finishedOn is null or activity.finishedOn > :timestamp)
-        and activity.environment.id = :envId
+        and activity.environment.id in :envs
         order by startedOn"""
     )
-    fun findCurrentIn(@Param("envId") envId: Long, @Param("timestamp") timestamp: Instant): List<Activity>
+    fun findCurrentIn(@Param("timestamp") timestamp: Instant, @Param("envs") envs: List<Long>): List<Activity>
 }

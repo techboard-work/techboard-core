@@ -454,7 +454,7 @@ class ActivityResourceIT {
     @Transactional
     fun `get current activities for env`() {
         // Initialize the database
-        val list = activityRepository.findCurrentIn(2001053, Instant.now())
+        val list = activityRepository.findCurrentIn(Instant.now(), listOf(2001053))
         assertEquals(3, list.size)
 
         // Get all the activityList

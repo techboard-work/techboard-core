@@ -183,6 +183,6 @@ class ActivityResource(
      */
     @GetMapping("/env-activities/{envId}/current") fun getCurrentActivities(@PathVariable envId: Long): List<Activity> {
         log.debug("REST request to get current Activities")
-        return activityService.getCurrentActivities(envId, Instant.now())
+        return activityService.getCurrentActivities(Instant.now(), listOf(envId))
     }
 }

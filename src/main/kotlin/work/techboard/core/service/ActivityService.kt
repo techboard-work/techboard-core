@@ -57,9 +57,9 @@ interface ActivityService {
     /**
      * Get al the activities which are open/active
      * (started and not finished for the given timestamp)
-     * for the provided Environment
-     * @param envId - Environment ID
+     * for the provided Environments
      * @param timestamp - the moment of time (should be current time normally)
+     * @param envs - Environment IDs
      */
-    fun getCurrentActivities(envId: Long, timestamp: Instant): List<Activity>
+    fun getCurrentActivities(timestamp: Instant, envs: List<Long>): List<Activity>
 }

@@ -75,9 +75,9 @@ class ActivityServiceImpl(
         activityRepository.deleteById(id)
     }
 
-    override fun getCurrentActivities(envId: Long, timestamp: Instant): List<Activity> {
-        log.debug("Request to get Activities for: $envId")
-        val sorted = activityRepository.findCurrentIn(envId, timestamp)
+    override fun getCurrentActivities(timestamp: Instant, envs: List<Long>): List<Activity> {
+        log.debug("Request to get Activities for: $envs")
+        val sorted = activityRepository.findCurrentIn(timestamp, envs)
         val (flagged, usual) = sorted.partition { activity: Activity -> activity.doNotDisturb!! }
         log.debug("${sorted.size} Activities found.")
         return flagged + usual
