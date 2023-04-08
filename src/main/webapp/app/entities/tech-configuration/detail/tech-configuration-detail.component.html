@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="techConfiguration">
+      <h2 data-cy="techConfigurationDetailsHeading">
+        <span jhiTranslate="techboardApp.techConfiguration.detail.title">Tech Configuration</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ techConfiguration.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.techConfiguration.version">Version</span></dt>
+        <dd>
+          <span>{{ techConfiguration.version }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.techConfiguration.timestamp">Timestamp</span></dt>
+        <dd>
+          <span>{{ techConfiguration.timestamp | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.techConfiguration.content">Content</span></dt>
+        <dd>
+          <span>{{ techConfiguration.content }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.techConfiguration.author">Author</span></dt>
+        <dd>
+          <span>{{ techConfiguration.author?.login }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/tech-configuration', techConfiguration.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

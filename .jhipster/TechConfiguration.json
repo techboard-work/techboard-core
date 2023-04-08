@@ -1,0 +1,38 @@
+{
+  "changelogDate": "20230411133128",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "version",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "unique", "min", "max"],
+      "fieldValidateRulesMax": "1000000",
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "timestamp",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "TechConfiguration",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "techConfiguration",
+      "ownerSide": true,
+      "relationshipName": "author",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

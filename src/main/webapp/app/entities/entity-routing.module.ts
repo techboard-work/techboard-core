@@ -24,6 +24,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'techboardApp.event.home.title' },
         loadChildren: () => import('./event/event.module').then(m => m.EventModule),
       },
+      {
+        path: 'tech-configuration',
+        data: { pageTitle: 'techboardApp.techConfiguration.home.title' },
+        loadChildren: () => import('./tech-configuration/tech-configuration.module').then(m => m.TechConfigurationModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

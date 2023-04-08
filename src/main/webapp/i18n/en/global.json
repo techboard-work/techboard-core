@@ -11,6 +11,7 @@
         "activityKind": "Activity Kind",
         "activity": "Activity",
         "event": "Event",
+        "techConfiguration": "Tech Configuration",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

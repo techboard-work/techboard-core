@@ -1,0 +1,111 @@
+<div>
+  <h2 id="page-heading" data-cy="TechConfigurationHeading">
+    <span jhiTranslate="techboardApp.techConfiguration.home.title">Tech Configurations</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="techboardApp.techConfiguration.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-tech-configuration"
+        [routerLink]="['/tech-configuration/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="techboardApp.techConfiguration.home.createLabel"> Create a new Tech Configuration </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="techConfigurations?.length === 0">
+    <span jhiTranslate="techboardApp.techConfiguration.home.notFound">No Tech Configurations found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="techConfigurations && techConfigurations.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="version">
+            <div class="d-flex">
+              <span jhiTranslate="techboardApp.techConfiguration.version">Version</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="timestamp">
+            <div class="d-flex">
+              <span jhiTranslate="techboardApp.techConfiguration.timestamp">Timestamp</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="content">
+            <div class="d-flex">
+              <span jhiTranslate="techboardApp.techConfiguration.content">Content</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="author.login">
+            <div class="d-flex">
+              <span jhiTranslate="techboardApp.techConfiguration.author">Author</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let techConfiguration of techConfigurations; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/tech-configuration', techConfiguration.id, 'view']">{{ techConfiguration.id }}</a>
+          </td>
+          <td>{{ techConfiguration.version }}</td>
+          <td>{{ techConfiguration.timestamp | formatMediumDatetime }}</td>
+          <td>{{ techConfiguration.content }}</td>
+          <td>
+            {{ techConfiguration.author?.login }}
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/tech-configuration', techConfiguration.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/tech-configuration', techConfiguration.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(techConfiguration)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

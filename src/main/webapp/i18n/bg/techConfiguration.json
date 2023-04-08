@@ -1,0 +1,27 @@
+{
+  "techboardApp": {
+    "techConfiguration": {
+      "home": {
+        "title": "Tech Configurations",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Създайте нов Tech Configuration",
+        "createOrEditLabel": "Създайте или редактирайте Tech Configuration",
+        "notFound": "Tech Configurations не са намерени"
+      },
+      "created": "Създаден е нов Tech Configuration с идентификатор {{ param }}",
+      "updated": "Tech Configuration с идентификатор {{ param }} e oбновен",
+      "deleted": "Tech Configuration с идентификатор {{ param }} е изтрит",
+      "delete": {
+        "question": "Наистина ли искате да изтриете Tech Configuration {{ id }}?"
+      },
+      "detail": {
+        "title": "Tech Configuration"
+      },
+      "id": "ID",
+      "version": "Version",
+      "timestamp": "Timestamp",
+      "content": "Content",
+      "author": "Author"
+    }
+  }
+}
