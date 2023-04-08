@@ -31,14 +31,15 @@ class ActivityServiceImplTest {
         )
     }
 
-    private fun createList(id: Long, dnd: Boolean = false, finished: Instant? = null) =
+    private fun createList(id: Long, severe: Boolean = false, finished: Instant? = null) =
         Activity(
             id,
             "name$id",
             Instant.ofEpochMilli(base.toEpochMilli() + id),
             finished,
             "http://link/$id",
-            dnd
+            false,
+            if (severe) 1 else 5
         )
 
     @Test

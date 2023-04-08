@@ -81,7 +81,9 @@ class ActivityServiceImpl(
     override fun getCurrentActivities(timestamp: Instant, envs: List<Long>): List<Activity> {
         log.debug("Request to get Activities for: $envs")
         val sorted = activityRepository.findCurrentIn(timestamp, envs)
-        val (flagged, usual) = sorted.partition { activity: Activity -> activity.doNotDisturb!! }
+        // TODO configure the severity limit
+        val limit = 3
+        val (flagged, usual) = sorted.partition { activity: Activity -> activity.severity!! <= limit }
         log.debug("${sorted.size} Activities found.")
         return flagged + usual
     }
