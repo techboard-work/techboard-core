@@ -10,12 +10,12 @@ import java.time.Instant
 import kotlin.test.assertEquals
 
 /**
- * Unit tests for [ActivityServiceImpl].
+ * Unit tests for [ActivityService].
  */
-class ActivityServiceImplTest {
+class ActivityServiceTest {
 
     private val activityRepository: ActivityRepository = mock(ActivityRepository::class.java)
-    val service: ActivityService = ActivityServiceImpl(activityRepository)
+    val service: ActivityService = ActivityService(activityRepository)
     private val base = Instant.ofEpochMilli(1000000)
 
     private fun createList(): List<Activity> {

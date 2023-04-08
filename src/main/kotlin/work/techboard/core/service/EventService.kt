@@ -1,55 +1,69 @@
 package work.techboard.core.service
+
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import work.techboard.core.domain.Event
-import java.util.Optional
+import work.techboard.core.repository.EventRepository
+import java.util.*
 
 /**
- * Service Interface for managing [Event].
+ * Service Implementation for managing [Event].
  */
-interface EventService {
+@Service
+@Transactional
+class EventService(
+    private val eventRepository: EventRepository,
+) {
 
-    /**
-     * Save a event.
-     *
-     * @param event the entity to save.
-     * @return the persisted entity.
-     */
-    fun save(event: Event): Event
+    private val log = LoggerFactory.getLogger(javaClass)
 
-    /**
-     * Updates a event.
-     *
-     * @param event the entity to update.
-     * @return the persisted entity.
-     */
-    fun update(event: Event): Event
+    fun save(event: Event): Event {
+        log.debug("Request to save Event : $event")
+        return eventRepository.save(event)
+    }
 
-    /**
-     * Partially updates a event.
-     *
-     * @param event the entity to update partially.
-     * @return the persisted entity.
-     */
-    fun partialUpdate(event: Event): Optional<Event>
+    fun update(event: Event): Event {
+        log.debug("Request to update Event : {}", event)
+        return eventRepository.save(event)
+    }
 
-    /**
-     * Get all the events.
-     *
-     * @return the list of entities.
-     */
-    fun findAll(): MutableList<Event>
+    fun partialUpdate(event: Event): Optional<Event> {
+        log.debug("Request to partially update Event : {}", event)
 
-    /**
-     * Get the "id" event.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
-    fun findOne(id: Long): Optional<Event>
+        return eventRepository.findById(event.id)
+            .map {
 
-    /**
-     * Delete the "id" event.
-     *
-     * @param id the id of the entity.
-     */
-    fun delete(id: Long)
+                if (event.message != null) {
+                    it.message = event.message
+                }
+                if (event.receivedOn != null) {
+                    it.receivedOn = event.receivedOn
+                }
+                if (event.link != null) {
+                    it.link = event.link
+                }
+
+                it
+            }
+            .map { eventRepository.save(it) }
+    }
+
+    @Transactional(readOnly = true)
+    fun findAll(): MutableList<Event> {
+        log.debug("Request to get all Events")
+        return eventRepository.findAll()
+    }
+
+    @Transactional(readOnly = true)
+    fun findOne(id: Long): Optional<Event> {
+        log.debug("Request to get Event : $id")
+        return eventRepository.findById(id)
+    }
+
+    fun delete(id: Long) {
+        log.debug("Request to delete Event : $id")
+
+        eventRepository.deleteById(id)
+    }
 }

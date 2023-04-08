@@ -1,65 +1,86 @@
 package work.techboard.core.service
+
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import work.techboard.core.domain.Activity
+import work.techboard.core.repository.ActivityRepository
 import java.time.Instant
-import java.util.Optional
+import java.util.*
 
 /**
- * Service Interface for managing [Activity].
+ * Service Implementation for managing [Activity].
  */
-interface ActivityService {
+@Service
+@Transactional
+class ActivityService(
+    private val activityRepository: ActivityRepository,
+) {
 
-    /**
-     * Save a activity.
-     *
-     * @param activity the entity to save.
-     * @return the persisted entity.
-     */
-    fun save(activity: Activity): Activity
+    private val log = LoggerFactory.getLogger(javaClass)
 
-    /**
-     * Updates a activity.
-     *
-     * @param activity the entity to update.
-     * @return the persisted entity.
-     */
-    fun update(activity: Activity): Activity
+    fun save(activity: Activity): Activity {
+        log.debug("Request to save Activity : $activity")
+        return activityRepository.save(activity)
+    }
 
-    /**
-     * Partially updates a activity.
-     *
-     * @param activity the entity to update partially.
-     * @return the persisted entity.
-     */
-    fun partialUpdate(activity: Activity): Optional<Activity>
+    fun update(activity: Activity): Activity {
+        log.debug("Request to update Activity : {}", activity)
+        return activityRepository.save(activity)
+    }
 
-    /**
-     * Get all the activities.
-     *
-     * @return the list of entities.
-     */
-    fun findAll(): MutableList<Activity>
+    fun partialUpdate(activity: Activity): Optional<Activity> {
+        log.debug("Request to partially update Activity : {}", activity)
 
-    /**
-     * Get the "id" activity.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
-    fun findOne(id: Long): Optional<Activity>
+        return activityRepository.findById(activity.id)
+            .map {
 
-    /**
-     * Delete the "id" activity.
-     *
-     * @param id the id of the entity.
-     */
-    fun delete(id: Long)
+                if (activity.name != null) {
+                    it.name = activity.name
+                }
+                if (activity.startedOn != null) {
+                    it.startedOn = activity.startedOn
+                }
+                if (activity.finishedOn != null) {
+                    it.finishedOn = activity.finishedOn
+                }
+                if (activity.link != null) {
+                    it.link = activity.link
+                }
+                if (activity.severity != null) {
+                    it.severity = activity.severity
+                }
 
-    /**
-     * Get al the activities which are open/active
-     * (started and not finished for the given timestamp)
-     * for the provided Environments
-     * @param timestamp - the moment of time (should be current time normally)
-     * @param envs - Environment IDs
-     */
-    fun getCurrentActivities(timestamp: Instant, envs: List<Long>): List<Activity>
+                it
+            }
+            .map { activityRepository.save(it) }
+    }
+
+    @Transactional(readOnly = true)
+    fun findAll(): MutableList<Activity> {
+        log.debug("Request to get all Activities")
+        return activityRepository.findAll()
+    }
+
+    @Transactional(readOnly = true)
+    fun findOne(id: Long): Optional<Activity> {
+        log.debug("Request to get Activity : $id")
+        return activityRepository.findById(id)
+    }
+
+    fun delete(id: Long) {
+        log.debug("Request to delete Activity : $id")
+
+        activityRepository.deleteById(id)
+    }
+
+    fun getCurrentActivities(timestamp: Instant, envs: List<Long>): List<Activity> {
+        log.debug("Request to get Activities for: $envs")
+        val sorted = activityRepository.findCurrentIn(timestamp, envs)
+        // TODO configure the severity limit
+        val limit = 3
+        val (flagged, usual) = sorted.partition { activity: Activity -> activity.severity!! <= limit }
+        log.debug("${sorted.size} Activities found.")
+        return flagged + usual
+    }
 }
