@@ -8,7 +8,6 @@
 - manage activities
 - see events
 - manage events
-- indicate doNotDisturb
 
 ### Activity
 
