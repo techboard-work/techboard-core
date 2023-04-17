@@ -110,6 +110,17 @@
             <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
             <column name="severity" value="1"/>
         </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="1102"/>
+            <column name="name" value="E2E test 2"/>
+            <column name="started_on" valueDate="2023-04-05T11:45:00"/>
+            <column name="finished_on"/>
+            <column name="link"/>
+            <column name="environment_id" valueNumeric="1053"/>
+            <column name="kind_id" valueNumeric="1001"/>
+            <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="severity" value="2"/>
+        </insert>
     </changeSet>
     <changeSet author="asomov" id="1680858080694-5">
         <insert tableName="event">
