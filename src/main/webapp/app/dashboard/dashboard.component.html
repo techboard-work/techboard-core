@@ -4,19 +4,23 @@
       <div class="col">
         <div class="card">
           <div class="card-header" [ngStyle]="{ background: env.color }">
-            <div class="env-name">
-              {{ env.name }}
-              <span class="badge rounded-pill text-bg-secondary">{{ env.label }}</span>
-            </div>
+            <div class="env-name">{{ env.name }}</div>
           </div>
-          <div class="card-body card-content-min-height">
+          <div class="card-body">
             <p class="card-text">{{ env.description }}</p>
           </div>
+
           <div class="card-body">
-            <a href="{{ env.link }}" class="card-link">Go to {{ env.name }}</a>
+            <jhi-activities [activities]="env.activities"></jhi-activities>
           </div>
-          <div class="card-body">
-            <button type="button" class="btn btn-primary">Do something</button>
+
+          <div class="card-body d-flex justify-content-between">
+            <button type="button" class="btn btn-primary" ngbTooltip="Open a modal window to add new activity for the environments.">
+              Add activity
+            </button>
+            <button type="button" class="btn btn-link" [ngbTooltip]="'Open the environment page with all info on the ' + env.name">
+              Go to {{ env.name }} <fa-icon icon="chevron-right"></fa-icon>
+            </button>
           </div>
         </div>
       </div>
