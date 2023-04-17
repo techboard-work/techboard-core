@@ -1,11 +1,10 @@
-package work.techboard.core.service.impl
+package work.techboard.core.service
 
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import work.techboard.core.domain.Activity
 import work.techboard.core.repository.ActivityRepository
-import work.techboard.core.service.ActivityService
 import java.time.Instant
 import kotlin.test.assertEquals
 

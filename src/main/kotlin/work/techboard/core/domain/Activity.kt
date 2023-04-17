@@ -102,6 +102,9 @@ data class Activity(
             ", finishedOn='" + finishedOn + "'" +
             ", link='" + link + "'" +
             ", severity=" + severity +
+            ", kind=" + kind +
+            ", owner=" + owner +
+            ", environment=" + environment +
             "}"
     }
 

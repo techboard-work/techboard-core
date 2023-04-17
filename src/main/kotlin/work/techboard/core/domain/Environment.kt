@@ -55,8 +55,6 @@ data class Environment(
     @JsonIgnoreProperties(
         value = [
             "environment",
-            "kind",
-            "owner",
         ],
         allowSetters = true
     )
@@ -66,7 +64,6 @@ data class Environment(
     @JsonIgnoreProperties(
         value = [
             "environment",
-            "reporter",
         ],
         allowSetters = true
     )

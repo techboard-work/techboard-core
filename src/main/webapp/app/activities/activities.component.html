@@ -23,7 +23,9 @@
     </button>
     <span *ngIf="activity.finishedOn"
       >started by
-      <span class="fw-bold" ngbTooltip="Some information about the user.Could be clickable to offer some contact possibilities.">USER</span
+      <span class="fw-bold" ngbTooltip="Some information about the user.Could be clickable to offer some contact possibilities.">{{
+        activity.owner.lastName
+      }}</span
       >.</span
     >
     <span *ngIf="activity.finishedOn"
