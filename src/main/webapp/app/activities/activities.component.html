@@ -1,4 +1,4 @@
-<div class="fw-bold mb-2">Activities :</div>
+<div class="fw-bold mb-2">Current activities:</div>
 <div *ngIf="activities && activities.length; else noActivities">
   <div *ngFor="let activity of activities" class="mb-2">
     <ng-template #popTitle>
@@ -26,10 +26,10 @@
       <span class="fw-bold" ngbTooltip="Some information about the user.Could be clickable to offer some contact possibilities.">{{
         activity.owner.lastName
       }}</span
-      >.</span
+      >,</span
     >
     <span *ngIf="activity.finishedOn"
-      >ends <span>{{ activity.finishedOn | date: 'MMM d H:mm' }}</span></span
+      >ends <span>{{ activity.finishedOn | date: 'MMM d' }}</span></span
     >
   </div>
 </div>
