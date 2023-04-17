@@ -3,11 +3,9 @@
     <ng-container *ngFor="let env of environmets$ | async">
       <div class="col">
         <div class="card">
-          <div class="card-header" [ngStyle]="{ background: env.color }">
+          <div class="card-header" [ngStyle]="{ background: env.color }" ngbTooltip="{{ env.description }}">
             <div class="env-name">{{ env.name }}</div>
-          </div>
-          <div class="card-body">
-            <p class="card-text">{{ env.description }}</p>
+            {{ env.label }}
           </div>
 
           <div class="card-body">
