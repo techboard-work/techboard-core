@@ -55,3 +55,20 @@ Stop infra:
 ### Angular
 
 [Using Angular](https://www.jhipster.tech/using-angular/)
+
+
+### Export users
+
+Connect to the container (mind the name):
+
+    docker exec -it 315c16bce81a bash
+
+Export to files:
+
+    /opt/keycloak/bin/kc.sh export --dir /tmp/export1/ --users different_files
+
+Download from container
+
+    docker cp 315c16bce81a:/tmp/export1 .
+
+Copy and paster users from `jhipster-users-0.json`

@@ -2309,6 +2309,73 @@
       "groups": ["/Admins", "/Users"]
     },
     {
+      "id": "1129e8d0-b847-45af-94af-04370c607eb6",
+      "createdTimestamp": 1682414154730,
+      "username": "developer1",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "John",
+      "lastName": "Gates",
+      "email": "developer1@localhost.com",
+      "credentials": [
+        {
+          "id": "6b090eae-e0f8-43c0-a0dc-3e66abf0ed4b",
+          "type": "password",
+          "userLabel": "My password",
+          "createdDate": 1682414210159,
+          "secretData": "{\"value\":\"XTTXJSc+AQxLGQ0eSTQjUWWuxa3GUnmO8pW8KrJrgijeSg29ceHg5KVY/F9QvZgIgOKIqH/rxWSnDRlmHFnDsQ==\",\"salt\":\"0qU0loEZ1gYq2Ph71zAc9Q==\",\"additionalParameters\":{}}",
+          "credentialData": "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-jhipster"],
+      "notBefore": 0,
+      "groups": ["/Users"]
+    },
+    {
+      "id": "fe0e3da5-9b57-4207-8d03-73f12e786ffe",
+      "createdTimestamp": 1682427614011,
+      "username": "developer2",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Jack",
+      "lastName": "Nicholson",
+      "email": "developer2@localhost.com",
+      "credentials": [
+        {
+          "id": "8d1721d1-6b8d-406a-aac2-51bf70a961d8",
+          "type": "password",
+          "userLabel": "My password",
+          "createdDate": 1682428366590,
+          "secretData": "{\"value\":\"wKZkD7mkm5Xe1wUdiaB/nn45JEOCLGZFBJyLK/vQZF8qmTyApZ2mesMGrUWNNTxyrgeeMI3ZJA1RLGXSNm/hnQ==\",\"salt\":\"uk2yGXfpPE42dA7LI2neBg==\",\"additionalParameters\":{}}",
+          "credentialData": "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-jhipster"],
+      "notBefore": 0,
+      "groups": ["/Users"]
+    },
+    {
+      "id": "0ae8595f-4541-41c2-85ee-7e85d70def5d",
+      "createdTimestamp": 1681815613186,
+      "username": "service-account-internal",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "serviceAccountClientId": "internal",
+      "credentials": [],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-jhipster"],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
       "id": "c4af4e2f-b432-4c3b-8405-cca86cd5b97b",
       "createdTimestamp": 1505479373742,
       "username": "user",
