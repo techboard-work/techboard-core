@@ -57,6 +57,16 @@ Stop infra:
 [Using Angular](https://www.jhipster.tech/using-angular/)
 
 
+### Current users
+
+List username:password
+
+- admin:admin
+- user:user
+- developer1:developer1
+- developer2:developer2
+
+
 ### Export users
 
 Connect to the container (mind the name):
