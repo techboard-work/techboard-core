@@ -1,0 +1,47 @@
+{
+  "applications": "*",
+  "changelogDate": "20230502061949",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "environment",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "color",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "level",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "link",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Environment",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "activity",
+      "otherEntityRelationshipName": "environment",
+      "relationshipName": "activity",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

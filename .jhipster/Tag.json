@@ -1,0 +1,56 @@
+{
+  "applications": "*",
+  "changelogDate": "20230502061950",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "tag",
+  "fields": [
+    {
+      "fieldName": "tag",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "order",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "color",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "icon",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "link",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Tag",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "activity",
+      "otherEntityRelationshipName": "tag",
+      "ownerSide": false,
+      "relationshipName": "activity",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Activity.
+    -->
+    <changeSet id="20230502061951-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="activity_id"
+                                 baseTableName="rel_activity__tag"
+                                 constraintName="fk_rel_activity__tag__activity_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="activity"/>
+
+        <addForeignKeyConstraint baseColumnNames="tag_id"
+                                 baseTableName="rel_activity__tag"
+                                 constraintName="fk_rel_activity__tag__tag_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tag"/>
+
+        <addForeignKeyConstraint baseColumnNames="environment_id"
+                                 baseTableName="activity"
+                                 constraintName="fk_activity__environment_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="environment"/>
+
+        <addForeignKeyConstraint baseColumnNames="owner_id"
+                                 baseTableName="activity"
+                                 constraintName="fk_activity__owner_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+    </changeSet>
+</databaseChangeLog>

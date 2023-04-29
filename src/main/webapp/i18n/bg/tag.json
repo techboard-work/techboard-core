@@ -1,0 +1,31 @@
+{
+  "techboardApp": {
+    "tag": {
+      "home": {
+        "title": "Tags",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Създайте нов Tag",
+        "createOrEditLabel": "Създайте или редактирайте Tag",
+        "notFound": "Tags не са намерени"
+      },
+      "created": "Създаден е нов Tag с идентификатор {{ param }}",
+      "updated": "Tag с идентификатор {{ param }} e oбновен",
+      "deleted": "Tag с идентификатор {{ param }} е изтрит",
+      "delete": {
+        "question": "Наистина ли искате да изтриете Tag {{ id }}?"
+      },
+      "detail": {
+        "title": "Tag"
+      },
+      "id": "ID",
+      "tag": "Tag",
+      "order": "Order",
+      "color": "Color",
+      "active": "Active",
+      "description": "Description",
+      "icon": "Icon",
+      "link": "Link",
+      "activity": "Activity"
+    }
+  }
+}

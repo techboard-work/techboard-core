@@ -1,0 +1,64 @@
+{
+  "applications": "*",
+  "changelogDate": "20230502061951",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "activity",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "startedOn",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "finishedOn",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "link",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "flagged",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Activity",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "tag",
+      "otherEntityRelationshipName": "activity",
+      "ownerSide": true,
+      "relationshipName": "tag",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "environment",
+      "otherEntityRelationshipName": "activity",
+      "relationshipName": "environment",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "activity",
+      "relationshipName": "owner",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

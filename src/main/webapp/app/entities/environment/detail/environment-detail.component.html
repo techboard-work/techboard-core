@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="environment">
+      <h2 data-cy="environmentDetailsHeading"><span jhiTranslate="techboardApp.environment.detail.title">Environment</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ environment.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.environment.name">Name</span></dt>
+        <dd>
+          <span>{{ environment.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.environment.code">Code</span></dt>
+        <dd>
+          <span>{{ environment.code }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.environment.color">Color</span></dt>
+        <dd>
+          <span>{{ environment.color }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.environment.level">Level</span></dt>
+        <dd>
+          <span>{{ environment.level }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.environment.link">Link</span></dt>
+        <dd>
+          <span>{{ environment.link }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/environment', environment.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="activity">
+      <h2 data-cy="activityDetailsHeading"><span jhiTranslate="techboardApp.activity.detail.title">Activity</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ activity.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.name">Name</span></dt>
+        <dd>
+          <span>{{ activity.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.startedOn">Started On</span></dt>
+        <dd>
+          <span>{{ activity.startedOn | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.finishedOn">Finished On</span></dt>
+        <dd>
+          <span>{{ activity.finishedOn | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.description">Description</span></dt>
+        <dd>
+          <span>{{ activity.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.link">Link</span></dt>
+        <dd>
+          <span>{{ activity.link }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.flagged">Flagged</span></dt>
+        <dd>
+          <span>{{ activity.flagged }}</span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.tag">Tag</span></dt>
+        <dd>
+          <span *ngFor="let tag of activity.tags; let last = last">
+            <a [routerLink]="['/tag', tag.id, 'view']">{{ tag.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.environment">Environment</span></dt>
+        <dd>
+          <div *ngIf="activity.environment">
+            <a [routerLink]="['/environment', activity.environment.id, 'view']">{{ activity.environment.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="techboardApp.activity.owner">Owner</span></dt>
+        <dd>
+          <span>{{ activity.owner?.id }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/activity', activity.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

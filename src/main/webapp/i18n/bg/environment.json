@@ -1,0 +1,29 @@
+{
+  "techboardApp": {
+    "environment": {
+      "home": {
+        "title": "Environments",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Създайте нов Environment",
+        "createOrEditLabel": "Създайте или редактирайте Environment",
+        "notFound": "Environments не са намерени"
+      },
+      "created": "Създаден е нов Environment с идентификатор {{ param }}",
+      "updated": "Environment с идентификатор {{ param }} e oбновен",
+      "deleted": "Environment с идентификатор {{ param }} е изтрит",
+      "delete": {
+        "question": "Наистина ли искате да изтриете Environment {{ id }}?"
+      },
+      "detail": {
+        "title": "Environment"
+      },
+      "id": "ID",
+      "name": "Name",
+      "code": "Code",
+      "color": "Color",
+      "level": "Level",
+      "link": "Link",
+      "activity": "Activity"
+    }
+  }
+}
