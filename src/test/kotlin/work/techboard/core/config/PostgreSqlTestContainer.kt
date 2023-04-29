@@ -20,7 +20,7 @@ class PostgreSqlTestContainer : SqlTestContainer {
 
     override fun afterPropertiesSet() {
         if (null == postgreSQLContainer) {
-            postgreSQLContainer = PostgreSQLContainer("postgres:14.5")
+            postgreSQLContainer = PostgreSQLContainer("postgres:14.7-alpine")
                 .withDatabaseName("techboard")
                 .withTmpFs(Collections.singletonMap("/testtmpfs", "rw"))
                 .withLogConsumer(Slf4jLogConsumer(log))
