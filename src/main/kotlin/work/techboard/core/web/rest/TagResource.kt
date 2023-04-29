@@ -1,22 +1,20 @@
 package work.techboard.core.web.rest
 
-import work.techboard.core.domain.Tag
-import work.techboard.core.repository.TagRepository
-import work.techboard.core.service.TagService
-import work.techboard.core.web.rest.errors.BadRequestAlertException
-
-import tech.jhipster.web.util.HeaderUtil
-import tech.jhipster.web.util.ResponseUtil
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
+import tech.jhipster.web.util.HeaderUtil
+import tech.jhipster.web.util.ResponseUtil
+import work.techboard.core.domain.Tag
+import work.techboard.core.repository.TagRepository
+import work.techboard.core.service.TagService
+import work.techboard.core.web.rest.errors.BadRequestAlertException
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.Objects
+import javax.validation.Valid
+import javax.validation.constraints.NotNull
 
 private const val ENTITY_NAME = "tag"
 /**
@@ -25,8 +23,8 @@ private const val ENTITY_NAME = "tag"
 @RestController
 @RequestMapping("/api")
 class TagResource(
-        private val tagService: TagService,
-        private val tagRepository: TagRepository,
+    private val tagService: TagService,
+    private val tagRepository: TagRepository,
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -55,7 +53,7 @@ class TagResource(
             )
         }
         val result = tagService.save(tag)
-            return ResponseEntity.created(URI("/api/tags/${result.id}"))
+        return ResponseEntity.created(URI("/api/tags/${result.id}"))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
             .body(result)
     }
@@ -84,7 +82,6 @@ class TagResource(
             throw BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid")
         }
 
-
         if (!tagRepository.existsById(id)) {
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
@@ -94,28 +91,28 @@ class TagResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     tag.id.toString()
+                    tag.id.toString()
                 )
             )
             .body(result)
     }
 
     /**
-    * {@code PATCH  /tags/:id} : Partial updates given fields of an existing tag, field will ignore if it is null
-    *
-    * @param id the id of the tag to save.
-    * @param tag the tag to update.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated tag,
-    * or with status {@code 400 (Bad Request)} if the tag is not valid,
-    * or with status {@code 404 (Not Found)} if the tag is not found,
-    * or with status {@code 500 (Internal Server Error)} if the tag couldn't be updated.
-    * @throws URISyntaxException if the Location URI syntax is incorrect.
-    */
+     * {@code PATCH  /tags/:id} : Partial updates given fields of an existing tag, field will ignore if it is null
+     *
+     * @param id the id of the tag to save.
+     * @param tag the tag to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated tag,
+     * or with status {@code 400 (Bad Request)} if the tag is not valid,
+     * or with status {@code 404 (Not Found)} if the tag is not found,
+     * or with status {@code 500 (Internal Server Error)} if the tag couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
     @PatchMapping(value = ["/tags/{id}"], consumes = ["application/json", "application/merge-patch+json"])
     @Throws(URISyntaxException::class)
     fun partialUpdateTag(
         @PathVariable(value = "id", required = false) id: Long,
-        @NotNull @RequestBody tag:Tag
+        @NotNull @RequestBody tag: Tag
     ): ResponseEntity<Tag> {
         log.debug("REST request to partial update Tag partially : {}, {}", id, tag)
         if (tag.id == null) {
@@ -129,9 +126,7 @@ class TagResource(
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
 
-
-
-            val result = tagService.partialUpdate(tag)
+        val result = tagService.partialUpdate(tag)
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -145,15 +140,12 @@ class TagResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of tags in body.
      */
-    @GetMapping("/tags")    
-    fun getAllTags(): MutableList<Tag> {
-        
-        
+    @GetMapping("/tags") fun getAllTags(): MutableList<Tag> {
 
-            log.debug("REST request to get all Tags")
-            
-            return tagService.findAll()
-                }
+        log.debug("REST request to get all Tags")
+
+        return tagService.findAll()
+    }
 
     /**
      * `GET  /tags/:id` : get the "id" tag.

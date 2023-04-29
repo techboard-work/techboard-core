@@ -1,12 +1,11 @@
 package work.techboard.core.repository
 
-import work.techboard.core.domain.Activity
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
+import work.techboard.core.domain.Activity
 import java.util.Optional
 
 /**
@@ -21,12 +20,12 @@ interface ActivityRepository : ActivityRepositoryWithBagRelationships, JpaReposi
     @Query("select activity from Activity activity where activity.owner.login = ?#{principal.preferredUsername}")
     fun findByOwnerIsCurrentUser(): MutableList<Activity>
 
-    @JvmDefault fun findOneWithEagerRelationships(id: Long): Optional<Activity>  {
+    @JvmDefault fun findOneWithEagerRelationships(id: Long): Optional<Activity> {
         return this.fetchBagRelationships(this.findById(id))
     }
 
     @JvmDefault fun findAllWithEagerRelationships(): MutableList<Activity> {
-        return this.fetchBagRelationships(this.findAll())  
+        return this.fetchBagRelationships(this.findAll())
     }
 
     @JvmDefault fun findAllWithEagerRelationships(pageable: Pageable): Page<Activity> {

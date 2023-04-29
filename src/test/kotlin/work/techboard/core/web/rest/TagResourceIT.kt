@@ -1,36 +1,28 @@
 package work.techboard.core.web.rest
 
-
-import work.techboard.core.IntegrationTest
-import work.techboard.core.domain.Tag
-import work.techboard.core.repository.TagRepository
-import kotlin.test.assertNotNull
+import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.transaction.annotation.Transactional
-import org.springframework.validation.Validator
-import javax.persistence.EntityManager
-import java.util.Random
-import java.util.concurrent.atomic.AtomicLong
-import java.util.stream.Stream
-
-import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matchers.hasItem
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-
-
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.validation.Validator
+import work.techboard.core.IntegrationTest
+import work.techboard.core.domain.Tag
+import work.techboard.core.repository.TagRepository
+import java.util.Random
+import java.util.concurrent.atomic.AtomicLong
+import javax.persistence.EntityManager
+import kotlin.test.assertNotNull
 
 /**
  * Integration tests for the [TagResource] REST controller.
@@ -51,21 +43,17 @@ class TagResourceIT {
     @Autowired
     private lateinit var validator: Validator
 
-
     @Autowired
     private lateinit var em: EntityManager
-
 
     @Autowired
     private lateinit var restTagMockMvc: MockMvc
 
-    private lateinit var tag: Tag
-
-
+    private lateinit var theTag: Tag
 
     @BeforeEach
     fun initTest() {
-        tag = createEntity(em)
+        theTag = createEntity(em)
     }
 
     @Test
@@ -77,7 +65,7 @@ class TagResourceIT {
         restTagMockMvc.perform(
             post(ENTITY_API_URL).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(convertObjectToJsonBytes(tag))
+                .content(convertObjectToJsonBytes(theTag))
         ).andExpect(status().isCreated)
 
         // Validate the Tag in the database
@@ -99,14 +87,14 @@ class TagResourceIT {
     @Throws(Exception::class)
     fun createTagWithExistingId() {
         // Create the Tag with an existing ID
-        tag.id = 1L
+        theTag.id = 1L
 
         val databaseSizeBeforeCreate = tagRepository.findAll().size
         // An entity with an existing ID cannot be created, so this API call must fail
         restTagMockMvc.perform(
             post(ENTITY_API_URL).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(convertObjectToJsonBytes(tag))
+                .content(convertObjectToJsonBytes(theTag))
         ).andExpect(status().isBadRequest)
 
         // Validate the Tag in the database
@@ -120,14 +108,14 @@ class TagResourceIT {
     fun checkTagIsRequired() {
         val databaseSizeBeforeTest = tagRepository.findAll().size
         // set the field null
-        tag.tag = null
+        theTag.tag = null
 
         // Create the Tag, which fails.
 
         restTagMockMvc.perform(
             post(ENTITY_API_URL).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(convertObjectToJsonBytes(tag))
+                .content(convertObjectToJsonBytes(theTag))
         ).andExpect(status().isBadRequest)
 
         val tagList = tagRepository.findAll()
@@ -139,14 +127,14 @@ class TagResourceIT {
     fun checkOrderIsRequired() {
         val databaseSizeBeforeTest = tagRepository.findAll().size
         // set the field null
-        tag.order = null
+        theTag.order = null
 
         // Create the Tag, which fails.
 
         restTagMockMvc.perform(
             post(ENTITY_API_URL).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(convertObjectToJsonBytes(tag))
+                .content(convertObjectToJsonBytes(theTag))
         ).andExpect(status().isBadRequest)
 
         val tagList = tagRepository.findAll()
@@ -158,14 +146,14 @@ class TagResourceIT {
     fun checkColorIsRequired() {
         val databaseSizeBeforeTest = tagRepository.findAll().size
         // set the field null
-        tag.color = null
+        theTag.color = null
 
         // Create the Tag, which fails.
 
         restTagMockMvc.perform(
             post(ENTITY_API_URL).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(convertObjectToJsonBytes(tag))
+                .content(convertObjectToJsonBytes(theTag))
         ).andExpect(status().isBadRequest)
 
         val tagList = tagRepository.findAll()
@@ -177,14 +165,14 @@ class TagResourceIT {
     fun checkActiveIsRequired() {
         val databaseSizeBeforeTest = tagRepository.findAll().size
         // set the field null
-        tag.active = null
+        theTag.active = null
 
         // Create the Tag, which fails.
 
         restTagMockMvc.perform(
             post(ENTITY_API_URL).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(convertObjectToJsonBytes(tag))
+                .content(convertObjectToJsonBytes(theTag))
         ).andExpect(status().isBadRequest)
 
         val tagList = tagRepository.findAll()
@@ -196,43 +184,45 @@ class TagResourceIT {
     @Throws(Exception::class)
     fun getAllTags() {
         // Initialize the database
-        tagRepository.saveAndFlush(tag)
+        tagRepository.saveAndFlush(theTag)
 
         // Get all the tagList
-        restTagMockMvc.perform(get(ENTITY_API_URL+ "?sort=id,desc"))
+        restTagMockMvc.perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(tag.id?.toInt())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(theTag.id?.toInt())))
             .andExpect(jsonPath("$.[*].tag").value(hasItem(DEFAULT_TAG)))
             .andExpect(jsonPath("$.[*].order").value(hasItem(DEFAULT_ORDER)))
             .andExpect(jsonPath("$.[*].color").value(hasItem(DEFAULT_COLOR)))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].icon").value(hasItem(DEFAULT_ICON)))
-            .andExpect(jsonPath("$.[*].link").value(hasItem(DEFAULT_LINK)))    }
-    
+            .andExpect(jsonPath("$.[*].link").value(hasItem(DEFAULT_LINK)))
+    }
+
     @Test
     @Transactional
     @Throws(Exception::class)
     fun getTag() {
         // Initialize the database
-        tagRepository.saveAndFlush(tag)
+        tagRepository.saveAndFlush(theTag)
 
-        val id = tag.id
+        val id = theTag.id
         assertNotNull(id)
 
         // Get the tag
-        restTagMockMvc.perform(get(ENTITY_API_URL_ID, tag.id))
+        restTagMockMvc.perform(get(ENTITY_API_URL_ID, theTag.id))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(tag.id?.toInt()))
+            .andExpect(jsonPath("$.id").value(theTag.id?.toInt()))
             .andExpect(jsonPath("$.tag").value(DEFAULT_TAG))
             .andExpect(jsonPath("$.order").value(DEFAULT_ORDER))
             .andExpect(jsonPath("$.color").value(DEFAULT_COLOR))
             .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.icon").value(DEFAULT_ICON))
-            .andExpect(jsonPath("$.link").value(DEFAULT_LINK))    }
+            .andExpect(jsonPath("$.link").value(DEFAULT_LINK))
+    }
     @Test
     @Transactional
     @Throws(Exception::class)
@@ -245,12 +235,12 @@ class TagResourceIT {
     @Transactional
     fun putExistingTag() {
         // Initialize the database
-        tagRepository.saveAndFlush(tag)
+        tagRepository.saveAndFlush(theTag)
 
         val databaseSizeBeforeUpdate = tagRepository.findAll().size
 
         // Update the tag
-        val updatedTag = tagRepository.findById(tag.id).get()
+        val updatedTag = tagRepository.findById(theTag.id).get()
         // Disconnect from session so that the updates on updatedTag are not directly saved in db
         em.detach(updatedTag)
         updatedTag.tag = UPDATED_TAG
@@ -284,13 +274,14 @@ class TagResourceIT {
     @Transactional
     fun putNonExistingTag() {
         val databaseSizeBeforeUpdate = tagRepository.findAll().size
-        tag.id = count.incrementAndGet()
-
+        theTag.id = count.incrementAndGet()
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restTagMockMvc.perform(put(ENTITY_API_URL_ID, tag.id).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertObjectToJsonBytes(tag)))
+        restTagMockMvc.perform(
+            put(ENTITY_API_URL_ID, theTag.id).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(theTag))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Tag in the database
@@ -303,13 +294,13 @@ class TagResourceIT {
     @Throws(Exception::class)
     fun putWithIdMismatchTag() {
         val databaseSizeBeforeUpdate = tagRepository.findAll().size
-        tag.id = count.incrementAndGet()
+        theTag.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restTagMockMvc.perform(
             put(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(convertObjectToJsonBytes(tag))
+                .content(convertObjectToJsonBytes(theTag))
         ).andExpect(status().isBadRequest)
 
         // Validate the Tag in the database
@@ -322,12 +313,14 @@ class TagResourceIT {
     @Throws(Exception::class)
     fun putWithMissingIdPathParamTag() {
         val databaseSizeBeforeUpdate = tagRepository.findAll().size
-        tag.id = count.incrementAndGet()
+        theTag.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restTagMockMvc.perform(put(ENTITY_API_URL).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertObjectToJsonBytes(tag)))
+        restTagMockMvc.perform(
+            put(ENTITY_API_URL).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(theTag))
+        )
             .andExpect(status().isMethodNotAllowed)
 
         // Validate the Tag in the database
@@ -339,93 +332,93 @@ class TagResourceIT {
     @Transactional
     @Throws(Exception::class)
     fun partialUpdateTagWithPatch() {
-        tagRepository.saveAndFlush(tag)
-        
-        
-val databaseSizeBeforeUpdate = tagRepository.findAll().size
+        tagRepository.saveAndFlush(theTag)
+
+        val databaseSizeBeforeUpdate = tagRepository.findAll().size
 
 // Update the tag using partial update
-val partialUpdatedTag = Tag().apply {
-    id = tag.id
+        val partialUpdatedTag = Tag().apply {
+            id = theTag.id
 
-    
-        order = UPDATED_ORDER
-        color = UPDATED_COLOR
-        active = UPDATED_ACTIVE
-        description = UPDATED_DESCRIPTION
-        icon = UPDATED_ICON
-}
+            order = UPDATED_ORDER
+            color = UPDATED_COLOR
+            active = UPDATED_ACTIVE
+            description = UPDATED_DESCRIPTION
+            icon = UPDATED_ICON
+        }
 
-
-restTagMockMvc.perform(patch(ENTITY_API_URL_ID, partialUpdatedTag.id).with(csrf())
-.contentType("application/merge-patch+json")
-.content(convertObjectToJsonBytes(partialUpdatedTag)))
-.andExpect(status().isOk)
+        restTagMockMvc.perform(
+            patch(ENTITY_API_URL_ID, partialUpdatedTag.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(partialUpdatedTag))
+        )
+            .andExpect(status().isOk)
 
 // Validate the Tag in the database
-val tagList = tagRepository.findAll()
-assertThat(tagList).hasSize(databaseSizeBeforeUpdate)
-val testTag = tagList.last()
-    assertThat(testTag.tag).isEqualTo(DEFAULT_TAG)
-    assertThat(testTag.order).isEqualTo(UPDATED_ORDER)
-    assertThat(testTag.color).isEqualTo(UPDATED_COLOR)
-    assertThat(testTag.active).isEqualTo(UPDATED_ACTIVE)
-    assertThat(testTag.description).isEqualTo(UPDATED_DESCRIPTION)
-    assertThat(testTag.icon).isEqualTo(UPDATED_ICON)
-    assertThat(testTag.link).isEqualTo(DEFAULT_LINK)
+        val tagList = tagRepository.findAll()
+        assertThat(tagList).hasSize(databaseSizeBeforeUpdate)
+        val testTag = tagList.last()
+        assertThat(testTag.tag).isEqualTo(DEFAULT_TAG)
+        assertThat(testTag.order).isEqualTo(UPDATED_ORDER)
+        assertThat(testTag.color).isEqualTo(UPDATED_COLOR)
+        assertThat(testTag.active).isEqualTo(UPDATED_ACTIVE)
+        assertThat(testTag.description).isEqualTo(UPDATED_DESCRIPTION)
+        assertThat(testTag.icon).isEqualTo(UPDATED_ICON)
+        assertThat(testTag.link).isEqualTo(DEFAULT_LINK)
     }
 
     @Test
     @Transactional
     @Throws(Exception::class)
     fun fullUpdateTagWithPatch() {
-        tagRepository.saveAndFlush(tag)
-        
-        
-val databaseSizeBeforeUpdate = tagRepository.findAll().size
+        tagRepository.saveAndFlush(theTag)
+
+        val databaseSizeBeforeUpdate = tagRepository.findAll().size
 
 // Update the tag using partial update
-val partialUpdatedTag = Tag().apply {
-    id = tag.id
+        val partialUpdatedTag = Tag().apply {
+            id = theTag.id
 
-    
-        tag = UPDATED_TAG
-        order = UPDATED_ORDER
-        color = UPDATED_COLOR
-        active = UPDATED_ACTIVE
-        description = UPDATED_DESCRIPTION
-        icon = UPDATED_ICON
-        link = UPDATED_LINK
-}
+            tag = UPDATED_TAG
+            order = UPDATED_ORDER
+            color = UPDATED_COLOR
+            active = UPDATED_ACTIVE
+            description = UPDATED_DESCRIPTION
+            icon = UPDATED_ICON
+            link = UPDATED_LINK
+        }
 
-
-restTagMockMvc.perform(patch(ENTITY_API_URL_ID, partialUpdatedTag.id).with(csrf())
-.contentType("application/merge-patch+json")
-.content(convertObjectToJsonBytes(partialUpdatedTag)))
-.andExpect(status().isOk)
+        restTagMockMvc.perform(
+            patch(ENTITY_API_URL_ID, partialUpdatedTag.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(partialUpdatedTag))
+        )
+            .andExpect(status().isOk)
 
 // Validate the Tag in the database
-val tagList = tagRepository.findAll()
-assertThat(tagList).hasSize(databaseSizeBeforeUpdate)
-val testTag = tagList.last()
-    assertThat(testTag.tag).isEqualTo(UPDATED_TAG)
-    assertThat(testTag.order).isEqualTo(UPDATED_ORDER)
-    assertThat(testTag.color).isEqualTo(UPDATED_COLOR)
-    assertThat(testTag.active).isEqualTo(UPDATED_ACTIVE)
-    assertThat(testTag.description).isEqualTo(UPDATED_DESCRIPTION)
-    assertThat(testTag.icon).isEqualTo(UPDATED_ICON)
-    assertThat(testTag.link).isEqualTo(UPDATED_LINK)
+        val tagList = tagRepository.findAll()
+        assertThat(tagList).hasSize(databaseSizeBeforeUpdate)
+        val testTag = tagList.last()
+        assertThat(testTag.tag).isEqualTo(UPDATED_TAG)
+        assertThat(testTag.order).isEqualTo(UPDATED_ORDER)
+        assertThat(testTag.color).isEqualTo(UPDATED_COLOR)
+        assertThat(testTag.active).isEqualTo(UPDATED_ACTIVE)
+        assertThat(testTag.description).isEqualTo(UPDATED_DESCRIPTION)
+        assertThat(testTag.icon).isEqualTo(UPDATED_ICON)
+        assertThat(testTag.link).isEqualTo(UPDATED_LINK)
     }
 
     @Throws(Exception::class)
     fun patchNonExistingTag() {
         val databaseSizeBeforeUpdate = tagRepository.findAll().size
-        tag.id = count.incrementAndGet()
+        theTag.id = count.incrementAndGet()
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restTagMockMvc.perform(patch(ENTITY_API_URL_ID, tag.id).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(tag)))
+        restTagMockMvc.perform(
+            patch(ENTITY_API_URL_ID, theTag.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(theTag))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Tag in the database
@@ -438,12 +431,14 @@ val testTag = tagList.last()
     @Throws(Exception::class)
     fun patchWithIdMismatchTag() {
         val databaseSizeBeforeUpdate = tagRepository.findAll().size
-        tag.id = count.incrementAndGet()
+        theTag.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restTagMockMvc.perform(patch(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(tag)))
+        restTagMockMvc.perform(
+            patch(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(theTag))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Tag in the database
@@ -456,12 +451,14 @@ val testTag = tagList.last()
     @Throws(Exception::class)
     fun patchWithMissingIdPathParamTag() {
         val databaseSizeBeforeUpdate = tagRepository.findAll().size
-        tag.id = count.incrementAndGet()
+        theTag.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restTagMockMvc.perform(patch(ENTITY_API_URL).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(tag)))
+        restTagMockMvc.perform(
+            patch(ENTITY_API_URL).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(theTag))
+        )
             .andExpect(status().isMethodNotAllowed)
 
         // Validate the Tag in the database
@@ -474,11 +471,11 @@ val testTag = tagList.last()
     @Throws(Exception::class)
     fun deleteTag() {
         // Initialize the database
-        tagRepository.saveAndFlush(tag)
+        tagRepository.saveAndFlush(theTag)
         val databaseSizeBeforeDelete = tagRepository.findAll().size
         // Delete the tag
         restTagMockMvc.perform(
-            delete(ENTITY_API_URL_ID, tag.id).with(csrf())
+            delete(ENTITY_API_URL_ID, theTag.id).with(csrf())
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNoContent)
 
@@ -486,7 +483,6 @@ val testTag = tagList.last()
         val tagList = tagRepository.findAll()
         assertThat(tagList).hasSize(databaseSizeBeforeDelete - 1)
     }
-
 
     companion object {
 
@@ -511,15 +507,11 @@ val testTag = tagList.last()
         private const val DEFAULT_LINK = "AAAAAAAAAA"
         private const val UPDATED_LINK = "BBBBBBBBBB"
 
-
         private val ENTITY_API_URL: String = "/api/tags"
         private val ENTITY_API_URL_ID: String = ENTITY_API_URL + "/{id}"
 
         private val random: Random = Random()
-        private val count: AtomicLong = AtomicLong(random.nextInt().toLong() + ( 2 * Integer.MAX_VALUE ))
-
-
-
+        private val count: AtomicLong = AtomicLong(random.nextInt().toLong() + (2 * Integer.MAX_VALUE))
 
         /**
          * Create an entity for this test.
@@ -545,7 +537,6 @@ val testTag = tagList.last()
                 link = DEFAULT_LINK
 
             )
-
 
             return tag
         }
@@ -575,9 +566,7 @@ val testTag = tagList.last()
 
             )
 
-
             return tag
         }
-
     }
 }

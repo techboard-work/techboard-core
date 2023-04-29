@@ -1,16 +1,13 @@
 package work.techboard.core.repository
 
-import java.util.Collections
-import java.util.Optional
-
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
-
 import org.hibernate.annotations.QueryHints
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
-
 import work.techboard.core.domain.Activity
+import java.util.Collections
+import java.util.Optional
+import javax.persistence.EntityManager
+import javax.persistence.PersistenceContext
 
 /**
  * Utility repository to load bag relationships based on https://vladmihalcea.com/hibernate-multiplebagfetchexception/
@@ -18,18 +15,17 @@ import work.techboard.core.domain.Activity
 class ActivityRepositoryWithBagRelationshipsImpl(
     @PersistenceContext
     private val entityManager: EntityManager
-): ActivityRepositoryWithBagRelationships {
- 
+) : ActivityRepositoryWithBagRelationships {
+
     override fun fetchBagRelationships(activity: Optional<Activity>): Optional<Activity> {
         return activity
             .map(this::fetchTags)
-        
     }
- 
+
     override fun fetchBagRelationships(activities: Page<Activity>): Page<Activity> {
         return PageImpl<Activity>(fetchBagRelationships(activities.content), activities.pageable, activities.totalElements)
     }
- 
+
     override fun fetchBagRelationships(activities: List<Activity>): MutableList<Activity> {
         return Optional
             .of(activities)

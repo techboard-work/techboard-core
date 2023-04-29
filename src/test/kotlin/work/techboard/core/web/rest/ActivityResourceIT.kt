@@ -1,19 +1,15 @@
 package work.techboard.core.web.rest
 
-
-import work.techboard.core.IntegrationTest
-import work.techboard.core.domain.Activity
-import work.techboard.core.domain.Environment
-import work.techboard.core.repository.ActivityRepository
-import work.techboard.core.service.ActivityService
-import kotlin.test.assertNotNull
+import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.Extensions
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.junit.jupiter.MockitoExtension
+import org.junit.jupiter.api.extension.Extensions
+import org.mockito.ArgumentMatchers.*
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
+import org.mockito.Mockito.*
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.data.domain.PageImpl
@@ -21,27 +17,24 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.security.test.context.support.WithMockUser
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.Validator
-import javax.persistence.EntityManager
+import work.techboard.core.IntegrationTest
+import work.techboard.core.domain.Activity
+import work.techboard.core.domain.Environment
+import work.techboard.core.repository.ActivityRepository
+import work.techboard.core.service.ActivityService
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.Random
 import java.util.concurrent.atomic.AtomicLong
-import java.util.stream.Stream
-
-import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matchers.hasItem
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
-import org.mockito.ArgumentMatchers.*
-import org.mockito.Mockito.*
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-
-
+import javax.persistence.EntityManager
+import kotlin.test.assertNotNull
 
 /**
  * Integration tests for the [ActivityResource] REST controller.
@@ -71,17 +64,13 @@ class ActivityResourceIT {
     @Autowired
     private lateinit var validator: Validator
 
-
     @Autowired
     private lateinit var em: EntityManager
-
 
     @Autowired
     private lateinit var restActivityMockMvc: MockMvc
 
     private lateinit var activity: Activity
-
-
 
     @BeforeEach
     fun initTest() {
@@ -199,7 +188,7 @@ class ActivityResourceIT {
         activityRepository.saveAndFlush(activity)
 
         // Get all the activityList
-        restActivityMockMvc.perform(get(ENTITY_API_URL+ "?sort=id,desc"))
+        restActivityMockMvc.perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(activity.id?.toInt())))
@@ -208,8 +197,9 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.[*].finishedOn").value(hasItem(DEFAULT_FINISHED_ON.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].link").value(hasItem(DEFAULT_LINK)))
-            .andExpect(jsonPath("$.[*].flagged").value(hasItem(DEFAULT_FLAGGED)))    }
-    
+            .andExpect(jsonPath("$.[*].flagged").value(hasItem(DEFAULT_FLAGGED)))
+    }
+
     @Suppress("unchecked")
     @Throws(Exception::class)
     fun getAllActivitiesWithEagerRelationshipsIsEnabled() {
@@ -252,7 +242,8 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.finishedOn").value(DEFAULT_FINISHED_ON.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.link").value(DEFAULT_LINK))
-            .andExpect(jsonPath("$.flagged").value(DEFAULT_FLAGGED))    }
+            .andExpect(jsonPath("$.flagged").value(DEFAULT_FLAGGED))
+    }
     @Test
     @Transactional
     @Throws(Exception::class)
@@ -304,11 +295,12 @@ class ActivityResourceIT {
         val databaseSizeBeforeUpdate = activityRepository.findAll().size
         activity.id = count.incrementAndGet()
 
-
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restActivityMockMvc.perform(put(ENTITY_API_URL_ID, activity.id).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertObjectToJsonBytes(activity)))
+        restActivityMockMvc.perform(
+            put(ENTITY_API_URL_ID, activity.id).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(activity))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Activity in the database
@@ -343,9 +335,11 @@ class ActivityResourceIT {
         activity.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restActivityMockMvc.perform(put(ENTITY_API_URL).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertObjectToJsonBytes(activity)))
+        restActivityMockMvc.perform(
+            put(ENTITY_API_URL).with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(activity))
+        )
             .andExpect(status().isMethodNotAllowed)
 
         // Validate the Activity in the database
@@ -358,36 +352,35 @@ class ActivityResourceIT {
     @Throws(Exception::class)
     fun partialUpdateActivityWithPatch() {
         activityRepository.saveAndFlush(activity)
-        
-        
-val databaseSizeBeforeUpdate = activityRepository.findAll().size
+
+        val databaseSizeBeforeUpdate = activityRepository.findAll().size
 
 // Update the activity using partial update
-val partialUpdatedActivity = Activity().apply {
-    id = activity.id
+        val partialUpdatedActivity = Activity().apply {
+            id = activity.id
 
-    
-        startedOn = UPDATED_STARTED_ON
-        description = UPDATED_DESCRIPTION
-        flagged = UPDATED_FLAGGED
-}
+            startedOn = UPDATED_STARTED_ON
+            description = UPDATED_DESCRIPTION
+            flagged = UPDATED_FLAGGED
+        }
 
-
-restActivityMockMvc.perform(patch(ENTITY_API_URL_ID, partialUpdatedActivity.id).with(csrf())
-.contentType("application/merge-patch+json")
-.content(convertObjectToJsonBytes(partialUpdatedActivity)))
-.andExpect(status().isOk)
+        restActivityMockMvc.perform(
+            patch(ENTITY_API_URL_ID, partialUpdatedActivity.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(partialUpdatedActivity))
+        )
+            .andExpect(status().isOk)
 
 // Validate the Activity in the database
-val activityList = activityRepository.findAll()
-assertThat(activityList).hasSize(databaseSizeBeforeUpdate)
-val testActivity = activityList.last()
-    assertThat(testActivity.name).isEqualTo(DEFAULT_NAME)
-    assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
-    assertThat(testActivity.finishedOn).isEqualTo(DEFAULT_FINISHED_ON)
-    assertThat(testActivity.description).isEqualTo(UPDATED_DESCRIPTION)
-    assertThat(testActivity.link).isEqualTo(DEFAULT_LINK)
-    assertThat(testActivity.flagged).isEqualTo(UPDATED_FLAGGED)
+        val activityList = activityRepository.findAll()
+        assertThat(activityList).hasSize(databaseSizeBeforeUpdate)
+        val testActivity = activityList.last()
+        assertThat(testActivity.name).isEqualTo(DEFAULT_NAME)
+        assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
+        assertThat(testActivity.finishedOn).isEqualTo(DEFAULT_FINISHED_ON)
+        assertThat(testActivity.description).isEqualTo(UPDATED_DESCRIPTION)
+        assertThat(testActivity.link).isEqualTo(DEFAULT_LINK)
+        assertThat(testActivity.flagged).isEqualTo(UPDATED_FLAGGED)
     }
 
     @Test
@@ -395,39 +388,38 @@ val testActivity = activityList.last()
     @Throws(Exception::class)
     fun fullUpdateActivityWithPatch() {
         activityRepository.saveAndFlush(activity)
-        
-        
-val databaseSizeBeforeUpdate = activityRepository.findAll().size
+
+        val databaseSizeBeforeUpdate = activityRepository.findAll().size
 
 // Update the activity using partial update
-val partialUpdatedActivity = Activity().apply {
-    id = activity.id
+        val partialUpdatedActivity = Activity().apply {
+            id = activity.id
 
-    
-        name = UPDATED_NAME
-        startedOn = UPDATED_STARTED_ON
-        finishedOn = UPDATED_FINISHED_ON
-        description = UPDATED_DESCRIPTION
-        link = UPDATED_LINK
-        flagged = UPDATED_FLAGGED
-}
+            name = UPDATED_NAME
+            startedOn = UPDATED_STARTED_ON
+            finishedOn = UPDATED_FINISHED_ON
+            description = UPDATED_DESCRIPTION
+            link = UPDATED_LINK
+            flagged = UPDATED_FLAGGED
+        }
 
-
-restActivityMockMvc.perform(patch(ENTITY_API_URL_ID, partialUpdatedActivity.id).with(csrf())
-.contentType("application/merge-patch+json")
-.content(convertObjectToJsonBytes(partialUpdatedActivity)))
-.andExpect(status().isOk)
+        restActivityMockMvc.perform(
+            patch(ENTITY_API_URL_ID, partialUpdatedActivity.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(partialUpdatedActivity))
+        )
+            .andExpect(status().isOk)
 
 // Validate the Activity in the database
-val activityList = activityRepository.findAll()
-assertThat(activityList).hasSize(databaseSizeBeforeUpdate)
-val testActivity = activityList.last()
-    assertThat(testActivity.name).isEqualTo(UPDATED_NAME)
-    assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
-    assertThat(testActivity.finishedOn).isEqualTo(UPDATED_FINISHED_ON)
-    assertThat(testActivity.description).isEqualTo(UPDATED_DESCRIPTION)
-    assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
-    assertThat(testActivity.flagged).isEqualTo(UPDATED_FLAGGED)
+        val activityList = activityRepository.findAll()
+        assertThat(activityList).hasSize(databaseSizeBeforeUpdate)
+        val testActivity = activityList.last()
+        assertThat(testActivity.name).isEqualTo(UPDATED_NAME)
+        assertThat(testActivity.startedOn).isEqualTo(UPDATED_STARTED_ON)
+        assertThat(testActivity.finishedOn).isEqualTo(UPDATED_FINISHED_ON)
+        assertThat(testActivity.description).isEqualTo(UPDATED_DESCRIPTION)
+        assertThat(testActivity.link).isEqualTo(UPDATED_LINK)
+        assertThat(testActivity.flagged).isEqualTo(UPDATED_FLAGGED)
     }
 
     @Throws(Exception::class)
@@ -436,9 +428,11 @@ val testActivity = activityList.last()
         activity.id = count.incrementAndGet()
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restActivityMockMvc.perform(patch(ENTITY_API_URL_ID, activity.id).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(activity)))
+        restActivityMockMvc.perform(
+            patch(ENTITY_API_URL_ID, activity.id).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(activity))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Activity in the database
@@ -454,9 +448,11 @@ val testActivity = activityList.last()
         activity.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restActivityMockMvc.perform(patch(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(activity)))
+        restActivityMockMvc.perform(
+            patch(ENTITY_API_URL_ID, count.incrementAndGet()).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(activity))
+        )
             .andExpect(status().isBadRequest)
 
         // Validate the Activity in the database
@@ -472,9 +468,11 @@ val testActivity = activityList.last()
         activity.id = count.incrementAndGet()
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restActivityMockMvc.perform(patch(ENTITY_API_URL).with(csrf())
-            .contentType("application/merge-patch+json")
-            .content(convertObjectToJsonBytes(activity)))
+        restActivityMockMvc.perform(
+            patch(ENTITY_API_URL).with(csrf())
+                .contentType("application/merge-patch+json")
+                .content(convertObjectToJsonBytes(activity))
+        )
             .andExpect(status().isMethodNotAllowed)
 
         // Validate the Activity in the database
@@ -500,7 +498,6 @@ val testActivity = activityList.last()
         assertThat(activityList).hasSize(databaseSizeBeforeDelete - 1)
     }
 
-
     companion object {
 
         private const val DEFAULT_NAME = "AAAAAAAAAA"
@@ -521,15 +518,11 @@ val testActivity = activityList.last()
         private const val DEFAULT_FLAGGED: Boolean = false
         private const val UPDATED_FLAGGED: Boolean = true
 
-
         private val ENTITY_API_URL: String = "/api/activities"
         private val ENTITY_API_URL_ID: String = ENTITY_API_URL + "/{id}"
 
         private val random: Random = Random()
-        private val count: AtomicLong = AtomicLong(random.nextInt().toLong() + ( 2 * Integer.MAX_VALUE ))
-
-
-
+        private val count: AtomicLong = AtomicLong(random.nextInt().toLong() + (2 * Integer.MAX_VALUE))
 
         /**
          * Create an entity for this test.
@@ -553,7 +546,6 @@ val testActivity = activityList.last()
                 flagged = DEFAULT_FLAGGED
 
             )
-
 
             // Add required entity
             val environment: Environment
@@ -591,7 +583,6 @@ val testActivity = activityList.last()
 
             )
 
-
             // Add required entity
             val environment: Environment
             if (findAll(em, Environment::class).isEmpty()) {
@@ -604,6 +595,5 @@ val testActivity = activityList.last()
             activity.environment = environment
             return activity
         }
-
     }
 }

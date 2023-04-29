@@ -1,22 +1,20 @@
 package work.techboard.core.web.rest
 
-import work.techboard.core.domain.Environment
-import work.techboard.core.repository.EnvironmentRepository
-import work.techboard.core.service.EnvironmentService
-import work.techboard.core.web.rest.errors.BadRequestAlertException
-
-import tech.jhipster.web.util.HeaderUtil
-import tech.jhipster.web.util.ResponseUtil
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
+import tech.jhipster.web.util.HeaderUtil
+import tech.jhipster.web.util.ResponseUtil
+import work.techboard.core.domain.Environment
+import work.techboard.core.repository.EnvironmentRepository
+import work.techboard.core.service.EnvironmentService
+import work.techboard.core.web.rest.errors.BadRequestAlertException
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.Objects
+import javax.validation.Valid
+import javax.validation.constraints.NotNull
 
 private const val ENTITY_NAME = "environment"
 /**
@@ -25,8 +23,8 @@ private const val ENTITY_NAME = "environment"
 @RestController
 @RequestMapping("/api")
 class EnvironmentResource(
-        private val environmentService: EnvironmentService,
-        private val environmentRepository: EnvironmentRepository,
+    private val environmentService: EnvironmentService,
+    private val environmentRepository: EnvironmentRepository,
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -55,7 +53,7 @@ class EnvironmentResource(
             )
         }
         val result = environmentService.save(environment)
-            return ResponseEntity.created(URI("/api/environments/${result.id}"))
+        return ResponseEntity.created(URI("/api/environments/${result.id}"))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
             .body(result)
     }
@@ -84,7 +82,6 @@ class EnvironmentResource(
             throw BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid")
         }
 
-
         if (!environmentRepository.existsById(id)) {
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
@@ -94,28 +91,28 @@ class EnvironmentResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     environment.id.toString()
+                    environment.id.toString()
                 )
             )
             .body(result)
     }
 
     /**
-    * {@code PATCH  /environments/:id} : Partial updates given fields of an existing environment, field will ignore if it is null
-    *
-    * @param id the id of the environment to save.
-    * @param environment the environment to update.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated environment,
-    * or with status {@code 400 (Bad Request)} if the environment is not valid,
-    * or with status {@code 404 (Not Found)} if the environment is not found,
-    * or with status {@code 500 (Internal Server Error)} if the environment couldn't be updated.
-    * @throws URISyntaxException if the Location URI syntax is incorrect.
-    */
+     * {@code PATCH  /environments/:id} : Partial updates given fields of an existing environment, field will ignore if it is null
+     *
+     * @param id the id of the environment to save.
+     * @param environment the environment to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated environment,
+     * or with status {@code 400 (Bad Request)} if the environment is not valid,
+     * or with status {@code 404 (Not Found)} if the environment is not found,
+     * or with status {@code 500 (Internal Server Error)} if the environment couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
     @PatchMapping(value = ["/environments/{id}"], consumes = ["application/json", "application/merge-patch+json"])
     @Throws(URISyntaxException::class)
     fun partialUpdateEnvironment(
         @PathVariable(value = "id", required = false) id: Long,
-        @NotNull @RequestBody environment:Environment
+        @NotNull @RequestBody environment: Environment
     ): ResponseEntity<Environment> {
         log.debug("REST request to partial update Environment partially : {}, {}", id, environment)
         if (environment.id == null) {
@@ -129,9 +126,7 @@ class EnvironmentResource(
             throw BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound")
         }
 
-
-
-            val result = environmentService.partialUpdate(environment)
+        val result = environmentService.partialUpdate(environment)
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -145,15 +140,12 @@ class EnvironmentResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of environments in body.
      */
-    @GetMapping("/environments")    
-    fun getAllEnvironments(): MutableList<Environment> {
-        
-        
+    @GetMapping("/environments") fun getAllEnvironments(): MutableList<Environment> {
 
-            log.debug("REST request to get all Environments")
-            
-            return environmentService.findAll()
-                }
+        log.debug("REST request to get all Environments")
+
+        return environmentService.findAll()
+    }
 
     /**
      * `GET  /environments/:id` : get the "id" environment.

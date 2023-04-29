@@ -1,11 +1,10 @@
 package work.techboard.core.service
 
-import work.techboard.core.domain.Tag
-import work.techboard.core.repository.TagRepository
 import org.slf4j.LoggerFactory
-
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import work.techboard.core.domain.Tag
+import work.techboard.core.repository.TagRepository
 import java.util.Optional
 
 /**
@@ -14,7 +13,7 @@ import java.util.Optional
 @Service
 @Transactional
 class TagService(
-            private val tagRepository: TagRepository,
+    private val tagRepository: TagRepository,
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -31,56 +30,53 @@ class TagService(
     }
 
     /**
-        * Update a tag.
-        *
-        * @param tag the entity to save.
-        * @return the persisted entity.
-    */
-     fun update(tag: Tag): Tag{
-            log.debug("Request to update Tag : {}", tag);
-            return tagRepository.save(tag)
-        }
+     * Update a tag.
+     *
+     * @param tag the entity to save.
+     * @return the persisted entity.
+     */
+    fun update(tag: Tag): Tag {
+        log.debug("Request to update Tag : {}", tag)
+        return tagRepository.save(tag)
+    }
 
     /**
-        * Partially updates a tag.
-        *
-        * @param tag the entity to update partially.
-        * @return the persisted entity.
-        */
+     * Partially updates a tag.
+     *
+     * @param tag the entity to update partially.
+     * @return the persisted entity.
+     */
     fun partialUpdate(tag: Tag): Optional<Tag> {
         log.debug("Request to partially update Tag : {}", tag)
 
-
-         return tagRepository.findById(tag.id)
+        return tagRepository.findById(tag.id)
             .map {
 
-                  if (tag.tag!= null) {
-                     it.tag = tag.tag
-                  }
-                  if (tag.order!= null) {
-                     it.order = tag.order
-                  }
-                  if (tag.color!= null) {
-                     it.color = tag.color
-                  }
-                  if (tag.active!= null) {
-                     it.active = tag.active
-                  }
-                  if (tag.description!= null) {
-                     it.description = tag.description
-                  }
-                  if (tag.icon!= null) {
-                     it.icon = tag.icon
-                  }
-                  if (tag.link!= null) {
-                     it.link = tag.link
-                  }
+                if (tag.tag != null) {
+                    it.tag = tag.tag
+                }
+                if (tag.order != null) {
+                    it.order = tag.order
+                }
+                if (tag.color != null) {
+                    it.color = tag.color
+                }
+                if (tag.active != null) {
+                    it.active = tag.active
+                }
+                if (tag.description != null) {
+                    it.description = tag.description
+                }
+                if (tag.icon != null) {
+                    it.icon = tag.icon
+                }
+                if (tag.link != null) {
+                    it.link = tag.link
+                }
 
-               it
+                it
             }
             .map { tagRepository.save(it) }
-
-
     }
 
     /**
@@ -93,7 +89,6 @@ class TagService(
         log.debug("Request to get all Tags")
         return tagRepository.findAll()
     }
-
 
     /**
      * Get one tag by id.
@@ -112,7 +107,7 @@ class TagService(
      *
      * @param id the id of the entity.
      */
-    fun delete(id: Long): Unit {
+    fun delete(id: Long) {
         log.debug("Request to delete Tag : $id")
 
         tagRepository.deleteById(id)
