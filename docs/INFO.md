@@ -24,6 +24,13 @@ Connect to use KHipster:
 
 Congratulations, JHipster execution is complete!
 
+Apply JDL:
+
+Follow [the process:](https://www.jhipster.tech/creating-an-entity/#jhipster-uml-and-jdl-studio)
+
+    docker exec -it jhipster bash
+    khipster jdl docs/jhipster-jdl.jdl
+
 
 Stop JHipster
 
@@ -36,7 +43,21 @@ Launch the infra:
     cd src/main/docker
     docker-compose -f infra.yml up
 
-Launch App (make sure you use Java 11):
+Launch App with initial data (make sure you use Java 11):
 
     ./mvnw --version
     ./mvnw
+
+Stop infra:
+
+    docker-compose -f infra.yml down --volumes
+
+### Angular
+
+[Using Angular](https://www.jhipster.tech/using-angular/)
+
+
+### Tech
+
+Kotlin coroutines:
+https://medium.com/@inzuael/how-to-start-with-coroutines-in-springboot-applications-e0da1f013dbd
