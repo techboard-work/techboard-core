@@ -11,6 +11,7 @@ entity Tag {
     tag String required unique,
     order Integer required,
     color String required,
+    active Boolean required,
     description String,
     icon String,
     link String
@@ -20,6 +21,7 @@ entity Activity {
     name String required,
     startedOn Instant required,
     finishedOn Instant,
+    description String,
     link String,
     flagged Boolean required
 }
