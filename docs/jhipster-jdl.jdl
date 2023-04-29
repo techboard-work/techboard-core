@@ -7,19 +7,13 @@ entity Environment {
     link String
 }
 
-entity Card {
-    name String required,
+entity Tag {
+    tag String required unique,
     order Integer required,
-    code String,
-    description String,
-    link String
-}
-
-entity ActivityKind {
-    name String required unique,
-    description String required,
     color String required,
-    icon String
+    description String,
+    icon String,
+    link String
 }
 
 entity Activity {
@@ -31,10 +25,12 @@ entity Activity {
 }
 
 relationship OneToMany {
-    Environment to Card{environment},
-    Card to Activity{card},
-    ActivityKind to Activity{kind}
+    Environment to Activity{environment required},
     User to Activity{owner}
 }
 
-service all with serviceImpl except ActivityKind
+relationship ManyToMany {
+  Activity{tag} to Tag{activity}
+}
+
+service all with serviceClass
