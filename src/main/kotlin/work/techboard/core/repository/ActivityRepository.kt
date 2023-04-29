@@ -31,4 +31,10 @@ interface ActivityRepository : ActivityRepositoryWithBagRelationships, JpaReposi
     @JvmDefault fun findAllWithEagerRelationships(pageable: Pageable): Page<Activity> {
         return this.fetchBagRelationships(this.findAll(pageable))
     }
+
+    fun findByFinishedOnIsNull(): List<Activity>
+
+    @JvmDefault fun findByFinishedOnIsNullWithEagerRelationships(): MutableList<Activity> {
+        return this.fetchBagRelationships(this.findByFinishedOnIsNull())
+    }
 }

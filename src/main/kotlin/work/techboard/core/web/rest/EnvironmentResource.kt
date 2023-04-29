@@ -16,7 +16,6 @@ import java.util.Objects
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
 
-private const val ENTITY_NAME = "environment"
 /**
  * REST controller for managing [work.techboard.core.domain.Environment].
  */

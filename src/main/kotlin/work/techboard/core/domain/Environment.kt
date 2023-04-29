@@ -49,9 +49,7 @@ data class Environment(
     @OneToMany(mappedBy = "environment")
     @JsonIgnoreProperties(
         value = [
-            "tags",
             "environment",
-            "owner",
         ],
         allowSetters = true
     )
