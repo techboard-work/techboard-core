@@ -52,6 +52,27 @@ Stop infra:
 
     docker-compose -f infra.yml down --volumes
 
+### Export data
+
+Users can be created in Keycloak UI [and exported](https://www.keycloak.org/server/importExport):
+
+    /opt/keycloak/bin/kc.sh
+    $ /opt/keycloak/bin/kc.sh export --dir /tmp/key_export --realm jhipster --users realm_file
+
+    docker cp 57a83b7e6357:/tmp/key_export/jhipster-realm.json .
+
+Each user will be added to the DB after first login.
+
+Data can be created in UI and exported as (to be copied to changelogs):
+
+     ./mvnw liquibase:generateChangeLog -Dliquibase.diffTypes=data
+
+### Users
+
+- admin:admin
+- user:user
+- kepler:kepler
+
 ### Angular
 
 [Using Angular](https://www.jhipster.tech/using-angular/)

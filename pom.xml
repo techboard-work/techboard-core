@@ -444,7 +444,7 @@
                                     <artifactId>jaxb-runtime</artifactId>
                                     <version>${jaxb-runtime.version}</version>
                                 </annotationProcessorPath>
-                                
+
                             </annotationProcessorPaths>
                         </configuration>
                     </execution>
@@ -1197,6 +1197,7 @@
                             <configuration>
                                 <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                                 <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
+                                <outputChangeLogFile>my-data.xml</outputChangeLogFile>
                                 <driver>org.postgresql.Driver</driver>
                                 <url>jdbc:postgresql://localhost:5432/techboard</url>
                                 <defaultSchemaName/>

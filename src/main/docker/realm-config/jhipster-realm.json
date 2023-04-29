@@ -2309,15 +2309,44 @@
       "groups": ["/Admins", "/Users"]
     },
     {
+      "id": "006223c9-63d8-46ed-acfe-0ab14ff894ea",
+      "createdTimestamp": 1682932919826,
+      "username": "kepler",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Johannes",
+      "lastName": "Kepler",
+      "email": "kepler@localhost.com",
+      "credentials": [
+        {
+          "id": "c655b8eb-dbf5-4db0-839d-34a3ffcee336",
+          "type": "password",
+          "userLabel": "My password",
+          "createdDate": 1682932943848,
+          "secretData": "{\"value\":\"St4SnCuqtUVWCGfSAuO1pf45/T/nU36ISM5Toh8DHkgvg35uvrozHZLhMyFS6lafc5v1391UrEX9EvyS+a/cpg==\",\"salt\":\"fhSPNVdVGCSWOzJdHxHPGA==\",\"additionalParameters\":{}}",
+          "credentialData": "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["offline_access", "uma_authorization"],
+      "clientRoles": {
+        "account": ["view-profile", "manage-account"]
+      },
+      "notBefore": 0,
+      "groups": ["/Users"]
+    },
+    {
       "id": "c4af4e2f-b432-4c3b-8405-cca86cd5b97b",
       "createdTimestamp": 1505479373742,
       "username": "user",
       "enabled": true,
       "totp": false,
       "emailVerified": true,
-      "firstName": "",
-      "lastName": "User",
-      "email": "user@localhost",
+      "firstName": "Isaak",
+      "lastName": "Newton",
+      "email": "user@localhost.com",
       "credentials": [
         {
           "id": "7821832b-1e82-45a2-b8d3-f1a6ad909e64",

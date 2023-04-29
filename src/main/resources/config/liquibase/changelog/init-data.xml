@@ -1,0 +1,158 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="somov (generated)" id="1682950490426-1">
+        <insert tableName="environment">
+            <column name="id" valueNumeric="1001"/>
+            <column name="name" value="Integration"/>
+            <column name="code" value="int"/>
+            <column name="color" value="#FFA62F"/>
+            <column name="level" valueNumeric="2"/>
+            <column name="link"/>
+        </insert>
+        <insert tableName="environment">
+            <column name="id" valueNumeric="1002"/>
+            <column name="name" value="UAT"/>
+            <column name="code" value="uat"/>
+            <column name="color" value="#E2F516"/>
+            <column name="level" valueNumeric="1"/>
+            <column name="link"/>
+        </insert>
+        <insert tableName="environment">
+            <column name="id" valueNumeric="1003"/>
+            <column name="name" value="Production"/>
+            <column name="code" value="prod"/>
+            <column name="color" value="#43C6DB"/>
+            <column name="level" valueNumeric="0"/>
+            <column name="link"/>
+        </insert>
+    </changeSet>
+    <changeSet author="somov (generated)" id="1682950490426-2">
+        <insert tableName="tag">
+            <column name="id" valueNumeric="1051"/>
+            <column name="tag" value="Deploy"/>
+            <column name="jhi_order" valueNumeric="10"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="color" value="#FFA62F"/>
+            <column name="description" value="Deploy a component"/>
+            <column name="icon"/>
+            <column name="link"/>
+        </insert>
+        <insert tableName="tag">
+            <column name="id" valueNumeric="1052"/>
+            <column name="tag" value="Fix"/>
+            <column name="jhi_order" valueNumeric="5"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="color" value="#FFA62F"/>
+            <column name="description" value="Fix an incident"/>
+            <column name="icon"/>
+            <column name="link"/>
+        </insert>
+        <insert tableName="tag">
+            <column name="id" valueNumeric="1053"/>
+            <column name="tag" value="Backend"/>
+            <column name="jhi_order" valueNumeric="100"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="color" value="#FFA62F"/>
+            <column name="description" value="Backend software component"/>
+            <column name="icon"/>
+            <column name="link"/>
+        </insert>
+    </changeSet>
+    <changeSet author="somov (generated)" id="1682950490426-3">
+        <insert tableName="jhi_user">
+            <column name="id" value="4c973896-5761-41fc-8217-07c5d13a004b"/>
+            <column name="login" value="admin"/>
+            <column name="first_name" value="Admin"/>
+            <column name="last_name" value="Administrator"/>
+            <column name="email" value="admin@localhost"/>
+            <column name="image_url"/>
+            <column name="activated" valueBoolean="true"/>
+            <column name="lang_key" value="en"/>
+            <column name="created_by" value="admin"/>
+            <column name="created_date" valueDate="2023-05-01T14:04:08.561638"/>
+            <column name="last_modified_by" value="admin"/>
+            <column name="last_modified_date" valueDate="2023-05-01T14:04:08.561638"/>
+        </insert>
+        <insert tableName="jhi_user">
+            <column name="id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+            <column name="login" value="user"/>
+            <column name="first_name" value="Isaak"/>
+            <column name="last_name" value="Newton"/>
+            <column name="email" value="user@localhost.com"/>
+            <column name="image_url"/>
+            <column name="activated" valueBoolean="true"/>
+            <column name="lang_key" value="en"/>
+            <column name="created_by" value="user"/>
+            <column name="created_date" valueDate="2023-05-01T14:04:21.180876"/>
+            <column name="last_modified_by" value="user"/>
+            <column name="last_modified_date" valueDate="2023-05-01T14:04:21.180876"/>
+        </insert>
+        <insert tableName="jhi_user">
+            <column name="id" value="006223c9-63d8-46ed-acfe-0ab14ff894ea"/>
+            <column name="login" value="kepler"/>
+            <column name="first_name" value="Johannes"/>
+            <column name="last_name" value="Kepler"/>
+            <column name="email" value="kepler@localhost.com"/>
+            <column name="image_url"/>
+            <column name="activated" valueBoolean="true"/>
+            <column name="lang_key" value="en"/>
+            <column name="created_by" value="kepler"/>
+            <column name="created_date" valueDate="2023-05-01T14:04:38.892124"/>
+            <column name="last_modified_by" value="kepler"/>
+            <column name="last_modified_date" valueDate="2023-05-01T14:04:38.892124"/>
+        </insert>
+    </changeSet>
+    <changeSet author="somov (generated)" id="1682950490426-4">
+        <insert tableName="activity">
+            <column name="id" valueNumeric="1101"/>
+            <column name="name" value="Deploy infra"/>
+            <column name="started_on" valueDate="2023-05-01T14:08:00"/>
+            <column name="finished_on"/>
+            <column name="description"/>
+            <column name="link"/>
+            <column name="flagged" valueBoolean="true"/>
+            <column name="environment_id" valueNumeric="1002"/>
+            <column name="owner_id" value="006223c9-63d8-46ed-acfe-0ab14ff894ea"/>
+        </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="1102"/>
+            <column name="name" value="Deploy backend"/>
+            <column name="started_on" valueDate="2022-02-10T14:09:00"/>
+            <column name="finished_on" valueDate="2022-03-01T14:09:00"/>
+            <column name="description" value="JIRA-1000: it takes too long"/>
+            <column name="link"/>
+            <column name="flagged" valueBoolean="true"/>
+            <column name="environment_id" valueNumeric="1003"/>
+            <column name="owner_id" value="006223c9-63d8-46ed-acfe-0ab14ff894ea"/>
+        </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="1103"/>
+            <column name="name" value="Resolve"/>
+            <column name="started_on" valueDate="2023-05-01T14:10:00"/>
+            <column name="finished_on"/>
+            <column name="description"/>
+            <column name="link"/>
+            <column name="flagged" valueBoolean="false"/>
+            <column name="environment_id" valueNumeric="1001"/>
+            <column name="owner_id" value="006223c9-63d8-46ed-acfe-0ab14ff894ea"/>
+        </insert>
+    </changeSet>
+    <changeSet author="somov (generated)" id="1682950490426-7">
+        <insert tableName="rel_activity__tag">
+            <column name="tag_id" valueNumeric="1051"/>
+            <column name="activity_id" valueNumeric="1101"/>
+        </insert>
+        <insert tableName="rel_activity__tag">
+            <column name="tag_id" valueNumeric="1053"/>
+            <column name="activity_id" valueNumeric="1102"/>
+        </insert>
+        <insert tableName="rel_activity__tag">
+            <column name="tag_id" valueNumeric="1051"/>
+            <column name="activity_id" valueNumeric="1103"/>
+        </insert>
+        <insert tableName="rel_activity__tag">
+            <column name="tag_id" valueNumeric="1052"/>
+            <column name="activity_id" valueNumeric="1103"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
