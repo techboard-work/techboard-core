@@ -1,0 +1,111 @@
+[
+  {
+    "id": 11001,
+    "name": "Integration",
+    "code": "int",
+    "color": "#FFA62F",
+    "level": 2,
+    "link": null,
+    "activities": [
+      {
+        "id": 13103,
+        "name": "Resolve",
+        "startedOn": "2023-05-01T14:10:00Z",
+        "finishedOn": null,
+        "description": null,
+        "link": null,
+        "flagged": false,
+        "tags": [
+          {
+            "id": 12051,
+            "tag": "Deploy",
+            "order": 10,
+            "color": "#FFA62F",
+            "active": true,
+            "description": "Deploy a component",
+            "icon": null,
+            "link": null
+          },
+          {
+            "id": 12052,
+            "tag": "Fix",
+            "order": 5,
+            "color": "#FFA62F",
+            "active": true,
+            "description": "Fix an incident",
+            "icon": null,
+            "link": null
+          }
+        ],
+        "owner": {
+          "createdBy": "kepler",
+          "createdDate": "2023-05-01T14:04:38.892124Z",
+          "lastModifiedBy": "kepler",
+          "lastModifiedDate": "2023-05-01T14:04:38.892124Z",
+          "id": "006223c9-63d8-46ed-acfe-0ab14ff894ea",
+          "login": "kepler",
+          "firstName": "Johannes",
+          "lastName": "Kepler",
+          "email": "kepler@localhost.com",
+          "activated": true,
+          "langKey": "en",
+          "imageUrl": null
+        }
+      }
+    ]
+  },
+  {
+    "id": 11002,
+    "name": "UAT",
+    "code": "uat",
+    "color": "#E2F516",
+    "level": 1,
+    "link": null,
+    "activities": [
+      {
+        "id": 13101,
+        "name": "Deploy infra",
+        "startedOn": "2023-05-01T14:08:00Z",
+        "finishedOn": null,
+        "description": null,
+        "link": null,
+        "flagged": true,
+        "tags": [
+          {
+            "id": 12051,
+            "tag": "Deploy",
+            "order": 10,
+            "color": "#FFA62F",
+            "active": true,
+            "description": "Deploy a component",
+            "icon": null,
+            "link": null
+          }
+        ],
+        "owner": {
+          "createdBy": "kepler",
+          "createdDate": "2023-05-01T14:04:38.892124Z",
+          "lastModifiedBy": "kepler",
+          "lastModifiedDate": "2023-05-01T14:04:38.892124Z",
+          "id": "006223c9-63d8-46ed-acfe-0ab14ff894ea",
+          "login": "kepler",
+          "firstName": "Johannes",
+          "lastName": "Kepler",
+          "email": "kepler@localhost.com",
+          "activated": true,
+          "langKey": "en",
+          "imageUrl": null
+        }
+      }
+    ]
+  },
+  {
+    "id": 11003,
+    "name": "Production",
+    "code": "prod",
+    "color": "#43C6DB",
+    "level": 0,
+    "link": null,
+    "activities": null
+  }
+]
