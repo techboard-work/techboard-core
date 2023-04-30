@@ -197,7 +197,10 @@ class UserResourceIT {
          */
         @JvmStatic
         fun initTestUser(userRepository: UserRepository, em: EntityManager): User {
-            userRepository.deleteAll()
+            // userRepository.deleteAll() - cannot delete all, just drop one
+            val previousUser = userRepository.findOneByLogin(DEFAULT_LOGIN)
+            previousUser.ifPresent { userRepository.delete(it) }
+
             val user = createEntity(em)
             user.login = DEFAULT_LOGIN
             user.email = DEFAULT_EMAIL

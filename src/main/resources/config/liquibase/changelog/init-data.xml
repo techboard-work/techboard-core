@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
     <changeSet author="somov (generated)" id="1682950490426-1">
         <insert tableName="environment">
-            <column name="id" valueNumeric="1001"/>
+            <column name="id" valueNumeric="11001"/>
             <column name="name" value="Integration"/>
             <column name="code" value="int"/>
             <column name="color" value="#FFA62F"/>
@@ -10,7 +10,7 @@
             <column name="link"/>
         </insert>
         <insert tableName="environment">
-            <column name="id" valueNumeric="1002"/>
+            <column name="id" valueNumeric="11002"/>
             <column name="name" value="UAT"/>
             <column name="code" value="uat"/>
             <column name="color" value="#E2F516"/>
@@ -18,7 +18,7 @@
             <column name="link"/>
         </insert>
         <insert tableName="environment">
-            <column name="id" valueNumeric="1003"/>
+            <column name="id" valueNumeric="11003"/>
             <column name="name" value="Production"/>
             <column name="code" value="prod"/>
             <column name="color" value="#43C6DB"/>
@@ -28,7 +28,7 @@
     </changeSet>
     <changeSet author="somov (generated)" id="1682950490426-2">
         <insert tableName="tag">
-            <column name="id" valueNumeric="1051"/>
+            <column name="id" valueNumeric="12051"/>
             <column name="tag" value="Deploy"/>
             <column name="jhi_order" valueNumeric="10"/>
             <column name="active" valueBoolean="true"/>
@@ -38,7 +38,7 @@
             <column name="link"/>
         </insert>
         <insert tableName="tag">
-            <column name="id" valueNumeric="1052"/>
+            <column name="id" valueNumeric="12052"/>
             <column name="tag" value="Fix"/>
             <column name="jhi_order" valueNumeric="5"/>
             <column name="active" valueBoolean="true"/>
@@ -48,7 +48,7 @@
             <column name="link"/>
         </insert>
         <insert tableName="tag">
-            <column name="id" valueNumeric="1053"/>
+            <column name="id" valueNumeric="12053"/>
             <column name="tag" value="Backend"/>
             <column name="jhi_order" valueNumeric="100"/>
             <column name="active" valueBoolean="true"/>
@@ -104,55 +104,55 @@
     </changeSet>
     <changeSet author="somov (generated)" id="1682950490426-4">
         <insert tableName="activity">
-            <column name="id" valueNumeric="1101"/>
+            <column name="id" valueNumeric="13101"/>
             <column name="name" value="Deploy infra"/>
             <column name="started_on" valueDate="2023-05-01T14:08:00"/>
             <column name="finished_on"/>
             <column name="description"/>
             <column name="link"/>
             <column name="flagged" valueBoolean="true"/>
-            <column name="environment_id" valueNumeric="1002"/>
+            <column name="environment_id" valueNumeric="11002"/>
             <column name="owner_id" value="006223c9-63d8-46ed-acfe-0ab14ff894ea"/>
         </insert>
         <insert tableName="activity">
-            <column name="id" valueNumeric="1102"/>
+            <column name="id" valueNumeric="13102"/>
             <column name="name" value="Deploy backend"/>
             <column name="started_on" valueDate="2022-02-10T14:09:00"/>
             <column name="finished_on" valueDate="2022-03-01T14:09:00"/>
             <column name="description" value="JIRA-1000: it takes too long"/>
             <column name="link"/>
             <column name="flagged" valueBoolean="true"/>
-            <column name="environment_id" valueNumeric="1003"/>
+            <column name="environment_id" valueNumeric="11003"/>
             <column name="owner_id" value="006223c9-63d8-46ed-acfe-0ab14ff894ea"/>
         </insert>
         <insert tableName="activity">
-            <column name="id" valueNumeric="1103"/>
+            <column name="id" valueNumeric="13103"/>
             <column name="name" value="Resolve"/>
             <column name="started_on" valueDate="2023-05-01T14:10:00"/>
             <column name="finished_on"/>
             <column name="description"/>
             <column name="link"/>
             <column name="flagged" valueBoolean="false"/>
-            <column name="environment_id" valueNumeric="1001"/>
+            <column name="environment_id" valueNumeric="11001"/>
             <column name="owner_id" value="006223c9-63d8-46ed-acfe-0ab14ff894ea"/>
         </insert>
     </changeSet>
     <changeSet author="somov (generated)" id="1682950490426-7">
         <insert tableName="rel_activity__tag">
-            <column name="tag_id" valueNumeric="1051"/>
-            <column name="activity_id" valueNumeric="1101"/>
+            <column name="tag_id" valueNumeric="12051"/>
+            <column name="activity_id" valueNumeric="13101"/>
         </insert>
         <insert tableName="rel_activity__tag">
-            <column name="tag_id" valueNumeric="1053"/>
-            <column name="activity_id" valueNumeric="1102"/>
+            <column name="tag_id" valueNumeric="12053"/>
+            <column name="activity_id" valueNumeric="13102"/>
         </insert>
         <insert tableName="rel_activity__tag">
-            <column name="tag_id" valueNumeric="1051"/>
-            <column name="activity_id" valueNumeric="1103"/>
+            <column name="tag_id" valueNumeric="12051"/>
+            <column name="activity_id" valueNumeric="13103"/>
         </insert>
         <insert tableName="rel_activity__tag">
-            <column name="tag_id" valueNumeric="1052"/>
-            <column name="activity_id" valueNumeric="1103"/>
+            <column name="tag_id" valueNumeric="12052"/>
+            <column name="activity_id" valueNumeric="13103"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
