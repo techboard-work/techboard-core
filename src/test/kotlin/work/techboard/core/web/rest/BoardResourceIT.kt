@@ -26,25 +26,10 @@ import javax.persistence.EntityManager
 @WithMockUser
 class BoardResourceIT {
     @Autowired
-    private lateinit var environmentRepository: EnvironmentRepository
-
-    @Autowired
-    private lateinit var jacksonMessageConverter: MappingJackson2HttpMessageConverter
-
-    @Autowired
-    private lateinit var pageableArgumentResolver: PageableHandlerMethodArgumentResolver
-
-    @Autowired
-    private lateinit var validator: Validator
-
-    @Autowired
-    private lateinit var em: EntityManager
-
-    @Autowired
     private lateinit var restEnvironmentMockMvc: MockMvc
 
     companion object {
-        private val BOARD_API_URL: String = "/api/board/environments"
+        private const val BOARD_API_URL: String = "/api/board/environments"
     }
     @BeforeEach
     fun initTest() {
@@ -61,7 +46,15 @@ class BoardResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[0].id").value(11001))
             .andExpect(jsonPath("$.[0].name").value("Integration"))
+            .andExpect(jsonPath("$.[0].activities.[0].name").value("Resolve"))
+            .andExpect(jsonPath("$.[0].activities.[0].tags.[0].tag").value("Deploy"))
+            .andExpect(jsonPath("$.[0].activities.[0].tags.[1].tag").value("Fix"))
+            .andExpect(jsonPath("$.[0].activities.[0].owner.login").value("kepler"))
+            .andExpect(jsonPath("$.[1].id").value(11002))
+            .andExpect(jsonPath("$.[1].name").value("UAT"))
+            .andExpect(jsonPath("$.[2].id").value(11003))
+            .andExpect(jsonPath("$.[2].name").value("Production"))
+            .andExpect(jsonPath("$.[2].activities").doesNotExist())
             .andReturn()
-        // System.out.println(result)
     }
 }
