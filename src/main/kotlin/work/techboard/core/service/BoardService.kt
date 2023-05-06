@@ -7,6 +7,8 @@ import work.techboard.core.domain.Activity
 import work.techboard.core.domain.Environment
 import work.techboard.core.repository.ActivityRepository
 import work.techboard.core.repository.EnvironmentRepository
+import java.time.Instant
+import java.util.*
 
 /**
  * Service Implementation for managing the whole board
@@ -34,5 +36,18 @@ class BoardService(
 
         // add open activities
         return envs.map { env -> env.apply { env.activities = grouped[env.id]?.toMutableSet() } }
+    }
+
+    @Transactional(readOnly = true)
+    fun findOne(timestamp: Instant, id: Long): Optional<Environment>? {
+        log.debug("Request to get Environment : $id")
+        val envOption = environmentRepository.findById(id)
+        if (envOption.isEmpty) return envOption
+        else {
+            val env = envOption.get()
+            val activities = activityRepository.findBoardActivitiesWithEagerRelationships(timestamp, env.id!!)
+            env.activities = activities.toMutableSet()
+            return Optional.of(env)
+        }
     }
 }

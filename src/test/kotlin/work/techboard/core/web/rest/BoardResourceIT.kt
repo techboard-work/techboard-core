@@ -4,19 +4,14 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.validation.Validator
 import work.techboard.core.IntegrationTest
-import work.techboard.core.repository.EnvironmentRepository
 import java.util.*
-import javax.persistence.EntityManager
 
 /**
  * Integration tests for the [EnvironmentResource] REST controller.
@@ -55,6 +50,24 @@ class BoardResourceIT {
             .andExpect(jsonPath("$.[2].id").value(11003))
             .andExpect(jsonPath("$.[2].name").value("Production"))
             .andExpect(jsonPath("$.[2].activities").doesNotExist())
+            .andReturn()
+    }
+
+    @Test
+    @Transactional
+    fun getAllEnvironment() {
+        // Initialize the database from init-data.xml
+
+        // Get one env
+        val result = restEnvironmentMockMvc.perform(get(BOARD_API_URL+ "/11001"))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.id").value(11001))
+            .andExpect(jsonPath("$.name").value("Integration"))
+            .andExpect(jsonPath("$.activities.[0].name").value("Resolve"))
+            .andExpect(jsonPath("$.activities.[0].tags.[0].tag").value("Deploy"))
+            .andExpect(jsonPath("$.activities.[0].tags.[1].tag").value("Fix"))
+            .andExpect(jsonPath("$.activities.[0].owner.login").value("kepler"))
             .andReturn()
     }
 }
