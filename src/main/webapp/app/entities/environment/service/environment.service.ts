@@ -76,4 +76,8 @@ export class EnvironmentService {
     }
     return environmentCollection;
   }
+
+  getEnvironments(): Observable<any> {
+    return this.http.get(this.resourceUrl);
+  }
 }
