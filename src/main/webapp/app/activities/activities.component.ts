@@ -8,6 +8,5 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ActivitiesComponent implements OnInit {
   @Input() activities: any[];
   constructor() {}
-
   ngOnInit(): void {}
 }
