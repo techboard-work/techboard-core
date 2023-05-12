@@ -17,7 +17,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { NgbDateDayjsAdapter } from './config/datepicker-adapter';
-import { fontAwesomeIcons } from './config/font-awesome-icons';
+// import { fontAwesomeIcons } from './config/font-awesome-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { httpInterceptorProviders } from 'app/core/interceptor/index';
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
@@ -63,7 +64,7 @@ export class AppModule {
   constructor(applicationConfigService: ApplicationConfigService, iconLibrary: FaIconLibrary, dpConfig: NgbDatepickerConfig) {
     applicationConfigService.setEndpointPrefix(SERVER_API_URL);
     registerLocaleData(locale);
-    iconLibrary.addIcons(...fontAwesomeIcons);
+    iconLibrary.addIconPacks(fas);
     dpConfig.minDate = { year: dayjs().subtract(100, 'year').year(), month: 1, day: 1 };
   }
 }
