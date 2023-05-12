@@ -59,7 +59,7 @@ class BoardResourceIT {
         // Initialize the database from init-data.xml
 
         // Get one env
-        val result = restEnvironmentMockMvc.perform(get(BOARD_API_URL+ "/11001"))
+        val result = restEnvironmentMockMvc.perform(get(BOARD_API_URL + "/11001"))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(11001))
