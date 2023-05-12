@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IEnvironment } from '../entities/environment/environment.model';
-import { EnvironmentService } from '../entities/environment/service/environment.service';
+import { DashboardService } from './dashboard.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,14 +9,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  environmets$: Observable<any>;
+  environments$: Observable<any>;
   environments: IEnvironment[];
 
-  constructor(private environmentService: EnvironmentService) {}
-
   isOpen = true;
+  constructor(private dashboardSvc: DashboardService) {}
 
   ngOnInit(): void {
-    this.environmets$ = this.environmentService.getEnvironments();
+    this.environments$ = this.dashboardSvc.getEnvironments();
   }
 }
