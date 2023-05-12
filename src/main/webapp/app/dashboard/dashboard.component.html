@@ -1,6 +1,6 @@
 <div class="container-fluid align-items-start">
-  <div class="row" *ngIf="environmets$ | async">
-    <ng-container *ngFor="let env of environmets$ | async">
+  <div class="row" *ngIf="environments$ | async">
+    <ng-container *ngFor="let env of environments$ | async">
       <div class="col">
         <div class="card">
           <div class="card-header" [ngStyle]="{ background: env.color }" ngbTooltip="{{ env.description }}">

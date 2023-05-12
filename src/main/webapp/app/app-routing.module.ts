@@ -8,7 +8,7 @@ import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         },
         {
           path: 'dashboard',
-          component: DashboardComponent,
+          loadChildren: () => import(`./dashboard/dashboard.module`).then(m => m.DashboardModule),
         },
         navbarRoute,
         ...errorRoute,
