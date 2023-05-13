@@ -38,7 +38,7 @@ class BoardController(
     @GetMapping("/environments/{id}")
     fun getEnvironment(@PathVariable id: Long): ResponseEntity<Environment> {
         log.debug("REST request to get Environment : $id")
-        val environment = boardService.findOne(Instant.now().minusSeconds(60 * 60 * 24 * 14), id)
+        val environment = boardService.findOne(Instant.now().minusSeconds(60 * 60 * 24 * 30), id)
         return ResponseUtil.wrapOrNotFound(environment)
     }
 }

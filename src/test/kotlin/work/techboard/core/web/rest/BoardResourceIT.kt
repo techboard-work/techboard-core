@@ -42,6 +42,8 @@ class BoardResourceIT {
             .andExpect(jsonPath("$.[0].id").value(11001))
             .andExpect(jsonPath("$.[0].name").value("Integration"))
             .andExpect(jsonPath("$.[0].activities.[0].name").value("Resolve"))
+            .andExpect(jsonPath("$.[0].activities.[0].startedOn").value("2023-05-01T14:10:00Z"))
+            .andExpect(jsonPath("$.[0].activities.[0].finishedOn").doesNotExist())
             .andExpect(jsonPath("$.[0].activities.[0].tags.[0].tag").value("Deploy"))
             .andExpect(jsonPath("$.[0].activities.[0].tags.[1].tag").value("Fix"))
             .andExpect(jsonPath("$.[0].activities.[0].owner.login").value("kepler"))
@@ -55,7 +57,7 @@ class BoardResourceIT {
 
     @Test
     @Transactional
-    fun getAllEnvironment() {
+    fun getOneEnvironment() {
         // Initialize the database from init-data.xml
 
         // Get one env
@@ -65,6 +67,7 @@ class BoardResourceIT {
             .andExpect(jsonPath("$.id").value(11001))
             .andExpect(jsonPath("$.name").value("Integration"))
             .andExpect(jsonPath("$.activities.[0].name").value("Resolve"))
+            .andExpect(jsonPath("$.activities.[0].startedOn").value("2023-05-01T14:10:00Z"))
             .andExpect(jsonPath("$.activities.[0].tags.[0].tag").value("Deploy"))
             .andExpect(jsonPath("$.activities.[0].tags.[1].tag").value("Fix"))
             .andExpect(jsonPath("$.activities.[0].owner.login").value("kepler"))
