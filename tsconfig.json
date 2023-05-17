@@ -18,7 +18,9 @@
     "target": "es2020",
     "module": "es2020",
     "lib": ["es2018", "dom"],
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "useUnknownInCatchVariables": false,
+    "noImplicitAny": false
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,

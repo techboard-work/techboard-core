@@ -1,5 +1,5 @@
 <div class="container-fluid align-items-start">
-  <div class="row" *ngIf="environments$ | async">
+  <div class="row">
     <ng-container *ngFor="let env of environments$ | async">
       <div class="col">
         <div class="card">
@@ -16,9 +16,7 @@
             <button type="button" class="btn btn-primary" ngbTooltip="Open a modal window to add new activity for the environments.">
               Add activity
             </button>
-            <button type="button" class="btn btn-link" [ngbTooltip]="'Open the environment page with all info on the ' + env.name">
-              Go to {{ env.name }} <fa-icon icon="chevron-right"></fa-icon>
-            </button>
+            <a [routerLink]="['./', env.id]">Go to {{ env.name }} <fa-icon icon="chevron-right"></fa-icon> </a>
           </div>
         </div>
       </div>
