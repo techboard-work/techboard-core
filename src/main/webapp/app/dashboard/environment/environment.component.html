@@ -1,0 +1,10 @@
+<div *ngIf="environment$ | async as env; else loading">
+  <h1 class="mb-3">{{ env.name }}</h1>
+  <jhi-activities [activities]="env.activities"></jhi-activities>
+  <pre>{{ env | json }}</pre>
+</div>
+
+<ng-template #loading>
+  <fa-icon icon="sync" [spin]="true"></fa-icon>
+  Loading...
+</ng-template>
