@@ -14,13 +14,22 @@
         <span>Ends:</span>
         <span class="fw-bold">{{ activity.finishedOn | date: 'MMM d H:mm' }}</span>
       </p>
-      <p>by: <span class="fw-bold">User</span></p>
+      <p>
+        by:
+        <span class="fw-bold">{{ activity.owner.firstName }} {{ activity.owner.lastName }}</span>
+      </p>
     </ng-template>
 
     <fa-icon icon="bolt" class="text-danger"></fa-icon>
-    <button type="button" class="btn btn-outline-primary btn-sm" [ngbPopover]="popContent" [popoverTitle]="popTitle" [autoClose]="'inside'">
+    <button type="button" class="btn btn-link btn-sm" [ngbPopover]="popContent" [popoverTitle]="popTitle" [autoClose]="'inside'">
       <span class="fw-bold">{{ activity.name }}</span>
     </button>
+    <span>{{ activity.owner.firstName }} {{ activity.owner.lastName }}</span>
+
+    <ng-container *ngFor="let tagObj of activity.tags">
+      <span class="badge text-bg-secondary" [ngbTooltip]="tagObj.description">#{{ tagObj.tag }}</span>
+    </ng-container>
+
     <span *ngIf="activity.finishedOn"
       >started by
       <span class="fw-bold" ngbTooltip="Some information about the user.Could be clickable to offer some contact possibilities.">{{
