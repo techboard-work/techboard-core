@@ -27,16 +27,14 @@
     <span>{{ activity.owner.firstName }} {{ activity.owner.lastName }}</span>
 
     <ng-container *ngFor="let tagObj of activity.tags">
-      <span class="badge text-bg-secondary" [ngbTooltip]="tagObj.description">#{{ tagObj.tag }}</span>
+      <span class="badge" [ngStyle]="{ 'background-color': tagObj.color }" [ngbTooltip]="tagObj.description">#{{ tagObj.tag }}</span>
     </ng-container>
 
     <span *ngIf="activity.finishedOn"
-      >started by
-      <span class="fw-bold" ngbTooltip="Some information about the user. Could be clickable to offer some contact possibilities.">{{
-        activity.owner.lastName
-      }}</span
+      >started by <span class="fw-bold">{{ activity.owner.lastName }}</span
       >,</span
     >
+
     <span *ngIf="activity.finishedOn"
       >ends <span>{{ activity.finishedOn | date: 'MMM d' }}</span></span
     >
