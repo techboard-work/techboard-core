@@ -27,7 +27,9 @@
     <span>{{ activity.owner.firstName }} {{ activity.owner.lastName }}</span>
 
     <ng-container *ngFor="let tagObj of activity.tags">
-      <span class="badge" [ngStyle]="{ 'background-color': tagObj.color }" [ngbTooltip]="tagObj.description">#{{ tagObj.tag }}</span>
+      <span class="badge rounded-pill" [ngStyle]="{ 'background-color': tagObj.color }" [ngbTooltip]="tagObj.description"
+        >#{{ tagObj.tag }}</span
+      >
     </ng-container>
 
     <span *ngIf="activity.finishedOn"

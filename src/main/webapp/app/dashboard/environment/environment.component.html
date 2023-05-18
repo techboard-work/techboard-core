@@ -3,7 +3,7 @@
   <jhi-activities [activities]="env.activities"></jhi-activities>
   <pre>{{ env | json }}</pre>
 
-  <a [routerLink]="['/dashboard']"><fa-icon icon="chevron-left"></fa-icon> Back to Dashboard</a>
+  <a class="btn btn-link" [routerLink]="['/dashboard']"><fa-icon icon="chevron-left"></fa-icon> Back to Dashboard</a>
 </div>
 
 <ng-template #loading>
