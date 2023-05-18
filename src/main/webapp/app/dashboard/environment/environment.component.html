@@ -2,6 +2,8 @@
   <h1 class="mb-3">{{ env.name }}</h1>
   <jhi-activities [activities]="env.activities"></jhi-activities>
   <pre>{{ env | json }}</pre>
+
+  <a [routerLink]="['/dashboard']"><fa-icon icon="chevron-left"></fa-icon> Back to Dashboard</a>
 </div>
 
 <ng-template #loading>
