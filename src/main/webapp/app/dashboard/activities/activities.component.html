@@ -1,6 +1,6 @@
 <div class="fw-bold mb-2">Current activities:</div>
-<div *ngIf="activities && activities.length; else noActivities">
-  <div *ngFor="let activity of activities" class="mb-2">
+<ul class="list-group list-group-flush" *ngIf="activities && activities.length; else noActivities">
+  <li class="list-group-item" *ngFor="let activity of activities">
     <ng-template #popTitle>
       <span class="fw-bold">{{ activity.name }}</span>
     </ng-template>
@@ -32,7 +32,7 @@
 
     <span *ngIf="activity.finishedOn"
       >started by
-      <span class="fw-bold" ngbTooltip="Some information about the user.Could be clickable to offer some contact possibilities.">{{
+      <span class="fw-bold" ngbTooltip="Some information about the user. Could be clickable to offer some contact possibilities.">{{
         activity.owner.lastName
       }}</span
       >,</span
@@ -40,8 +40,8 @@
     <span *ngIf="activity.finishedOn"
       >ends <span>{{ activity.finishedOn | date: 'MMM d' }}</span></span
     >
-  </div>
-</div>
+  </li>
+</ul>
 <ng-template #noActivities>
   <p>No current activities for this environment.</p>
 </ng-template>
