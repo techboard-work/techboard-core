@@ -1,5 +1,6 @@
 {
   "dashboard": {
-    "title": "Дашборд"
+    "title": "Дашборд",
+    "environment": "Среда"
   }
 }
