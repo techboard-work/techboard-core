@@ -15,7 +15,7 @@ export const dashboardRoutes: Routes = [
     path: ':envId',
     component: EnvironmentComponent,
     data: {
-      pageTitle: 'dashboard.title',
+      pageTitle: 'dashboard.environment',
     },
   },
 ];
