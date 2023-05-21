@@ -136,6 +136,39 @@
             <column name="environment_id" valueNumeric="11001"/>
             <column name="owner_id" value="006223c9-63d8-46ed-acfe-0ab14ff894ea"/>
         </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="1001"/>
+            <column name="name" value="Check app"/>
+            <column name="started_on" valueDate="2023-05-21T14:42:00"/>
+            <column name="finished_on"/>
+            <column name="description" value="Smoke test"/>
+            <column name="link"/>
+            <column name="flagged" valueBoolean="false"/>
+            <column name="environment_id" valueNumeric="11001"/>
+            <column name="owner_id" value="006223c9-63d8-46ed-acfe-0ab14ff894ea"/>
+        </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="1002"/>
+            <column name="name" value="Load test"/>
+            <column name="started_on" valueDate="2023-05-21T14:45:00"/>
+            <column name="finished_on"/>
+            <column name="description" value="Planned test"/>
+            <column name="link"/>
+            <column name="flagged" valueBoolean="false"/>
+            <column name="environment_id" valueNumeric="11001"/>
+            <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+        </insert>
+        <insert tableName="activity">
+            <column name="id" valueNumeric="1003"/>
+            <column name="name" value="Test issue 123"/>
+            <column name="started_on" valueDate="2023-05-20T14:49:00"/>
+            <column name="finished_on"/>
+            <column name="description" value="Test the fix"/>
+            <column name="link"/>
+            <column name="flagged" valueBoolean="false"/>
+            <column name="environment_id" valueNumeric="11002"/>
+            <column name="owner_id" value="c4af4e2f-b432-4c3b-8405-cca86cd5b97b"/>
+        </insert>
     </changeSet>
     <changeSet author="somov (generated)" id="1682950490426-7">
         <insert tableName="rel_activity__tag">
@@ -153,6 +186,26 @@
         <insert tableName="rel_activity__tag">
             <column name="tag_id" valueNumeric="12052"/>
             <column name="activity_id" valueNumeric="13103"/>
+        </insert>
+        <insert tableName="rel_activity__tag">
+            <column name="tag_id" valueNumeric="12053"/>
+            <column name="activity_id" valueNumeric="1001"/>
+        </insert>
+        <insert tableName="rel_activity__tag">
+            <column name="tag_id" valueNumeric="12053"/>
+            <column name="activity_id" valueNumeric="1002"/>
+        </insert>
+        <insert tableName="rel_activity__tag">
+            <column name="tag_id" valueNumeric="12051"/>
+            <column name="activity_id" valueNumeric="1003"/>
+        </insert>
+        <insert tableName="rel_activity__tag">
+            <column name="tag_id" valueNumeric="12052"/>
+            <column name="activity_id" valueNumeric="1003"/>
+        </insert>
+        <insert tableName="rel_activity__tag">
+            <column name="tag_id" valueNumeric="12053"/>
+            <column name="activity_id" valueNumeric="1003"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
