@@ -3,12 +3,15 @@
     <ng-container *ngFor="let env of environments$ | async">
       <div class="col">
         <div class="card">
-          <div class="card-header" [ngStyle]="{ background: env.color }" ngbTooltip="{{ env.description }}">
-            <div class="env-name">{{ env.name }}</div>
-            {{ env.label }}
+          <div class="env-status bg-success"></div>
+          <div class="card-header">
+            <div class="env-name">
+              <span>{{ env.name }}</span>
+              <span class="badge" [ngStyle]="{ background: env.color }">{{ env.code }}</span>
+            </div>
           </div>
 
-          <div class="card-body">
+          <div class="card-body px-4">
             <jhi-activities [activities]="env.activities"></jhi-activities>
           </div>
 

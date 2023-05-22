@@ -6,3 +6,16 @@
   font-size: 1.2rem;
   font-weight: bold;
 }
+
+.env-status {
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 1rem;
+  background-color: red;
+}
+
+.card-header,
+.card-body {
+  padding-left: 1.5rem !important;
+}
