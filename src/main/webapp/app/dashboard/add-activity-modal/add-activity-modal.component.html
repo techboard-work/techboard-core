@@ -1,28 +1,74 @@
 <button type="button" class="btn btn-primary" (click)="open(content)">Add activity</button>
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="add-activity-modal-title">Add activity</h4>
+    <h4 class="modal-title" id="add-activity-modal-title">
+      Add New Activity for <span class="fw-bold">{{ envName }}</span>
+    </h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <form>
+    <form [formGroup]="addActivityForm" novalidate (ngSubmit)="saveActivity()" autocomplete="off">
       <div class="mb-3">
-        <label for="activityStartInput">Activity Start</label>
+        <label for="activity-name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="activity-name" formControlName="name" />
+      </div>
+
+      <div class="mb-3">
+        <label for="activity-started-on">Activity Start</label>
         <div class="input-group">
-          <input id="activityStartInput" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker" />
-          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button"></button>
+          <input
+            id="activity-started-on"
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="ds"
+            ngbDatepicker
+            #ds="ngbDatepicker"
+            formControlName="startedOn"
+          />
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="ds.toggle()" type="button"></button>
         </div>
       </div>
+
       <div class="mb-3">
-        <label for="activityEndInput">Activity End</label>
+        <label for="activity-finished-on">Activity End</label>
         <div class="input-group">
-          <input id="activityEndInput" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker" />
-          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button"></button>
+          <input
+            id="activity-finished-on"
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="df"
+            ngbDatepicker
+            #df="ngbDatepicker"
+            formControlName="finishedOn"
+          />
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="df.toggle()" type="button"></button>
         </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="activity-description" class="form-label">Description</label>
+        <input type="text" class="form-control" id="activity-description" formControlName="description" />
+      </div>
+
+      <div class="mb-3">
+        <label for="activity-link" class="form-label">Link</label>
+        <input type="text" class="form-control" id="activity-link" formControlName="link" />
+      </div>
+
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="activity-flagged" formControlName="flagged" />
+        <label class="form-check-label" for="activity-flagged">Activity Flagged</label>
+      </div>
+
+      <div class="mb-3">
+        <label for="activity-tags" class="form-label">Tags</label>
+        <input type="text" class="form-control" id="activity-tags" formControlName="tag" />
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
   </div>
 </ng-template>
+
+<pre>{{ closeResult }}</pre>

@@ -16,7 +16,7 @@
           </div>
 
           <div class="card-body d-flex justify-content-between">
-            <jhi-add-activity-modal></jhi-add-activity-modal>
+            <jhi-add-activity-modal [envName]="env.name"></jhi-add-activity-modal>
             <a class="btn btn-link" [routerLink]="['./', env.id]">Go to {{ env.name }} <fa-icon icon="chevron-right"></fa-icon> </a>
           </div>
         </div>
