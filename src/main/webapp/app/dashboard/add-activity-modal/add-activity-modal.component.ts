@@ -12,6 +12,7 @@ export class AddActivityModalComponent implements OnInit {
   closeResult = '';
   loading = false;
   addActivityForm;
+  currentDate = new Date();
 
   control(controlName: string): AbstractControl {
     return this.addActivityForm.get(controlName);

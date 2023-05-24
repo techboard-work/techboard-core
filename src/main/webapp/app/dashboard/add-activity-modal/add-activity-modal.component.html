@@ -19,7 +19,7 @@
           <input
             id="activity-started-on"
             class="form-control"
-            placeholder="yyyy-mm-dd"
+            placeholder="{{ currentDate | date: 'yyyy-MM-dd' }}"
             name="ds"
             ngbDatepicker
             #ds="ngbDatepicker"
