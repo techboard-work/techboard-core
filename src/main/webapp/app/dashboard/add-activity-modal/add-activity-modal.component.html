@@ -2,12 +2,13 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="add-activity-modal-title">
-      Add New Activity for <span class="fw-bold">{{ envName }}</span>
+      Add New Activity for
+      <span class="fw-bold">{{ envName }}</span>
     </h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="addActivityForm" novalidate (ngSubmit)="saveActivity()" autocomplete="off">
+    <form [formGroup]="addActivityForm" novalidate autocomplete="off">
       <div class="mb-3">
         <label for="activity-name" class="form-label">Name</label>
         <input type="text" class="form-control" id="activity-name" formControlName="name" />
@@ -15,34 +16,12 @@
 
       <div class="mb-3">
         <label for="activity-started-on">Activity Start</label>
-        <div class="input-group">
-          <input
-            id="activity-started-on"
-            class="form-control"
-            placeholder="yyyy-mm-dd"
-            name="ds"
-            ngbDatepicker
-            #ds="ngbDatepicker"
-            formControlName="startedOn"
-          />
-          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="ds.toggle()" type="button"></button>
-        </div>
+        <input type="datetime-local" id="activity-started-on" class="form-control" formControlName="startedOn" />
       </div>
 
       <div class="mb-3">
         <label for="activity-finished-on">Activity End</label>
-        <div class="input-group">
-          <input
-            id="activity-finished-on"
-            class="form-control"
-            placeholder="yyyy-mm-dd"
-            name="df"
-            ngbDatepicker
-            #df="ngbDatepicker"
-            formControlName="finishedOn"
-          />
-          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="df.toggle()" type="button"></button>
-        </div>
+        <input type="datetime-local" id="activity-finished-on" class="form-control" formControlName="finishedOn" />
       </div>
 
       <div class="mb-3">
@@ -61,13 +40,27 @@
       </div>
 
       <div class="mb-3">
-        <label for="activity-tags" class="form-label">Tags</label>
-        <input type="text" class="form-control" id="activity-tags" formControlName="tag" />
+        <label for="activity-tag" class="col-xs-3 col-sm-auto col-form-label">Tag</label>
+        <div class="col">
+          <input
+            id="activity-tag"
+            type="text"
+            class="form-control"
+            [class.is-invalid]="searchFailed"
+            formControlName="tag"
+            [ngbTypeahead]="search"
+            [editable]="false"
+            placeholder="Start typing..."
+          />
+          <small *ngIf="searching" class="form-text text-muted">searching...</small>
+          <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+        </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="modal.dismiss('Cancel button')">Cancel</button>
+    <button type="submit" class="btn btn-outline-primary" (click)="modal.close('Save click')">Save</button>
   </div>
 </ng-template>
 

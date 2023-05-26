@@ -1,30 +1,45 @@
 <div class="fw-bold mb-2">Current activities:</div>
 <ul class="list-group list-group-flush" *ngIf="activities && activities.length; else noActivities">
   <li class="list-group-item" *ngFor="let activity of activities">
-    <ng-template #popTitle>
-      <span class="fw-bold">{{ activity.name }}</span>
+    <ng-template #popActivityTitle>
+      <span class="fw-bold"><fa-icon icon="bolt" class="text-danger" *ngIf="activity.flagged"></fa-icon> {{ activity.name }}</span>
     </ng-template>
 
-    <ng-template #popContent>
-      <p *ngIf="activity.startedOn">
+    <ng-template #popActivityContent>
+      <p>
         <span>Started:</span>
         <span class="fw-bold">{{ activity.startedOn | date: 'MMM d H:mm' }}</span>
       </p>
-      <p *ngIf="activity.finishedOn">
-        <span>Ends:</span>
-        <span class="fw-bold">{{ activity.finishedOn | date: 'MMM d H:mm' }}</span>
-      </p>
       <p>
-        by:
-        <span class="fw-bold">{{ activity.owner.firstName }} {{ activity.owner.lastName }}</span>
+        <span>Ends:</span>
+        <span class="fw-bold" *ngIf="activity.finishedOn; else nofinishedOn">{{ activity.finishedOn | date: 'MMM d H:mm' }}</span>
       </p>
+      <p *ngIf="activity.flagged" class="text-danger">This activity is flagged!</p>
     </ng-template>
 
-    <fa-icon icon="bolt" class="text-danger"></fa-icon>
-    <button type="button" class="btn btn-link btn-sm" [ngbPopover]="popContent" [popoverTitle]="popTitle" [autoClose]="'inside'">
-      <span class="fw-bold">{{ activity.name }}</span>
-    </button>
-    <span>{{ activity.owner.firstName }} {{ activity.owner.lastName }}</span>
+    <ng-template #popOwnerTitle>
+      <span class="fw-bold">{{ activity.owner.firstName }} {{ activity.owner.lastName }}</span>
+    </ng-template>
+
+    <ng-template #popOwnerContent>
+      <img
+        src="content/images/jhipster_family_member_0_head-192.png"
+        class="img-thumbnail rounded mb-3"
+        alt="{{ activity.owner.lastName }}"
+      />
+      <p>First Name: {{ activity.owner.firstName }}</p>
+      <p>Last Name: {{ activity.owner.lastName }}</p>
+      <p>Email: {{ activity.owner.email }}</p>
+    </ng-template>
+
+    <span class="cursor-pointer fw-bold" [ngbPopover]="popActivityContent" [popoverTitle]="popActivityTitle" [autoClose]="'outside'">
+      <fa-icon icon="bolt" class="text-danger" *ngIf="activity.flagged"></fa-icon>
+      {{ activity.name }}</span
+    >
+    by
+    <span class="text-primary cursor-pointer" [ngbPopover]="popOwnerContent" [popoverTitle]="popOwnerTitle" [autoClose]="'outside'"
+      >{{ activity.owner.firstName }} {{ activity.owner.lastName }}</span
+    >
 
     <ng-container *ngFor="let tagObj of activity.tags">
       <span class="badge rounded-pill" [ngStyle]="{ 'background-color': tagObj.color }" [ngbTooltip]="tagObj.description"
@@ -44,4 +59,7 @@
 </ul>
 <ng-template #noActivities>
   <p>No current activities for this environment.</p>
+</ng-template>
+<ng-template #nofinishedOn>
+  <span class="fw-bold">Not specified</span>
 </ng-template>

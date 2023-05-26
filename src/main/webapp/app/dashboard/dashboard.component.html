@@ -3,7 +3,7 @@
     <ng-container *ngFor="let env of environments$ | async">
       <div class="col">
         <div class="card">
-          <div class="env-status bg-success"></div>
+          <div class="env-status {{ getEnvStateClass(env.activities) }}"></div>
           <div class="card-header">
             <div class="env-name">
               <span>{{ env.name }}</span>
