@@ -26,9 +26,7 @@ export class DashboardComponent implements OnInit {
   getEnvStateClass(activities) {
     if (!activities) {
       return 'bg-success';
-    }
-
-    if (activities.find(activity => activity.flagged === true)) {
+    } else if (activities.find(activity => activity.flagged === true)) {
       return 'bg-danger';
     } else {
       return 'bg-warning';
