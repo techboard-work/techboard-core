@@ -15,4 +15,8 @@ export class DashboardService {
   getEnvironments(): Observable<any> {
     return this.http.get('api/board/environments');
   }
+
+  getTags(): Observable<any> {
+    return this.http.get('api/tags');
+  }
 }
