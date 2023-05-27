@@ -14,7 +14,7 @@
         <span>Ends:</span>
         <span class="fw-bold" *ngIf="activity.finishedOn; else nofinishedOn">{{ activity.finishedOn | date: 'MMM d H:mm' }}</span>
       </p>
-      <p *ngIf="activity.flagged" class="text-danger">This activity is flagged!</p>
+      <p *ngIf="activity.flagged" class="text-danger">This activity flags the environment as not usable!</p>
     </ng-template>
 
     <ng-template #popOwnerTitle>
@@ -27,34 +27,46 @@
         class="img-thumbnail rounded mb-3"
         alt="{{ activity.owner.lastName }}"
       />
-      <p>First Name: {{ activity.owner.firstName }}</p>
-      <p>Last Name: {{ activity.owner.lastName }}</p>
-      <p>Email: {{ activity.owner.email }}</p>
+      <p>
+        First Name: <span class="fw-bold">{{ activity.owner.firstName }}</span>
+      </p>
+      <p>
+        Last Name: <span class="fw-bold">{{ activity.owner.lastName }}</span>
+      </p>
+      <p>
+        Contact: <span class="fw-bold">{{ activity.owner.email }}</span>
+      </p>
     </ng-template>
 
-    <span class="cursor-pointer fw-bold" [ngbPopover]="popActivityContent" [popoverTitle]="popActivityTitle" [autoClose]="'outside'">
-      <fa-icon icon="bolt" class="text-danger" *ngIf="activity.flagged"></fa-icon>
-      {{ activity.name }}</span
-    >
+    <span class="cursor-pointer" [ngbPopover]="popActivityContent" [popoverTitle]="popActivityTitle" [autoClose]="'outside'">
+      <fa-icon
+        icon="bolt"
+        class="text-danger d-inline-block"
+        *ngIf="activity.flagged"
+        ngbTooltip="This activity flags the environment as not usable!"
+      ></fa-icon>
+      <span class="text-primary">{{ activity.name }}</span>
+    </span>
     by
-    <span class="text-primary cursor-pointer" [ngbPopover]="popOwnerContent" [popoverTitle]="popOwnerTitle" [autoClose]="'outside'"
-      >{{ activity.owner.firstName }} {{ activity.owner.lastName }}</span
-    >
+    <span class="text-primary cursor-pointer" [ngbPopover]="popOwnerContent" [popoverTitle]="popOwnerTitle" [autoClose]="'outside'">
+      {{ activity.owner.firstName }} {{ activity.owner.lastName }}
+    </span>
 
     <ng-container *ngFor="let tagObj of activity.tags">
       <span class="badge rounded-pill" [ngStyle]="{ 'background-color': tagObj.color }" [ngbTooltip]="tagObj.description"
-        >#{{ tagObj.tag }}</span
-      >
+        >#{{ tagObj.tag }}
+      </span>
     </ng-container>
 
     <span *ngIf="activity.finishedOn"
       >started by <span class="fw-bold">{{ activity.owner.lastName }}</span
-      >,</span
-    >
+      >,
+    </span>
 
     <span *ngIf="activity.finishedOn"
-      >ends <span>{{ activity.finishedOn | date: 'MMM d' }}</span></span
-    >
+      >ends
+      <span>{{ activity.finishedOn | date: 'MMM d' }}</span>
+    </span>
   </li>
 </ul>
 <ng-template #noActivities>
