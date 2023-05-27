@@ -17,19 +17,19 @@ export class DashboardComponent implements OnInit {
 
   isOpen = true;
 
-  constructor(private dashboardSvc: DashboardService, private modalService: NgbModal) {}
+  constructor(private dashboardSvc: DashboardService) {}
 
   ngOnInit(): void {
     this.environments$ = this.dashboardSvc.getEnvironments();
   }
 
-  getEnvStateClass(activities) {
+  getEnvStatus(activities) {
     if (!activities) {
-      return 'bg-success';
+      return { class: 'bg-success', desc: 'This environment is up ad running' };
     } else if (activities.find(activity => activity.flagged === true)) {
-      return 'bg-danger';
+      return { class: 'bg-danger', desc: 'This environment is flagged as not usable' };
     } else {
-      return 'bg-warning';
+      return { class: 'bg-warning', desc: 'This environment should be used with caution' };
     }
   }
 }
