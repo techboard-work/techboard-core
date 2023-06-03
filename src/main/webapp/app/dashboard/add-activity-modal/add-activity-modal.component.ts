@@ -4,6 +4,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { DashboardService } from '../dashboard.service';
 import { debounceTime, distinctUntilChanged, Observable, OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ActivityService } from '../../entities/activity/service/activity.service';
+import { IActivity } from '../../entities/activity/activity.model';
 
 @Component({
   selector: 'jhi-add-activity-modal',
@@ -11,7 +13,9 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./add-activity-modal.component.scss'],
 })
 export class AddActivityModalComponent implements OnInit {
-  @Input() envName: string;
+  @Input() env: any;
+  @Input() tags: any;
+  @Input() account: any;
   closeResult = '';
   addActivityForm: any;
   currentDate: string;
@@ -19,40 +23,26 @@ export class AddActivityModalComponent implements OnInit {
   searching = false;
   searchFailed = false;
   tagObj: object[];
-  tags: string[];
 
   control(controlName: string): AbstractControl {
     return this.addActivityForm.get(controlName);
   }
 
-  constructor(
-    private modalService: NgbModal,
-    private fb: FormBuilder,
-    @Inject(LOCALE_ID) private locale: string,
-    private dashboardSvc: DashboardService
-  ) {
+  constructor(private modalService: NgbModal, private fb: FormBuilder, @Inject(LOCALE_ID) private locale: string) {
     this.currentDate = this.formatDate(new Date());
   }
 
   ngOnInit(): void {
-    this.dashboardSvc.getTags().subscribe({
-      next: (tags): void => {
-        this.tagObj = tags;
-        this.tags = tags.map(tagObj => tagObj.tag);
-      },
-      error: (err: any): void => {
-        console.error(err);
-      },
-      complete: (): void => console.log('complete gettig tags'),
-    });
     this.addActivityForm = this.fb.group({
-      name: [{ value: 'The name of the activity', disabled: this.loading }, Validators.required],
+      name: [{ value: '' }, Validators.required],
       startedOn: [this.currentDate, Validators.required],
       finishedOn: [''],
-      description: ['de description....', Validators.required],
+      description: ['', Validators.required],
       link: ['', null],
       flagged: [false, null],
-      tag: ['', null],
+      tag: [[], null],
+      environment: [this.env.id],
+      owner: [this.account.id],
     });
   }
 
