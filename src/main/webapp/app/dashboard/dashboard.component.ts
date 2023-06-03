@@ -12,10 +12,9 @@ import { AccountService } from '../core/auth/account.service';
 export class DashboardComponent implements OnInit {
   environments$: Observable<any>;
   environments: IEnvironment[];
-  closeResult: any = '';
-  isOpen = true;
   tags: any;
   account: any;
+  closeResult: any = '';
 
   constructor(private dashboardSvc: DashboardService, private accountService: AccountService) {}
 

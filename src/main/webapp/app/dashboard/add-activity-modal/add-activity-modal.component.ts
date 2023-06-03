@@ -34,7 +34,7 @@ export class AddActivityModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.addActivityForm = this.fb.group({
-      name: [{ value: '' }, Validators.required],
+      name: ['', Validators.required],
       startedOn: [this.currentDate, Validators.required],
       finishedOn: [''],
       description: ['', Validators.required],
@@ -75,12 +75,12 @@ export class AddActivityModalComponent implements OnInit {
     return isoTime.toISOString().slice(0, -lengthOfIso8601SecondsAndMillis);
   }
 
-  search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map((term: string): string[] =>
-        term.length < 2 ? [] : this.tags.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
-      )
-    );
+  setTag(event) {
+    this.addActivityForm.controls.tag.setValue([event.target.value]);
+    console.log(this.addActivityForm.controls.tag.value);
+  }
+
+  saveActivity(): void {
+    console.log(this.addActivityForm.value);
+  }
 }
