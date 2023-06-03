@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IEnvironment } from '../entities/environment/environment.model';
 import { DashboardService } from './dashboard.service';
 import { Observable } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AccountService } from '../core/auth/account.service';
 
 @Component({
   selector: 'jhi-dashboard',
@@ -12,15 +12,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class DashboardComponent implements OnInit {
   environments$: Observable<any>;
   environments: IEnvironment[];
-
   closeResult: any = '';
-
   isOpen = true;
+  tags: any;
+  account: any;
 
-  constructor(private dashboardSvc: DashboardService) {}
+  constructor(private dashboardSvc: DashboardService, private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.environments$ = this.dashboardSvc.getEnvironments();
+    this.accountService.identity().subscribe(account => (this.account = account));
+    this.dashboardSvc.getTags().subscribe(tags => (this.tags = tags));
   }
 
   getEnvStatus(activities) {
