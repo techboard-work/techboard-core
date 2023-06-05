@@ -1,5 +1,5 @@
-<button type="button" class="btn btn-primary" (click)="open(content)">Add activity</button>
-<ng-template #content let-modal>
+<button type="button" class="btn btn-primary" (click)="open(activityModal)">Add activity</button>
+<ng-template #activityModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="add-activity-modal-title">
       Add New Activity for
@@ -8,7 +8,7 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
 
-  <form [formGroup]="addActivityForm" novalidate autocomplete="off" (ngSubmit)="saveActivity()">
+  <form [formGroup]="addActivityForm" novalidate autocomplete="off">
     <div class="modal-body">
       <div class="mb-3">
         <label for="activity-name" class="form-label">Name</label>
@@ -66,7 +66,9 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="modal.dismiss('Cancel button')">Cancel</button>
-      <button type="submit" class="btn btn-outline-primary"><fa-icon icon="save"></fa-icon>&nbsp;Save New Activity</button>
+      <button type="submit" class="btn btn-outline-primary" (click)="modal.close(activityModal)">
+        <fa-icon icon="save"></fa-icon>&nbsp;Save New Activity
+      </button>
     </div>
   </form>
 </ng-template>
