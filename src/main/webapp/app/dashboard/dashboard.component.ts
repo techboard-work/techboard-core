@@ -3,6 +3,7 @@ import { IEnvironment } from '../entities/environment/environment.model';
 import { DashboardService } from './dashboard.service';
 import { Observable } from 'rxjs';
 import { AccountService } from '../core/auth/account.service';
+import { AlertService } from '../core/util/alert.service';
 
 @Component({
   selector: 'jhi-dashboard',
@@ -15,13 +16,12 @@ export class DashboardComponent implements OnInit {
   tags: any;
   account: any;
 
-  constructor(private dashboardSvc: DashboardService, private accountService: AccountService) {}
+  constructor(private dashboardSvc: DashboardService, private accountService: AccountService, private alertService: AlertService) {}
 
   initializeDashboard(event?): void {
     this.environments$ = this.dashboardSvc.getEnvironments();
     this.accountService.identity().subscribe(account => (this.account = account));
     this.dashboardSvc.getTags().subscribe(tags => (this.tags = tags));
-    console.log(event);
   }
   ngOnInit(): void {
     this.initializeDashboard();
