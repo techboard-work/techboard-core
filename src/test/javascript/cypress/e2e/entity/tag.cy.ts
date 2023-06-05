@@ -15,7 +15,7 @@ describe('Tag e2e test', () => {
   const tagPageUrlPattern = new RegExp('/tag(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const tagSample = { tag: 'Nevada optimizing South', order: 40625, color: 'silver', active: true };
+  const tagSample = { tags: 'Nevada optimizing South', order: 40625, color: 'silver', active: true };
 
   let tag;
 
