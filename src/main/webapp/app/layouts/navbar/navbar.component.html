@@ -28,6 +28,15 @@
           </a>
         </li>
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/dashboard">
+            <span>
+              <fa-icon icon="gauge"></fa-icon>
+              <span jhiTranslate="global.menu.dashboard">Dashboard</span>
+            </span>
+          </a>
+        </li>
+
         <li
           *ngSwitchCase="true"
           ngbDropdown
