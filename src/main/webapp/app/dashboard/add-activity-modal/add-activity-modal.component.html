@@ -65,7 +65,9 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="modal.dismiss('Cancel button')">Cancel</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cancel button')">
+        <fa-icon icon="ban"></fa-icon> Cancel
+      </button>
       <button type="submit" class="btn btn-outline-primary" (click)="modal.close(activityModal)">
         <fa-icon icon="save"></fa-icon>&nbsp;Save New Activity
       </button>
