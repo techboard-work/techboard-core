@@ -100,7 +100,7 @@ export class ActivityFormService {
     return {
       id: null,
       startedOn: currentTime,
-      finishedOn: currentTime,
+      finishedOn: null,
       flagged: false,
       tags: [],
     };

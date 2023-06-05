@@ -1,9 +1,9 @@
 import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AbstractControl, FormBuilder } from '@angular/forms';
-import { ActivityService, RestActivity } from '../../entities/activity/service/activity.service';
+import { ActivityService } from '../../entities/activity/service/activity.service';
 import { ActivityFormService } from '../../entities/activity/update/activity-form.service';
-import { IActivity, NewActivity } from '../../entities/activity/activity.model';
+import { NewActivity } from '../../entities/activity/activity.model';
 import dayjs from 'dayjs/esm';
 
 @Component({
@@ -27,7 +27,7 @@ export class AddActivityModalComponent implements OnInit {
   }
 
   constructor(
-    private activityModal: NgbModal,
+    private modalService: NgbModal,
     private fb: FormBuilder,
     @Inject(LOCALE_ID)
     private locale: string,
@@ -50,9 +50,9 @@ export class AddActivityModalComponent implements OnInit {
   }
 
   open(content) {
-    this.activityModal.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+    this.modalService.open(content).result.then(
       result => {
-        console.log(this.addActivityForm.value);
+        this.saveActivity();
         this.closeResult = `Closed with: ${result}`;
       },
       reason => {
@@ -61,19 +61,23 @@ export class AddActivityModalComponent implements OnInit {
     );
   }
 
-  saveActivity(): void {
-    console.log('raw', this.addActivityForm.value);
-    let activity = this.addActivityForm.value;
-    const act: NewActivity = {
+  enrichNewActivity(activity): NewActivity {
+    return {
       ...activity,
       startedOn: activity.startedOn ? dayjs(activity.startedOn) : undefined,
       finishedOn: activity.finishedOn ? dayjs(activity.finishedOn) : undefined,
       owner: this.account,
       environment: this.env,
     };
+  }
 
-    this.activitySvc.create(act).subscribe(resp => {
-      console.log(resp);
+  saveActivity(): void {
+    let newActivity = this.enrichNewActivity(this.addActivityForm.value);
+    this.activitySvc.create(newActivity).subscribe({
+      next: resp => {
+        console.log(resp);
+      },
+      error: error => console.log(error),
     });
   }
 }

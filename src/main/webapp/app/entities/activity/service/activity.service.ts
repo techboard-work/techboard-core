@@ -33,7 +33,6 @@ export class ActivityService {
 
   create(activity: NewActivity): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(activity);
-    console.log(activity);
     return this.http
       .post<RestActivity>(this.resourceUrl, copy, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
