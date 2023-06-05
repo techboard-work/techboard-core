@@ -14,14 +14,17 @@ export class DashboardComponent implements OnInit {
   environments: IEnvironment[];
   tags: any;
   account: any;
-  closeResult: any = '';
 
   constructor(private dashboardSvc: DashboardService, private accountService: AccountService) {}
 
-  ngOnInit(): void {
+  initializeDashboard(event?): void {
     this.environments$ = this.dashboardSvc.getEnvironments();
     this.accountService.identity().subscribe(account => (this.account = account));
     this.dashboardSvc.getTags().subscribe(tags => (this.tags = tags));
+    console.log(event);
+  }
+  ngOnInit(): void {
+    this.initializeDashboard();
   }
 
   getEnvStatus(activities) {

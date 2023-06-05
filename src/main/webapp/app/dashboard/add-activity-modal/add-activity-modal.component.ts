@@ -5,6 +5,7 @@ import { ActivityService } from '../../entities/activity/service/activity.servic
 import { ActivityFormService } from '../../entities/activity/update/activity-form.service';
 import { NewActivity } from '../../entities/activity/activity.model';
 import dayjs from 'dayjs/esm';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'jhi-add-activity-modal',
@@ -15,9 +16,9 @@ export class AddActivityModalComponent implements OnInit {
   @Input() env: any;
   @Input() allTags: any;
   @Input() account: any;
+  @Output() newActivityAdded = new EventEmitter<any>();
   closeResult = '';
   addActivityForm: any;
-  currentDate: string;
   loading = false;
   searching = false;
   searchFailed = false;
@@ -39,24 +40,14 @@ export class AddActivityModalComponent implements OnInit {
     this.addActivityForm = this.activityFormSvc.createActivityFormGroup();
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
   open(content) {
     this.modalService.open(content).result.then(
       result => {
         this.saveActivity();
-        this.closeResult = `Closed with: ${result}`;
       },
       reason => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        console.log(reason);
+        this.closeResult = `Dismissed`;
       }
     );
   }
@@ -75,9 +66,11 @@ export class AddActivityModalComponent implements OnInit {
     let newActivity = this.enrichNewActivity(this.addActivityForm.value);
     this.activitySvc.create(newActivity).subscribe({
       next: resp => {
-        console.log(resp);
+        // Add success alert
+        this.newActivityAdded.emit(resp);
       },
       error: error => console.log(error),
+      // Add error alert
     });
   }
 }
