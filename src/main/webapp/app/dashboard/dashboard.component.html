@@ -20,7 +20,12 @@
           </div>
 
           <div class="card-body d-flex justify-content-between">
-            <jhi-add-activity-modal [env]="env" [allTags]="tags" [account]="account"></jhi-add-activity-modal>
+            <jhi-add-activity-modal
+              [env]="env"
+              [allTags]="tags"
+              [account]="account"
+              (newActivityAdded)="initializeDashboard($event)"
+            ></jhi-add-activity-modal>
 
             <a class="btn btn-link" [routerLink]="['./', env.id]"
               >Go to {{ env.name }}
