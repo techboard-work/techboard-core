@@ -1,11 +1,10 @@
 import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DashboardService } from '../dashboard.service';
-import { debounceTime, distinctUntilChanged, Observable, OperatorFunction } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ActivityService } from '../../entities/activity/service/activity.service';
-import { IActivity } from '../../entities/activity/activity.model';
+import { AbstractControl, FormBuilder } from '@angular/forms';
+import { ActivityService, RestActivity } from '../../entities/activity/service/activity.service';
+import { ActivityFormService } from '../../entities/activity/update/activity-form.service';
+import { IActivity, NewActivity } from '../../entities/activity/activity.model';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-add-activity-modal',
@@ -14,7 +13,7 @@ import { IActivity } from '../../entities/activity/activity.model';
 })
 export class AddActivityModalComponent implements OnInit {
   @Input() env: any;
-  @Input() tags: any;
+  @Input() allTags: any;
   @Input() account: any;
   closeResult = '';
   addActivityForm: any;
@@ -22,28 +21,22 @@ export class AddActivityModalComponent implements OnInit {
   loading = false;
   searching = false;
   searchFailed = false;
-  tagObj: object[];
 
   control(controlName: string): AbstractControl {
     return this.addActivityForm.get(controlName);
   }
 
-  constructor(private modalService: NgbModal, private fb: FormBuilder, @Inject(LOCALE_ID) private locale: string) {
-    this.currentDate = this.formatDate(new Date());
-  }
+  constructor(
+    private activityModal: NgbModal,
+    private fb: FormBuilder,
+    @Inject(LOCALE_ID)
+    private locale: string,
+    private activitySvc: ActivityService,
+    private activityFormSvc: ActivityFormService
+  ) {}
 
   ngOnInit(): void {
-    this.addActivityForm = this.fb.group({
-      name: ['', Validators.required],
-      startedOn: [this.currentDate, Validators.required],
-      finishedOn: [''],
-      description: ['', Validators.required],
-      link: ['', null],
-      flagged: [false, null],
-      tag: [[], null],
-      environment: [this.env.id],
-      owner: [this.account.id],
-    });
+    this.addActivityForm = this.activityFormSvc.createActivityFormGroup();
   }
 
   private getDismissReason(reason: any): string {
@@ -57,7 +50,7 @@ export class AddActivityModalComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+    this.activityModal.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       result => {
         console.log(this.addActivityForm.value);
         this.closeResult = `Closed with: ${result}`;
@@ -68,19 +61,19 @@ export class AddActivityModalComponent implements OnInit {
     );
   }
 
-  private formatDate(date: Date): string {
-    const isoTime = new Date(date);
-    const lengthOfIso8601SecondsAndMillis = ':ss.sssZ'.length;
-    // desired format is YYYY-MM-DDTHH:mm, toISOString has the best match.
-    return isoTime.toISOString().slice(0, -lengthOfIso8601SecondsAndMillis);
-  }
-
-  setTag(event) {
-    this.addActivityForm.controls.tag.setValue([event.target.value]);
-    console.log(this.addActivityForm.controls.tag.value);
-  }
-
   saveActivity(): void {
-    console.log(this.addActivityForm.value);
+    console.log('raw', this.addActivityForm.value);
+    let activity = this.addActivityForm.value;
+    const act: NewActivity = {
+      ...activity,
+      startedOn: activity.startedOn ? dayjs(activity.startedOn) : undefined,
+      finishedOn: activity.finishedOn ? dayjs(activity.finishedOn) : undefined,
+      owner: this.account,
+      environment: this.env,
+    };
+
+    this.activitySvc.create(act).subscribe(resp => {
+      console.log(resp);
+    });
   }
 }

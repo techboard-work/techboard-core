@@ -17,12 +17,24 @@
 
       <div class="mb-3">
         <label for="activity-started-on">Activity Start</label>
-        <input type="datetime-local" id="activity-started-on" class="form-control" formControlName="startedOn" />
+        <input
+          type="datetime-local"
+          id="activity-started-on"
+          class="form-control"
+          formControlName="startedOn"
+          placeholder="YYYY-MM-DD HH:mm"
+        />
       </div>
 
       <div class="mb-3">
         <label for="activity-finished-on">Activity End</label>
-        <input type="datetime-local" id="activity-finished-on" class="form-control" formControlName="finishedOn" />
+        <input
+          type="datetime-local"
+          id="activity-finished-on"
+          class="form-control"
+          formControlName="finishedOn"
+          placeholder="YYYY-MM-DD HH:mm"
+        />
       </div>
 
       <div class="mb-3">
@@ -41,11 +53,10 @@
       </div>
 
       <div class="mb-3">
-        <label for="activity-tag" class="col-xs-3 col-sm-auto col-form-label">Tag</label>
+        <label for="activity-tag" class="col-xs-3 col-sm-auto col-form-label">Tags</label>
         <div class="col">
-          <select id="activity-tag" aria-label="Select tag" (change)="setTag($event)" class="form-select">
-            <option selected class="text-muted" value="">Select a tag...</option>
-            <option *ngFor="let tag of tags" [value]="tag.id">{{ tag.tag }}</option>
+          <select id="activity-tag" aria-label="Select tag" multiple formControlName="tags" class="form-control">
+            <option [ngValue]="tag" *ngFor="let tag of allTags">{{ tag.tag }}</option>
           </select>
 
           <small *ngIf="searching" class="form-text text-muted">searching...</small>
@@ -55,7 +66,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="modal.dismiss('Cancel button')">Cancel</button>
-      <button type="submit" class="btn btn-outline-primary">Create New Activity</button>
+      <button type="submit" class="btn btn-outline-primary"><fa-icon icon="save"></fa-icon>&nbsp;Save New Activity</button>
     </div>
   </form>
 </ng-template>
