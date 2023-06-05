@@ -5,6 +5,7 @@
     "menu": {
       "home": "Начална страница",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+      "dashboard": "Дашборд",
       "entities": {
         "main": "Обекти",
         "environment": "Environment",
